@@ -18,7 +18,7 @@ import Wishlist from "../Pages/Wishlist/Wishlist";
 const AllRoutes = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
@@ -33,7 +33,7 @@ const AllRoutes = () => {
         <Route path="/singleProduct/:id" element={<SingleProduct />}></Route>
         <Route path="*" element={<PagenotFound />}></Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
