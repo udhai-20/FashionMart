@@ -236,6 +236,7 @@
         margin-top: 4%;
         width: 200%;
         gap: 2px;
+        
         display: grid;
         grid-template-rows:repeat(auto,200px);
         grid-template-columns:repeat(auto,800px);
