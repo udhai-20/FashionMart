@@ -37,14 +37,10 @@ function Navbar(props) {
   const [user, setUser] = useState(false);
   const navigate = useNavigate();
   const menu = useRef();
-  console.log("btnref:", menu);
-
   const handelSearch = () => {
     console.log("clicked");
     setOpen(!open);
   };
-
-  console.log(" open:", open);
   const logout = () => {
     console.log("logout");
   };
@@ -510,8 +506,6 @@ function Navbar(props) {
           </ScaleFade>
         ) : null}
       </Box>
-
-      <Box p={4}></Box>
     </>
   );
 }
