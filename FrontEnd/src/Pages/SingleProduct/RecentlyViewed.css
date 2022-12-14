@@ -1,0 +1,34 @@
+.recently_viewed_main {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+    padding: 1rem;
+}
+
+.recently_viewed_child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recently_viewed_title {
+    font-size: 1.2rem;
+    font-weight: 600;
+
+}
+
+.recently_viewed_name {
+    color: gray;
+    margin-top: .575rem;
+    margin-bottom: .575rem;
+}
+
+.recently_viewed_offer {
+    margin-top: .575rem;
+    margin-bottom: .575rem;
+    color: red;
+    font-weight: 600;
+}
+
+.recently_viewed_compare {
+    font-size: 1rem;
+}
