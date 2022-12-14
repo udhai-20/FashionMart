@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Box,
   Button,
   Container,
   Divider,
@@ -18,6 +19,7 @@ import CompareStore from "./CompareStore";
 import ProductDetails from "./ProductDetails";
 import RecentlyViewed from "./RecentlyViewed";
 import axios from "axios";
+import MoveTop from "./MoveTop";
 const data_1 = [
   {
     id: "1",
@@ -43,9 +45,13 @@ function SingleProduct(props) {
       });
   };
   //cart page post request for dynamic data
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${"token"}`, //token from local storage
+  };
   const handleStoreData = (el) => {
     axios
-      .post(``, el)
+      .post(``, el, { headers })
       .then((res) => {
         console.log(res.data);
       })
@@ -167,6 +173,10 @@ function SingleProduct(props) {
         Recently Viewed
       </Text>
       <RecentlyViewed />
+      {/* //movetop */}
+      <Box marginTop={"40px"} display="flex" justifyContent={"center"}>
+        <MoveTop />
+      </Box>
     </Container>
   );
 }

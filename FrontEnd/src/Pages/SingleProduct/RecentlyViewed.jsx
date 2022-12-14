@@ -113,7 +113,13 @@ function RecentlyViewed() {
             data.map((el, i) => {
               return (
                 <div className="recently_viewed_main" key={i + 1}>
-                  <img src={el.image} />
+                  <div className="recently_viewed_pic">
+                    <img
+                      src={el.image}
+                      style={{ width: "50%", height: "200px" }}
+                    />
+                  </div>
+
                   <div className="recently_viewed_child">
                     <p className="recently_viewed_title">{el.title}</p>
                     <p className="recently_viewed_name">{el.name}</p>

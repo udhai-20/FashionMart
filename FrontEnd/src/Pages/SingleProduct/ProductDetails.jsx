@@ -52,6 +52,7 @@ const data = [
 function ProductDetails(props) {
   return (
     <Carousel
+      zIndex={1}
       additionalTransfrom={0}
       arrows
       autoPlaySpeed={3000}
