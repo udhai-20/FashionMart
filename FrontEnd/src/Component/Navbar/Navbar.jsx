@@ -37,14 +37,10 @@ function Navbar(props) {
   const [user, setUser] = useState(false);
   const navigate = useNavigate();
   const menu = useRef();
-  console.log("btnref:", menu);
-
   const handelSearch = () => {
     console.log("clicked");
     setOpen(!open);
   };
-
-  console.log(" open:", open);
   const logout = () => {
     console.log("logout");
   };
@@ -57,8 +53,12 @@ function Navbar(props) {
   return (
     <>
       <Box
-        bg={useColorModeValue("white.300", "gray.900")}
+        // bg={useColorModeValue("white.300", "gray.900")}
         boxShadow="sm"
+        position={"sticky"}
+        top="0px"
+        zIndex={2}
+        bg="white"
         px={4}
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
@@ -248,6 +248,20 @@ function Navbar(props) {
                       >
                         Orders
                       </Link>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/wishlist");
+                          setUser(!user);
+                        }}
+                      >
+                        Wishlist
+                      </Link>
                     </Stack>
                   </Box>
                 ) : null}
@@ -265,6 +279,7 @@ function Navbar(props) {
                       width={"100%"}
                       variant="filled"
                       placeholder="Enter amount"
+                      bg={"white"}
                     />
                     <InputRightElement
                       children={
@@ -369,6 +384,20 @@ function Navbar(props) {
                         }}
                       >
                         Orders
+                      </Link>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/wishlist");
+                          setUser(!user);
+                        }}
+                      >
+                        Wishlist
                       </Link>
                     </Stack>
                   </Box>
@@ -510,8 +539,6 @@ function Navbar(props) {
           </ScaleFade>
         ) : null}
       </Box>
-
-      <Box p={4}></Box>
     </>
   );
 }
