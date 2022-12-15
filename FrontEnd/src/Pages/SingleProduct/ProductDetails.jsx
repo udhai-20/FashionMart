@@ -43,7 +43,7 @@ const data = [
   {
     id: "3",
     title: "PALM ANGELS STAR KNITWEAR",
-    image: "https://cdn.modesens.com/availability/58402097?w=100",
+    image: "https://cdn.modesens.com/availability/58402097?W=100",
     description:
       "Inspired by Francesco Ragazzi's photographs of the Southern Californian skate culture, Palm Angels re-interprets the famous iconography into contemporary menswear. The brand's casual separates, reminiscent of all-American style and street culture, will bring a sense of dynamism to the wardrobe.",
     product: "Product details provided by Oluxury-Purchase Now",
