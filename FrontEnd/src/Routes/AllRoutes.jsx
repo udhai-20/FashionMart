@@ -1,9 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import AdminAddDatas from "../Component/AdminAddDatas/AdminAddDatas";
+import AdminDashboard from "../Component/AdminDashboard/AdminDashboard";
+import AdminLogin from "../Component/AdminLogin/AdminLogin";
 import Footer from "../Component/Footer/Footer";
 import Navbar from "../Component/Navbar/Navbar";
 import PagenotFound from "../Component/PagenotFound/PagenotFound";
 import Admin from "../Pages/Admin/Admin";
+import AdminSignup from "../Pages/AdminSignup/AdminSignup";
 import Cart from "../Pages/Cart/Cart";
 import Checkout from "../Pages/Checkout/Checkout";
 import Home from "../Pages/Home/Home";
@@ -24,6 +28,10 @@ const AllRoutes = () => {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/" element={<Home />}></Route>
         <Route path="/admin" element={<Admin />}></Route>
+        <Route path="/admin/signup" element={<AdminSignup />}></Route>
+        <Route path="/admin/login" element={<AdminLogin />}></Route>
+        <Route path="/admin/dashboard" element={<AdminDashboard />}></Route>
+        <Route path="/admin/adddata" element={<AdminAddDatas />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/wishlist" element={<Wishlist />}></Route>
         <Route path="/cart" element={<Cart />}></Route>

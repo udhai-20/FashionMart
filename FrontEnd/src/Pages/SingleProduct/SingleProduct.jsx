@@ -20,14 +20,17 @@ import ProductDetails from "./ProductDetails";
 import RecentlyViewed from "./RecentlyViewed";
 import axios from "axios";
 import MoveTop from "./MoveTop";
+
 const data_1 = [
   {
-    id: "1",
     title: "WAVE",
-    name: "Blue & White Classic Track Jacket",
+    details: "Blue & White Classic Track Jacket",
     offer: "$529 (44% OFF)",
-    strikeprice: "$700",
+    price: "$700",
     SIZE: "S",
+    quantity: 1,
+    compare: "sdfd",
+    image: "https://cdn.modesens.com/product/49347342_2?w=400",
   },
 ];
 
@@ -45,13 +48,18 @@ function SingleProduct(props) {
       });
   };
   //cart page post request for dynamic data
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlhYjM3YjRhNzFjODRiMGY0ZGZmNzIiLCJpYXQiOjE2NzEwODI5MDEsImV4cCI6MTY3MTE2OTMwMX0.z5psuF4kxgrQxLgQt9q20Bbujw9-3bUrm48v8fuQI6s";
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${"token"}`, //token from local storage
+    Authorization: `Bearer ${token}`, //token from local storage
   };
   const handleStoreData = (el) => {
+    console.log(el);
     axios
-      .post(``, el, { headers })
+      .post(`https://dead-ruby-goose-kit.cyclic.app/cart/addtocart`, el, {
+        headers,
+      })
       .then((res) => {
         console.log(res.data);
       })
@@ -73,12 +81,14 @@ function SingleProduct(props) {
             shadow="xs"
             padding={".5rem"}
           >
-            <GridItem colSpan={{ base: 2, md: 1 }} w="100%" bg="blue.500">
-              <Image
-                width={"100%"}
-                height="200px"
-                src="https://media.architecturaldigest.com/photos/57c7003fdc03716f7c8289dd/master/pass/IMG%20Worlds%20of%20Adventure%20-%201.jpg"
-              />
+            <GridItem colSpan={{ base: 2, md: 1 }} w="100%">
+              <Box
+                display={"flex"}
+                justifyContent="center"
+                alignItems={"center"}
+              >
+                <Image width={"40%"} height="200px" src={el.image} />
+              </Box>
             </GridItem>
             <GridItem colSpan={{ base: 2, md: 1 }} w="100%">
               <Text marginBottom={"15px"} fontSize={"1.14rem"} fontWeight="600">
@@ -87,7 +97,7 @@ function SingleProduct(props) {
               <Text marginBottom={"8px"} color={"gray.600"}>
                 {el.name}
               </Text>
-              <Text as="s"> {el.strikeprice}</Text>
+              <Text as="s"> {el.price}</Text>
               <Text as={"span"} color="red.500">
                 -{el.offer}
                 <Text
@@ -127,7 +137,7 @@ function SingleProduct(props) {
               <Text as={"span"} color="red.300">
                 {el.offer} -
                 <Text as={"span"} color="blackAlpha.800">
-                  {el.strikeprice}
+                  {el.price}
                 </Text>
               </Text>
               <Flex justifyContent={"space-between"} marginTop="10px">
