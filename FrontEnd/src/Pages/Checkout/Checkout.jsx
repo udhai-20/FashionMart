@@ -4,36 +4,13 @@ import {Container,Box, Flex, VStack, Heading, SimpleGrid, GridItem, FormControl,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,} from "@chakra-ui/react";
+import Alipay from "../Checkout/Logos/Alipay.png";
+import Cards from "../Checkout/Logos/Cards.png";
+import Googlepay from "../Checkout/Logos/Googlepay.png";
+import Paypal from "../Checkout/Logos/Paypal.png";
+import Wechat from "../Checkout/Logos/Wechat.png";
+import { FaGooglePay,FaPaypal } from "react-icons/fa";
 
-const options = [
-
-  {
-    id:1,
-    img:"",
-    name:"Google Pay"
-  },
-  {
-    id:2,
-    img:"",
-    name:"PayPal"
-  },
-  {
-    id:3,
-    img:"",
-    name:"AliPay"
-  },
-  {
-    id:4,
-    img:"",
-    name:"Wechat"
-  },
-  {
-    id:5,
-    img:"",
-    name:"Card"
-  }
-
-]
 // const headers = {
 //   "Content-Type": "application/json",
 //   Authorization: `Bearer ${"token"}`, //token from local storage
@@ -54,6 +31,13 @@ function Checkout(props) {
   }
   return (
      <Container maxW="container.xl"p="10">
+       <VStack alignItems="center" w={{base:"xl",md:"3xl"}} m="auto" h="full">
+       <Heading>FASHIONMART CONCIERGE</Heading>
+       <Text>Let FashionMart determine which store fulfill your request to get the
+          best price for the product you want - </Text>
+          <Text>enjoy a worry-free experience
+          with no additional cost to you.</Text>
+        </VStack>
        <Flex h="100vh"py="20">
         
         <VStack 
@@ -264,18 +248,18 @@ function Checkout(props) {
             
           </VStack>
        <VStack w="full" p={2} alignItems="left"  border="4px" borderColor="gray.300">
-             {/* options */}
-             <Heading size="md">PAYMENT OPTIONS</Heading>
-             <Accordion allowToggle>
+        {/*payment  options */}
+        <Heading size="md">PAYMENT OPTIONS</Heading>
+       <Accordion allowToggle>
   <AccordionItem>
     <h2>
       <AccordionButton bg="whiteAlpha.100" h="full"maxW="full">
         <Box as="span" flex='6' textAlign='left'>
           <HStack h="full" w="full">
               <AspectRatio ratio={1} w={23.6}>
-                <Img/>
+                <Img src={Cards} />
               </AspectRatio>
-            <Text>Card</Text>
+            <Heading size="sm">Card</Heading>
           </HStack>
           
         </Box>
@@ -283,10 +267,33 @@ function Checkout(props) {
       </AccordionButton>
     </h2>
     <AccordionPanel bg="whiteAlpha.200" pb={4}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
+    <SimpleGrid columns={4} columnGap={2} rowGap={2}>
+            {/* this is the from start */}
+            <GridItem colSpan={4}>
+             <FormControl>
+              <FormLabel>Card Number</FormLabel>
+              <Input type="number"  placeholder=" ******* *******"></Input>
+             </FormControl>
+            </GridItem>
+            <GridItem colSpan={4}>
+             <FormControl>
+              <FormLabel>Expiration Date(MM/YY)</FormLabel>
+              <Input type="text" placeholder="MM/YY"></Input>
+             </FormControl>
+            </GridItem>
+            <GridItem colSpan={4}>
+             <FormControl>
+              <FormLabel>CVV (3 digits)</FormLabel>
+              <Input  type="number"  placeholder="***"></Input>
+             </FormControl>
+            </GridItem>
+            <GridItem colSpan={4}>
+             <FormControl>
+              <FormLabel>Postal Code</FormLabel>
+              <Input type="number"  placeholder="Postal Code"></Input>
+             </FormControl>
+            </GridItem>
+        </SimpleGrid>
     </AccordionPanel>
   </AccordionItem>
   <AccordionItem>
@@ -295,20 +302,17 @@ function Checkout(props) {
         <Box as="span" flex='6' textAlign='left'>
           <HStack h="full" w="full">
               <AspectRatio ratio={1} w={23.6}>
-                <Img/>
+                <Img src={Googlepay}/>
               </AspectRatio>
-            <Text>Card</Text>
+            <Heading size="sm">Googlepay</Heading>
           </HStack>
           
         </Box>
         <AccordionIcon />
       </AccordionButton>
     </h2>
-    <AccordionPanel pb={4}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
+    <AccordionPanel  pb={4}>
+      <Button w="full" size="lg" color="white" bg="black" ><FaGooglePay size={60}/></Button>
     </AccordionPanel>
   </AccordionItem>
   <AccordionItem>
@@ -317,9 +321,9 @@ function Checkout(props) {
         <Box as="span" flex='6' textAlign='left'>
           <HStack h="full" w="full">
               <AspectRatio ratio={1} w={23.6}>
-                <Img/>
+                <Img src = {Paypal}/>
               </AspectRatio>
-            <Text>Card</Text>
+          <Heading size="sm">Paypal</Heading>
           </HStack>
           
         </Box>
@@ -327,16 +331,52 @@ function Checkout(props) {
       </AccordionButton>
     </h2>
     <AccordionPanel pb={4}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
+    <Button w="full" size="lg" color="blue.600" bg="yellow.400" ><FaPaypal size={40}/></Button>
     </AccordionPanel>
   </AccordionItem>
-
-
+  <AccordionItem>
+    <h2>
+      <AccordionButton h="full"maxW="full">
+        <Box as="span" flex='6' textAlign='left'>
+          <HStack h="full" w="full">
+              <AspectRatio ratio={1} w={23.6}>
+                <Img src = {Alipay}/>
+              </AspectRatio>
+          <Heading size="sm">Alipay</Heading>
+          </HStack>
+          
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+    </h2>
+    <AccordionPanel pb={4}>
+     This services is not availaible fo india now
+    </AccordionPanel>
+  </AccordionItem>
+  <AccordionItem>
+    <h2>
+      <AccordionButton h="full"maxW="full">
+        <Box as="span" flex='6' textAlign='left'>
+          <HStack h="full" w="full">
+              <AspectRatio ratio={1} w={23.6}>
+                <Img src = {Wechat}/>
+              </AspectRatio>
+          <Heading size="sm">Wechat</Heading>
+          </HStack>
+          
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+    </h2>
+    <AccordionPanel pb={4}>
+    This services is not availaible fo india now
+    </AccordionPanel>
+  </AccordionItem>
 </Accordion>
+   <Button bg="black" color="white">PLACE ORDER</Button>
       </VStack>
+
+      <Text>By placing order you agree to <span style={{textDecoration: "underline",color:"blue"}}><a  href="">FashionMart Terms</a></span>. An authorization hold will be placed on your payment method. The funds will only be captured if your order can be confirmed.</Text>
             
          </VStack>
          
