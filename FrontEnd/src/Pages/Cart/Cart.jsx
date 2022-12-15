@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Heading, Img, Text } from "@chakra-ui/react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "jquery-ui-dist/jquery-ui";
 import $ from "jquery";
 import "./Cart.css";
 import axios from "axios";
 import { TransitionExample } from "./TransitionExample";
+import { useDispatch, useSelector } from "react-redux";
+import { get_failure, get_request, get_success } from "../../Redux/AppReducer/Cart/action";
 function Cart(props) {
-  const [allpro, setAllpro] = useState([]);
-  const getProducts = () => {
-    axios
-      .get("http://localhost:8080/products")
-      .then((r) => {
-        setAllpro(r.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  // const [allproducts, setAllproducts] = useState([]);
+  const data = useSelector((state)=>state.cartreducer.data);
+  const sumprice =  data.reduce((sum, ele) => { return sum + ele.price}, 0);
+  console.log(sumprice)
+ 
+  const dispatch = useDispatch();
+  // this is jquery logic
 
   useEffect(() => {
     var multipleCardCarousel = document.querySelector(
@@ -57,9 +55,46 @@ function Cart(props) {
     // } else {
     //   $(multipleCardCarousel).addClass("slide");
     // }
-    getProducts();
+   
   }, []);
-  console.log(allpro);
+
+
+  // get products
+  // get data from cart api
+async function getData() {
+
+  const myHeaders = new Headers({
+       mode: 'no-cors',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlhYjM3YjRhNzFjODRiMGY0ZGZmNzIiLCJpYXQiOjE2NzEwODQzNDYsImV4cCI6MTY3MTE3MDc0Nn0.7dBqGeKLw7pIXpJak15iFP_25zTyWW5eFc68bKfJseM',
+  });
+  
+  return  await fetch('https://colorful-erin-pike.cyclic.app/cart', {
+    method: 'GET',
+    headers: myHeaders,
+  })
+  
+  .then(response => {
+    dispatch(get_request())
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error('Something went wrong on api server!');
+      }
+    })
+    .then(response => {
+      dispatch(get_success(response))
+      // setAllproducts(response);
+      console.log(response);
+    }).catch(error => {
+      dispatch(get_failure())
+      console.error(error);
+    });
+  }
+  
+  useEffect(()=>{
+     getData();
+  },[])
   return (
     <Box className="main-box">
       <Box className="header">
@@ -77,17 +112,17 @@ function Cart(props) {
           >
             SHOPPING BAG
           </h4>
-
-          {allpro.map((ele) => (
-            <Box key={ele.id} className="show-the-items">
+        
+          {data.map((ele,i) => (
+            <Box key={i} className="show-the-items">
               <Box>
-                <img className="product-img" src={ele.image} alt="" />
+                <Img  className="product-img" src={ele.image} alt="" />
               </Box>
               <Box p="10px">
-                <h3>Brand</h3>
-                <h3>{ele.name}</h3>
-                <h3>Size:{ele.size[0]}</h3>
-                <h3>Quantity:1</h3>
+                <Heading size="sm">{ele.title}</Heading>
+                <h3>{ele.details}</h3>
+                {/* <h3>Size:{ele.}</h3> */}
+                <h3>Quantity:{ele.quantity}</h3>
                 {/* alert append here */}
               </Box>
               <Box p="10px">
@@ -118,12 +153,14 @@ function Cart(props) {
           <Box className="show-price-details">
             <h3>Currency</h3>
             <h3>USD</h3>
-            <h3>quantity</h3>
-            <h3>price</h3>
+            <h3>{data.length}items</h3>
+            <h3>${(sumprice).toFixed(2)}</h3>
           </Box>
+          <a style={{textDecoration:"none"}} href="http://localhost:3000/checkout">
           <Button w="full" bg="black" color="white" border="4px solid gray">
             GO TO Checkout
           </Button>
+          </a>
         </Box>
       </Box>
       <Box className="header">
@@ -154,40 +191,24 @@ function Cart(props) {
                 </div>
               </div>
             </div>
-            <div class="carousel-item">
+            {data.map((items,i)=>(
+            <div key={i} class="carousel-item">
               <div class="card">
                 <div class="img-wrapper">
-                  <img src="..." class="d-block w-100" alt="..." />{" "}
+                  <img src = {items.image} class="d-block w-full" alt="..." />{" "}
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title">Card title 2</h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="#" class="btn btn-primary">
-                    Go somewhere
-                  </a>
+                <div style={{textAlign:"center"}} class="card-body">
+                  <Heading size="sm" class="card-title">{items.title}</Heading>
+                  <Text style={{fontSize:"smaller",fontWeight:"bolder",color:"gray"}} class="card-text">
+                    {items.details}
+                  </Text>
+                  <Text>${items.price}-<span style={{color:"#c00000"}}>1017(60% OFF)</span></Text>
+                  <Text color="gray.600">{items.compare}</Text>
+                  
                 </div>
               </div>
             </div>
-            <div class="carousel-item">
-              <div class="card">
-                <div class="img-wrapper">
-                  <img src="..." class="d-block w-100" alt="..." />{" "}
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Card title 3</h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="#" class="btn btn-primary">
-                    Go somewhere
-                  </a>
-                </div>
-              </div>
-            </div>
+          ))}
           </div>
           <button
             class="carousel-control-prev"

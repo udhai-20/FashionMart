@@ -1,0 +1,79 @@
+.otp_container{
+    border: 5px solid black;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.otp_div{
+    border: 1px solid rgb(209, 208, 208);
+    width: 350px;
+    height: 450px;
+    padding: 10px;
+    border-radius:5px;
+    text-align: center;
+}
+
+.maestro_img {
+    height: 60px;
+    display: flex;
+    /* border: 1px solid black; */
+    justify-content: space-between;
+    margin: auto;
+    align-items: center;
+    padding: 3px;
+}
+
+
+
+.maestro_img img{
+    height: 30px;
+}
+
+
+#hor_div{
+    width: 95%;
+    height: 1px;
+    margin: auto;
+    background-color: rgb(209, 208, 208);
+    margin-bottom: -5px;
+    
+}
+
+
+.enter_otp_div{
+    border: 0.5px solid rgb(197, 194, 194);
+    margin-top: 10px;
+    padding: 10px 5px 10px 5px;
+    border-radius: 5px;
+}
+
+
+.user_detail_div{
+    background-color: rgb(255, 181, 181);
+    border: 1px solid rgb(253, 92, 92);
+    font-size: 11px;
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+    /* color: rgb(109, 11, 11); */
+    padding: 5px 5px 5px 5px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    line-height: 25px;
+
+}
+
+
+.otp_enter{
+    margin-top: 40px;
+    margin-bottom: 10px;
+    /* border: 1px solid black; */
+    width: 90%;
+    padding: 3px;
+    margin: auto;
+    margin-bottom: 20px;
+
+}
