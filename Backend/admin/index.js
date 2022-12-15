@@ -13,9 +13,7 @@ const {saleRouter} = require("./router/product_route/sale.route")
 const {authenticate} = require("./middleware/authentication")
 const app = express();
 
-app.use(cors({
-    origin:""
-}))
+app.use(cors())
 
 app.use(express.json());
 
