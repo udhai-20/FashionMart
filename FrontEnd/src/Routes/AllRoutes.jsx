@@ -14,6 +14,7 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Login/Signup";
 import Order from "../Pages/Order/Order";
+import { Otp } from "../Pages/Otp Page/Otp";
 import Product from "../Pages/Products/Product";
 import Profile from "../Pages/Profile/Profile";
 import SingleProduct from "../Pages/SingleProduct/SingleProduct";
@@ -27,6 +28,7 @@ const AllRoutes = () => {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/otp" element={<Otp/>}></Route>
         <Route path="/admin" element={<Admin />}></Route>
         <Route path="/admin/signup" element={<AdminSignup />}></Route>
         <Route path="/admin/login" element={<AdminLogin />}></Route>

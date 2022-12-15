@@ -7,34 +7,34 @@ const initialize = {
 };
 
 export const reducer = (state = initialize, action) => {
-  const { payload, type } = action;
+  const { type,payload } = action;
 
   switch (type) {
     //get data
-    case types.GET_FAILURE_DATA: {
+    case types.GET_FAILURE_DATA: 
       return {
         ...state,
         isLoading: false,
         isError: true,
-        data: [],
-      };
-    }
-    case types.GET_REQUEST_DATA: {
+        
+      }
+    
+    case types.GET_REQUEST_DATA: 
       return {
         ...state,
         isLoading: true,
         isError: false,
-        data: [],
-      };
-    }
-    case types.GET_SUCCESS_DATA: {
+       
+      }
+    
+    case types.GET_SUCCESS_DATA: 
       return {
         ...state,
         isLoading: false,
         isError: false,
         data: payload,
-      };
-    }
+      }
+    
     //post data
     case types.POST_FAILURE_DATA: {
       return {
