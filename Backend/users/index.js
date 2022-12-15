@@ -16,12 +16,13 @@ const {saleRouter} = require("./router/product_route/sale.route")
 
 const {authenticate} = require("./middleware/authentication")
 const app = express();
+app.use(cors())
 
 app.use(express.json());
 
 app.use("/", userRouter);
 
-// app.use(authenticate);
+app.use(authenticate);
 
 app.use("/like", likeRouter)
 app.use("/cart", cartRouter);
