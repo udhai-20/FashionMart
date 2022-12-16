@@ -13,7 +13,7 @@ export const Footer = () => {
     setformData({
       ...formData({ ...formData, [e.target.id]: e.target.value }),
     });
-    console.log("Hello")
+    console.log("Hello");
   };
   const handleSubmit = (e) => {
     e.preventDefault();

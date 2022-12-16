@@ -18,53 +18,47 @@ import {
   Toast,
   useToast,
 } from "@chakra-ui/react";
-import { admin_ProductAdd_req } from "../../Redux/AuthReducer/Admin/actions";
+import {
+  admin_ProductAdd_req,
+  kids_update,
+} from "../../Redux/AuthReducer/Admin/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../Utils/customLocalstorage";
-const initial = {
-  image: "",
-  title: "",
-  details: "",
-  offer: "",
-  price: "",
-  quantity: "",
-  compare: "",
-};
-function AdminAddDatas({ val }) {
+import { EditIcon } from "@chakra-ui/icons";
+// const initial = {
+//   image: "",
+//   title: "",
+//   details: "",
+//   offer: "",
+//   price: "",
+//   quantity: "",
+//   compare: "",
+// };
+function AdminEditData({ val, el, id }) {
+  //   console.log(" el:", el, id);
   const toast = useToast();
   const dispatch = useDispatch();
   // console.log("getData:", getData("TOKEN"));
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [formdata, setFormData] = useState(initial);
+  const [formdata, setFormData] = useState(el);
   const handleCatch = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formdata, [name]: value });
   };
-  // console.log("value", val);
+
   const handleSubmit = () => {
-    // console.log("click");
-    // console.log("formdata:", formdata);
+    console.log("check", formdata);
     if (
       image !== "" &&
       title !== "" &&
-      detail !== "" &&
+      //   detail !== "" &&
       price !== "" &&
       quantity !== "" &&
       compare !== ""
     ) {
       onClose();
       if (val == "Kids") {
-        dispatch(admin_ProductAdd_req(formdata));
-        setFormData({
-          ...formdata,
-          image: "",
-          title: "",
-          offer: "",
-          price: "",
-          detail: "",
-          quantity: "",
-          compare: "",
-        });
+        dispatch(kids_update(id, formdata));
       } else {
         toast({
           position: "top",
@@ -86,11 +80,12 @@ function AdminAddDatas({ val }) {
       });
     }
   };
+
   const { image, title, detail, offer, price, quantity, compare } = formdata;
 
   return (
     <>
-      <Text onClick={onOpen}>Add</Text>
+      <EditIcon onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
@@ -105,7 +100,7 @@ function AdminAddDatas({ val }) {
                 <FormControl>
                   <FormLabel>Image</FormLabel>
                   <Input
-                    value={image}
+                    defaultValue={el.image}
                     name="image"
                     onChange={handleCatch}
                     placeholder="Enter Url"
@@ -116,7 +111,7 @@ function AdminAddDatas({ val }) {
                 <FormControl>
                   <FormLabel>Title</FormLabel>
                   <Input
-                    value={title}
+                    defaultValue={el.title}
                     name="title"
                     onChange={handleCatch}
                     placeholder="Enter the Title"
@@ -127,7 +122,7 @@ function AdminAddDatas({ val }) {
               <FormControl>
                 <FormLabel>details</FormLabel>
                 <Input
-                  value={detail}
+                  defaultValue={el.details}
                   name="detail"
                   onChange={handleCatch}
                   placeholder="Enter the details"
@@ -136,7 +131,7 @@ function AdminAddDatas({ val }) {
               <FormControl>
                 <FormLabel>offer</FormLabel>
                 <Input
-                  value={offer}
+                  defaultValue={el.offer}
                   name="offer"
                   onChange={handleCatch}
                   placeholder="Enter the Title"
@@ -145,7 +140,7 @@ function AdminAddDatas({ val }) {
               <FormControl>
                 <FormLabel>Price</FormLabel>
                 <Input
-                  value={price}
+                  defaultValue={el.price}
                   name="price"
                   onChange={handleCatch}
                   placeholder="Enter the Title"
@@ -154,7 +149,7 @@ function AdminAddDatas({ val }) {
               <FormControl>
                 <FormLabel>quantity</FormLabel>
                 <Input
-                  value={quantity}
+                  defaultValue={el.quantity}
                   name="quantity"
                   onChange={handleCatch}
                   placeholder="Enter the Title"
@@ -163,7 +158,7 @@ function AdminAddDatas({ val }) {
               <FormControl>
                 <FormLabel>Compare</FormLabel>
                 <Input
-                  value={compare}
+                  defaultValue={el.compare}
                   name="compare"
                   onChange={handleCatch}
                   placeholder="Enter the Title"
@@ -184,4 +179,4 @@ function AdminAddDatas({ val }) {
   );
 }
 
-export default AdminAddDatas;
+export default AdminEditData;

@@ -1,8 +1,10 @@
 const getData = (key) => {
+  // console.log(key);
   try {
     const data = localStorage.getItem(key);
-    data = JSON.parse(data);
-    return data;
+
+    const datas = JSON.parse(data);
+    return datas;
   } catch (e) {
     return null;
   }

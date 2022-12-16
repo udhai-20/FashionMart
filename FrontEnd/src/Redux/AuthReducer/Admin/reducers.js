@@ -6,7 +6,11 @@ const initialize = {
   isAuth: false,
   token: null,
   SignupData: null,
-  data: [],
+  Product: [],
+  kidsprodlen: null,
+  mensprodlen: null,
+  womensprodlen: null,
+  beautyprodlen: null,
 };
 
 export const adminreducer = (state = initialize, action) => {
@@ -35,6 +39,52 @@ export const adminreducer = (state = initialize, action) => {
         data: payload,
       };
     }
+    //kids length get req
+    case types.GET_FAILURE_KIDS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+    case types.GET_REQUEST_KIDS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case types.GET_SUCCESS_KIDS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        kidsprodlen: payload.length,
+        data: payload,
+      };
+    }
+    //womens length get req
+    case types.GET_FAILURE_MENS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+    case types.GET_REQUEST_MENS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case types.GET_SUCCESS_MENS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        mensprodlen: payload.length,
+        data: payload,
+      };
+    }
     //post
 
     case types.POST_REQUEST_DATA: {
@@ -58,6 +108,31 @@ export const adminreducer = (state = initialize, action) => {
         isError: true,
       };
     }
+
+    //post Product
+
+    case types.POST_REQUEST_DATA_PRODUCT: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case types.POST_SUCCESS_DATA_PRODUCT: {
+      return {
+        ...state,
+        isLoading: false,
+        Product: payload,
+      };
+    }
+    case types.POST_FAILURE_DATA_PRODUCT: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+
     default:
       return state;
   }
