@@ -1,62 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Heading, Img, Text } from "@chakra-ui/react";
+import { AspectRatio, Box, Button, Container, HStack, Heading, Img, Text, VStack } from "@chakra-ui/react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "jquery-ui-dist/jquery-ui";
 import $ from "jquery";
 import "./Cart.css";
+
 import axios from "axios";
 import { TransitionExample } from "./TransitionExample";
 import { useDispatch, useSelector } from "react-redux";
 import { get_failure, get_request, get_success } from "../../Redux/AppReducer/Cart/action";
+import Loading from "../Checkout/Loading";
+import ProductDetails from "../SingleProduct/ProductDetails";
 function Cart(props) {
-  // const [allproducts, setAllproducts] = useState([]);
+
   const data = useSelector((state)=>state.cartreducer.data);
-  const sumprice =  data.reduce((sum, ele) => { return sum + ele.price}, 0);
-  console.log(sumprice)
+  const loading = useSelector((state)=>state.cartreducer.isLoading);
+  const sumprice =  data.reduce((sum, ele) => { return sum + ele.price*ele.quantity}, 0);
+  const [counter,setCounter] = useState(0)
+  console.log(counter);
+
  
   const dispatch = useDispatch();
   // this is jquery logic
 
-  useEffect(() => {
-    var multipleCardCarousel = document.querySelector(
-      "#carouselExampleControls"
-    );
-    // if (window.matchMedia("(min-width: 768px)").matches) {
-    //   var carousel = new bootstrap.Carousel(multipleCardCarousel, {
-    //     interval: false,
-    //   });
-    var carouselWidth = $(".carousel-inner")[0].scrollWidth;
-    var cardWidth = $(".carousel-item").width();
-    var scrollPosition = 0;
-    $("#carouselExampleControls .carousel-control-next").on(
-      "click",
-      function () {
-        if (scrollPosition < carouselWidth - cardWidth * 4) {
-          scrollPosition += cardWidth;
-          $("#carouselExampleControls .carousel-inner").animate(
-            { scrollLeft: scrollPosition },
-            600
-          );
-        }
-      }
-    );
-    $("#carouselExampleControls .carousel-control-prev").on(
-      "click",
-      function () {
-        if (scrollPosition > 0) {
-          scrollPosition -= cardWidth;
-          $("#carouselExampleControls .carousel-inner").animate(
-            { scrollLeft: scrollPosition },
-            600
-          );
-        }
-      }
-    );
-    // } else {
-    //   $(multipleCardCarousel).addClass("slide");
-    // }
-   
-  }, []);
+  
 
 
   // get products
@@ -66,7 +33,7 @@ async function getData() {
   const myHeaders = new Headers({
        mode: 'no-cors',
       'Content-Type': 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlhYjM3YjRhNzFjODRiMGY0ZGZmNzIiLCJpYXQiOjE2NzEwODQzNDYsImV4cCI6MTY3MTE3MDc0Nn0.7dBqGeKLw7pIXpJak15iFP_25zTyWW5eFc68bKfJseM',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
   });
   
   return  await fetch('https://colorful-erin-pike.cyclic.app/cart', {
@@ -94,17 +61,65 @@ async function getData() {
   
   useEffect(()=>{
      getData();
-  },[])
+  },[]);
+
+// This is for update the data
+const postData = (id,quantity,counter) =>{
+  const myHeaders = new Headers({
+    mode: 'no-cors',
+   'Content-Type': 'application/json',
+   Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
+});
+let payload = {
+  quantity: quantity+counter,
+  
+};
+fetch(`https://colorful-erin-pike.cyclic.app/cart/update/${id}`, {
+  method: "PUT",
+  headers: myHeaders,
+  body: JSON.stringify(payload)
+  
+})
+  .then((res) => {
+    if (!res.ok) {
+      throw Error("Sorry, something went wrong");
+    }
+  })
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
+
+  
+   const Incfunc = (id,quantity) =>{
+    setCounter((prev)=>prev+1);
+
+    postData(id,quantity,counter)
+
+  // 
+
+
+
+   }
+   const Decfunc = (id,quantity) =>{
+    setCounter((prev)=>prev-1);
+    
+    postData(id,quantity,counter)
+   }
   return (
-    <Box className="main-box">
-      <Box className="header">
-        <h1>FASHIONMART CONCIERGE</h1>
-        <p>
-          Let FashionMart determine which store fulfill your request to get the
-          best price for the product you want - enjoy a worry-free experience
-          with no additional cost to you.
-        </p>
-      </Box>
+    <> {loading === true ?  <VStack maxW="container.xl"p="10"><Loading/></VStack> :
+    <Container maxW={"container.lg"} p={10} className="main-box">
+      <VStack w="full" justify-content="center" mb={5} >
+        <Heading size="md">FASHIONMART CONCIERGE</Heading>
+     <Text w="3xl">Let FashionMart determine which store fulfill your request to get the
+          best price for the product you want - </Text>
+          <span>enjoy a worry-free experience
+          with no additional cost to you.</span>
+          </VStack>
+      
       <Box className="show-details">
         <Box className="product-details">
           <h4
@@ -114,33 +129,35 @@ async function getData() {
           </h4>
         
           {data.map((ele,i) => (
-            <Box key={i} className="show-the-items">
-              <Box>
+            <HStack key={i} spacing={4} border="4px" borderColor="gray.300">
+              <AspectRatio ml={5} p={5} ratio={1} w={24}>
                 <Img  className="product-img" src={ele.image} alt="" />
-              </Box>
-              <Box p="10px">
+                </AspectRatio>
+         
+              <VStack alignItems="left" p="10px">
                 <Heading size="sm">{ele.title}</Heading>
-                <h3>{ele.details}</h3>
+                <Text>{ele.details}</Text>
                 {/* <h3>Size:{ele.}</h3> */}
-                <h3>Quantity:{ele.quantity}</h3>
+                {/* <h3>Quantity:{ele.quantity}</h3> */}
+                <HStack >
+                 <Button onClick={()=>Incfunc(ele._id,ele.quantity)} size="xs">+</Button>
+                 <Text>{ele.quantity}</Text>
+                 <Button onClick={()=>Decfunc(ele._id,ele.quantity)} size="xs">-</Button>
+                </HStack>
                 {/* alert append here */}
-              </Box>
-              <Box p="10px">
-                <h1
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: "20px",
-                    paddingTop: "25%",
-                  }}
-                >
-                  ${ele.price}
-                </h1>
-              </Box>
-              <TransitionExample />
-            </Box>
+              </VStack>
+              <Heading size="md" p={2}>
+                  ${ele.price*ele.quantity}.00
+              </Heading>
+              <VStack mt="-10px" alignItems="end">
+              <TransitionExample
+               id = {ele._id}
+              />
+              </VStack>
+            </HStack>
           ))}
         </Box>
-        <Box className="show-price">
+        <VStack alignItems="left" p={0}>
           <h4
             style={{
               fontWeight: "bold",
@@ -150,91 +167,31 @@ async function getData() {
           >
             SUMMARY
           </h4>
-          <Box className="show-price-details">
-            <h3>Currency</h3>
-            <h3>USD</h3>
-            <h3>{data.length}items</h3>
-            <h3>${(sumprice).toFixed(2)}</h3>
-          </Box>
+          <VStack p={4} border="4px" borderColor="gray.300" alignItems="left">
+            <HStack spacing={10}>
+              <Heading size="sm">Currency</Heading>
+              <Heading size="sm">USD</Heading>
+            </HStack>
+            <HStack spacing={10}>
+            <Heading size="sm">{data.length}items</Heading>
+            <Heading size="sm">${(sumprice).toFixed(2)}</Heading>
+            </HStack>
+          </VStack>
           <a style={{textDecoration:"none"}} href="http://localhost:3000/checkout">
           <Button w="full" bg="black" color="white" border="4px solid gray">
             GO TO Checkout
           </Button>
           </a>
-        </Box>
+        </VStack>
       </Box>
-      <Box className="header">
-        <h1>Recently Viewed</h1>
-      </Box>
+      <VStack>
+        <Heading mt={3} size="md">Recently Viewed</Heading>
+      </VStack>
+    
       {/* carosul starts here */}
-      <Box>
-        <div
-          id="carouselExampleControls"
-          class="carousel"
-          data-bs-ride="carousel"
-        >
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="card">
-                <div class="img-wrapper">
-                  <img src="..." class="d-block w-100" alt="..." />{" "}
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Card title 1</h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="#" class="btn btn-primary">
-                    Go somewhere
-                  </a>
-                </div>
-              </div>
-            </div>
-            {data.map((items,i)=>(
-            <div key={i} class="carousel-item">
-              <div class="card">
-                <div class="img-wrapper">
-                  <img src = {items.image} class="d-block w-full" alt="..." />{" "}
-                </div>
-                <div style={{textAlign:"center"}} class="card-body">
-                  <Heading size="sm" class="card-title">{items.title}</Heading>
-                  <Text style={{fontSize:"smaller",fontWeight:"bolder",color:"gray"}} class="card-text">
-                    {items.details}
-                  </Text>
-                  <Text>${items.price}-<span style={{color:"#c00000"}}>1017(60% OFF)</span></Text>
-                  <Text color="gray.600">{items.compare}</Text>
-                  
-                </div>
-              </div>
-            </div>
-          ))}
-          </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">
-              <FaAngleLeft size={40} />
-            </span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span>
-              <FaAngleRight size={40} />
-            </span>
-          </button>
-        </div>
-      </Box>
-    </Box>
+     <ProductDetails/>
+    </Container>
+    }</>
   );
 }
 

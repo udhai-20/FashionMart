@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminAddDatas from "../Component/AdminAddDatas/AdminAddDatas";
 import AdminDashboard from "../Component/AdminDashboard/AdminDashboard";
 import AdminLogin from "../Component/AdminLogin/AdminLogin";
-import Footer from "../Component/Footer/Footer";
+import {Footer} from "../Component/Footer/Footer";
 import Navbar from "../Component/Navbar/Navbar";
 import PagenotFound from "../Component/PagenotFound/PagenotFound";
 import Admin from "../Pages/Admin/Admin";
@@ -19,6 +19,7 @@ import Product from "../Pages/Products/Product";
 import Profile from "../Pages/Profile/Profile";
 import SingleProduct from "../Pages/SingleProduct/SingleProduct";
 import Wishlist from "../Pages/Wishlist/Wishlist";
+import Loading from "../Pages/Checkout/Loading";
 
 const AllRoutes = () => {
   return (
@@ -41,6 +42,7 @@ const AllRoutes = () => {
         <Route path="/product" element={<Product />}></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/singleProduct/:id" element={<SingleProduct />}></Route>
+        <Route path="/loading" element={<Loading />}></Route>
         <Route path="*" element={<PagenotFound />}></Route>
       </Routes>
       <Footer />

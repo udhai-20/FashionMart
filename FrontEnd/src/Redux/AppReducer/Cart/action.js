@@ -85,4 +85,4 @@ const delete_request = ()=>({
 //     })
 // }
 
-export  {get_request,get_failure,get_success}
+export  {get_request,get_failure,get_success,delete_request,delete_failure,delete_success}

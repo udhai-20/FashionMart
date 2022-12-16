@@ -13,6 +13,7 @@ import { FaGooglePay,FaPaypal } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_failure, get_request, get_success } from "../../Redux/AppReducer/Cart/action";
+import Loading from "./Loading";
 
 
 // const headers = {
@@ -23,6 +24,7 @@ import { get_failure, get_request, get_success } from "../../Redux/AppReducer/Ca
 
 function Checkout(props) {
   const data = useSelector((state)=>state.cartreducer.data);
+  const loading = useSelector((state)=>state.cartreducer.isLoading);
   console.log(data);
   const dispatch = useDispatch();
   const toast = useToast();
@@ -30,6 +32,7 @@ function Checkout(props) {
   const [toggle,setToggle] = useState(false);
   // const[submituser,setSubmituser] = useState([]);
   // const [fromData, setFormData] = useState(initState);
+  const [Isloading,setIsloading] = useState(false);
 
   const [nameone,setNameone] = useState("");
   const [nametwo,setNametwo] = useState("");
@@ -44,14 +47,15 @@ function Checkout(props) {
   const[checkcvv,setCvv] = useState("");
   // console.log(nameone,nametwo,city,country,state,phone,addressone,addresstwo,zipcode);
  console.log(toggle);
- const totalsum = data.reduce((sum, ele) => { return sum + ele.price}, 0);
- const tax = data.length >= 6 ? 25 : 10;
+ const totalsum = data.reduce((sum, ele) => { return sum + ele.price*ele.quantity}, 0);
+ const totalqty = data.reduce((sum, ele) => { return sum + ele.quantity}, 0)
+ let tax = totalqty >=6 ? 29 : 10;
   async function getData () {
 
   const myHeaders = new Headers({
        mode: 'no-cors',
       'Content-Type': 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlhYjM3YjRhNzFjODRiMGY0ZGZmNzIiLCJpYXQiOjE2NzEwODQzNDYsImV4cCI6MTY3MTE3MDc0Nn0.7dBqGeKLw7pIXpJak15iFP_25zTyWW5eFc68bKfJseM',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
   });
   
   return await fetch('https://colorful-erin-pike.cyclic.app/cart', {
@@ -61,6 +65,7 @@ function Checkout(props) {
   
   .then(response => {
     dispatch(get_request())
+
       if (response.status === 200) {
         return response.json();
       } else {
@@ -90,7 +95,7 @@ function Checkout(props) {
     // setFormData({ ...fromData, [name]: inputValue });
   }
   const finallyPlace = () =>{
-    if(checknumber.length === 16 || checkcvv.length === 3){
+    if(checknumber.length === 16 && checkcvv.length === 3){
       toast({
         title: 'You Are Good To Go',
         description: "Card Added Successfully",
@@ -103,7 +108,9 @@ function Checkout(props) {
         return navigate('/otp')
       },3000)
          
+     
 
+      return navigate('/loading')
     }
     else{
       toast({
@@ -134,13 +141,19 @@ function Checkout(props) {
       duration: 4000,
       isClosable: true,
     })
+    setTimeout(() => {
+      setIsloading(false)
+    }, 2000);
+    setIsloading(true)
    }
 
     
   }
 
   return (
-     <Container maxW="container.xl"p="10">
+ 
+     <Container maxH="" maxW="container.xl"p="10">
+    
        <VStack alignItems="center" w={{base:"xl",md:"3xl"}} m="auto" h="full">
        <Heading>FASHIONMART CONCIERGE</Heading>
        <Text>Let FashionMart determine which store fulfill your request to get the
@@ -148,7 +161,7 @@ function Checkout(props) {
           <Text>enjoy a worry-free experience
           with no additional cost to you.</Text>
         </VStack>
-       <Flex h="100vh"py="20">
+       <Flex h="full"py="20">
         
         <VStack 
         w="full"h="full" p={{base:4,sm:6}} spacing={10} align="flex-start" bg="white" >
@@ -224,7 +237,11 @@ function Checkout(props) {
              </FormControl>
             </GridItem>
             <GridItem colSpan={4}>
-             <Button onClick={handleSubmit} width="full" bg="green.300" size="md">Add Adress</Button>
+             <Button
+              Isloading
+             colorScheme='teal' variant='solid'
+             
+             onClick={handleSubmit} width="full" bg="green.300" size="md">Add Adress</Button>
             </GridItem>
             
           </SimpleGrid>
@@ -324,12 +341,13 @@ function Checkout(props) {
             justifyContent="space-around"
             alignItems="center"
             >
-              <VStack w="full" spacing={0} alignItems="flex-start">
+              <VStack w="full" spacing={1} alignItems="flex-start">
                 <Heading size="md">{ele.title}</Heading>
                 <Text>{ele.details}</Text>
+                <Text>Quantity:{ele.quantity}</Text>
               </VStack>
               <Heading size="sm" alignItems="flex-end">
-                ${ele.price}
+                ${ele.price*ele.quantity}.00
               </Heading>
             </Stack>
           </HStack>
@@ -505,7 +523,10 @@ function Checkout(props) {
          </VStack>
          
         </Flex> 
+        
      </Container>
+      
+      
   );
 }
 

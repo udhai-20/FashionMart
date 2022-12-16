@@ -11,6 +11,7 @@ import {
     Input
 } from "@chakra-ui/react";
 import { useEffect } from "react";
+import Loading from "../Checkout/Loading";
  
 export const Otp = () => {
     const navigate = useNavigate();
@@ -45,7 +46,10 @@ export const Otp = () => {
       })
       setTimeout(function(){
         return navigate('/')
+        
       },5000)
+
+      return navigate('/loading')
         
       
 
