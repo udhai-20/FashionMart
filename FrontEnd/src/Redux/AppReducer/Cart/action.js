@@ -2,19 +2,27 @@ import * as types from "./actionType";
 import axios from "axios";
 
 //GET DATA
-const get_failure = () =>({
+const get_failure = () =>{
+    return {
     type: types.GET_FAILURE_DATA
-})
+    }
+}
+    
 
 
-const get_success =(data)=>({
+
+const get_success = (payload) =>{
+   return{
     type:types.GET_SUCCESS_DATA,
-    payload: data
-})
+    payload: payload
+   }
+}
 
-const get_request = ()=>({
+const get_request = ()=>{
+    return{
     type : types.GET_REQUEST_DATA
-})
+    }
+}
 
 
 //POST ACTION
@@ -76,3 +84,5 @@ const delete_request = ()=>({
 //         dispatch(post_failure(err))
 //     })
 // }
+
+export  {get_request,get_failure,get_success,delete_request,delete_failure,delete_success}

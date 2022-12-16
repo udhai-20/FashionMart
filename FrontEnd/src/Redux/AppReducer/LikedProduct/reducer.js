@@ -58,27 +58,7 @@ export const reducer = (state = initialize, action) => {
       };
     }
     //UPDATE
-    case types.UPDATE_FAILURE_DATA: {
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    }
-    case types.UPDATE_REQUEST_DATA: {
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    }
-    case types.UPDATE_SUCCESS_DATA: {
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-      };
-    }
+
     //DELETE DATA
     case types.DELETE_FAILURE_DATA: {
       return {

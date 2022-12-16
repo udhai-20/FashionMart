@@ -1,0 +1,52 @@
+
+
+.feature_main_div{
+    width: 80%;
+    height: auto;
+  /* border: 5px solid red; */
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.feature{
+    font-size: 2rem;
+    font-weight:500;
+}
+
+.feature_desc{
+    font-size: 1.8rem;
+    color: #a1a1a1;
+    margin-top: -10px;
+}
+.brands_div{
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+}
+
+.brands_div img{
+    width: 100%;
+ }
+
+
+
+@media only screen and (max-width: 800px) {
+      
+   
+     .brands_div{
+        grid-template-columns: repeat(3,1fr);
+    }
+  }
+  @media only screen and (max-width: 500px) {
+   .brands_div{
+    grid-template-columns: repeat(2,1fr);
+   }
+
+
+ 
+  }

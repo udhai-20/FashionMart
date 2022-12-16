@@ -1,5 +1,5 @@
-import React,{useState} from "react";
-import {Container,Box, Flex, VStack, Heading, SimpleGrid, GridItem, FormControl, FormLabel, Input, Button, Select, SelectField, Checkbox, Grid, HStack, AspectRatio, Img, Stack, Text, Divider, Accordion,
+import React,{useState,useEffect} from "react";
+import {Container,Box, Flex, VStack, Heading, SimpleGrid, GridItem, FormControl, FormLabel, Input, Button, Select, SelectField, Checkbox, Grid, HStack, AspectRatio,useToast, Img, Stack, Text, Divider, Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
@@ -10,27 +10,150 @@ import Googlepay from "../Checkout/Logos/Googlepay.png";
 import Paypal from "../Checkout/Logos/Paypal.png";
 import Wechat from "../Checkout/Logos/Wechat.png";
 import { FaGooglePay,FaPaypal } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { get_failure, get_request, get_success } from "../../Redux/AppReducer/Cart/action";
+import Loading from "./Loading";
+
 
 // const headers = {
 //   "Content-Type": "application/json",
 //   Authorization: `Bearer ${"token"}`, //token from local storage
 // };
 
+
 function Checkout(props) {
-
+  const data = useSelector((state)=>state.cartreducer.data);
+  const loading = useSelector((state)=>state.cartreducer.isLoading);
+  console.log(data);
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const navigate = useNavigate();
   const [toggle,setToggle] = useState(false);
-  const handleChange = (e) =>{
-    const { type, checked, value, name } = e.target;
+  // const[submituser,setSubmituser] = useState([]);
+  // const [fromData, setFormData] = useState(initState);
+  const [Isloading,setIsloading] = useState(false);
 
+  const [nameone,setNameone] = useState("");
+  const [nametwo,setNametwo] = useState("");
+  const [addressone,setAddressone] = useState("");
+  const [addresstwo,setAddresstwo] = useState("");
+  const [zipcode,setZipcode] = useState("");
+  const [city,setCity] = useState("");
+  const [state,setState] = useState("");
+  const[phone,setPhone] = useState("");
+  const [country,setCountry] = useState("");
+  const[checknumber,setChecknumber] = useState("");
+  const[checkcvv,setCvv] = useState("");
+  // console.log(nameone,nametwo,city,country,state,phone,addressone,addresstwo,zipcode);
+ console.log(toggle);
+ const totalsum = data.reduce((sum, ele) => { return sum + ele.price*ele.quantity}, 0);
+ const totalqty = data.reduce((sum, ele) => { return sum + ele.quantity}, 0)
+ let tax = totalqty >=6 ? 29 : 10;
+  async function getData () {
+
+  const myHeaders = new Headers({
+       mode: 'no-cors',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
+  });
   
+  return await fetch('https://colorful-erin-pike.cyclic.app/cart', {
+    method: 'GET',
+    headers: myHeaders,
+  })
+  
+  .then(response => {
+    dispatch(get_request())
+
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error('Something went wrong on api server!');
+      }
+    })
+    .then(response => {
+      dispatch(get_success(response))
+      // setAllproducts(response);
+      console.log(response);
+    }).catch(error => {
+      dispatch(get_failure())
+      console.error(error);
+    });
+  }
+  
+  useEffect(()=>{
+     getData();
+  },[])
+  const handleChange = (e) =>{
+    
+    const { type, checked, value, name } = e.target;
 
     const inputValue = type === "checkbox" ? checked : value;
     setToggle(inputValue);
 
     // setFormData({ ...fromData, [name]: inputValue });
   }
+  const finallyPlace = () =>{
+    if(checknumber.length === 16 && checkcvv.length === 3){
+      toast({
+        title: 'You Are Good To Go',
+        description: "Card Added Successfully",
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+
+      setTimeout(function(){
+        return navigate('/otp')
+      },3000)
+         
+     
+
+      return navigate('/loading')
+    }
+    else{
+      toast({
+        title: 'Enter correct  card number or choose another pament option',
+        description: "Payment Failed",
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
+    }
+  }
+
+  const handleSubmit =(e)=>{
+   if(nameone.length===0 || nametwo.length === 0 || addressone.length === 0 ||zipcode.length==0 || phone.length === 0){
+    toast({
+      title: 'Some Input Field Is Missing.',
+      description: "Address Not Added",
+      status: 'error',
+      duration: 4000,
+      isClosable: true,
+    })
+   }
+   else{
+    toast({
+      title: 'You Are Good To Go',
+      description: "Address Added Successfully",
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    })
+    setTimeout(() => {
+      setIsloading(false)
+    }, 2000);
+    setIsloading(true)
+   }
+
+    
+  }
+
   return (
-     <Container maxW="container.xl"p="10">
+ 
+     <Container maxH="" maxW="container.xl"p="10">
+    
        <VStack alignItems="center" w={{base:"xl",md:"3xl"}} m="auto" h="full">
        <Heading>FASHIONMART CONCIERGE</Heading>
        <Text>Let FashionMart determine which store fulfill your request to get the
@@ -38,60 +161,63 @@ function Checkout(props) {
           <Text>enjoy a worry-free experience
           with no additional cost to you.</Text>
         </VStack>
-       <Flex h="100vh"py="20">
+       <Flex h="full"py="20">
         
         <VStack 
-        w="full"h="full" p={6} spacing={10} align="flex-start" bg="white" >
+        w="full"h="full" p={{base:4,sm:6}} spacing={10} align="flex-start" bg="white" >
           {/* this is the  adress page */}
           <Heading size="md">YOUR SHIPPING ADDRESS</Heading>
-          <SimpleGrid columns={4} columnGap={2} rowGap={2}>
+
+            <SimpleGrid columns={4} columnGap={2} rowGap={2}>
+
             {/* this is the from start */}
-            <GridItem colSpan={1}>
-             <FormControl>
+            
+            <GridItem colSpan={{base:2,md:2}}>
+             <FormControl isRequired>
               <FormLabel>First Name</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the first name"></Input>
+              <Input   name="name1" onChange={(e)=>setNameone(e.target.value)} placeholder="Enter the first name" ></Input>
              </FormControl>
             </GridItem>
-            <GridItem colSpan={1}>
-             <FormControl>
-              <FormLabel>Last Name</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the Last name"></Input>
+            <GridItem colSpan={{base:2,md:2}}>
+             <FormControl isRequired>
+              <FormLabel >Last Name</FormLabel>
+              <Input  name = "name2" onChange={(e)=>setNametwo(e.target.value)} placeholder="Enter the Last name"></Input>
              </FormControl>
             </GridItem>
-            <GridItem colSpan={2}>
-             <FormControl>
+            <GridItem colSpan={{base:4,md:4}}>
+             <FormControl isRequired>
               <FormLabel>County</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the Country name"></Input>
+              <Input name="country" onChange={(e)=>setCountry(e.target.value)} placeholder="Enter the Country name"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
-             <FormControl>
+             <FormControl isRequired>
               <FormLabel>Address one</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the first adress"></Input>
+              <Input name="addressone" onChange={(e)=>setAddressone(e.target.value)} placeholder="Enter the first adress"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>Address two</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the second adress"></Input>
+              <Input name="addresstwo" onChange={(e)=>setAddresstwo(e.target.value)} placeholder="Enter the second adress"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
-             <FormControl>
+             <FormControl isRequired>
               <FormLabel>Zipcode</FormLabel>
-              <Input onChange={handleChange} type ="number" placeholder="Enter the Zipcode"></Input>
+              <Input name="zipcode" onChange={(e)=>setZipcode(e.target.value)} type ="number" placeholder="Enter the Zipcode"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
-             <FormControl>
+             <FormControl isRequired>
               <FormLabel>City</FormLabel>
-              <Input onChange={handleChange} placeholder="city"></Input>
+              <Input name="city" onChange={(e)=>setCity(e.target.value)} placeholder="city"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>State&Country</FormLabel>
-              <Select onChange={handleChange} placeholder="Select Country & State">
+              <Select name="statendcountry" onChange={(e)=>setState(e.target.value)} placeholder="Select Country & State">
                <option>India/West-Bengal</option>
                <option>US</option>
                <option>UK</option>
@@ -99,9 +225,9 @@ function Checkout(props) {
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
-             <FormControl>
+             <FormControl isRequired>
               <FormLabel>Phone Number</FormLabel>
-              <Input onChange={handleChange} type="number" placeholder="Phone Number"></Input>
+              <Input name="phonenumber" onChange={(e)=>setPhone(e.target.value)} type="number" placeholder="Phone Number"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
@@ -111,8 +237,13 @@ function Checkout(props) {
              </FormControl>
             </GridItem>
             <GridItem colSpan={4}>
-             <Button width="full" bg="green.300" size="md">Add Adress</Button>
+             <Button
+              Isloading
+             colorScheme='teal' variant='solid'
+             
+             onClick={handleSubmit} width="full" bg="green.300" size="md">Add Adress</Button>
             </GridItem>
+            
           </SimpleGrid>
           {/* This is billing address */}
 
@@ -122,52 +253,53 @@ function Checkout(props) {
             <Heading size="md">YOUR BILLING ADDRESS</Heading>
           <SimpleGrid columns={4} columnGap={2} rowGap={2}>
             {/* this is the from start */}
+           
             <GridItem colSpan={1}>
              <FormControl>
               <FormLabel>First Name</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the first name"></Input>
+              <Input  placeholder="Enter the first name"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={1}>
              <FormControl>
               <FormLabel>Last Name</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the Last name"></Input>
+              <Input  placeholder="Enter the Last name"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>County</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the Country name"></Input>
+              <Input  placeholder="Enter the Country name"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>Address one</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the first adress"></Input>
+              <Input  placeholder="Enter the first adress"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>Address two</FormLabel>
-              <Input onChange={handleChange} placeholder="Enter the second adress"></Input>
+              <Input  placeholder="Enter the second adress"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>Zipcode</FormLabel>
-              <Input onChange={handleChange} type ="number" placeholder="Enter the Zipcode"></Input>
+              <Input  type ="number" placeholder="Enter the Zipcode"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>City</FormLabel>
-              <Input onChange={handleChange} placeholder="city"></Input>
+              <Input  placeholder="city"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>State&Country</FormLabel>
-              <Select onChange={handleChange} placeholder="Select Country & State">
+              <Select  placeholder="Select Country & State">
                <option>India/West-Bengal</option>
                <option>US</option>
                <option>UK</option>
@@ -177,13 +309,14 @@ function Checkout(props) {
             <GridItem colSpan={2}>
              <FormControl>
               <FormLabel>Phone Number</FormLabel>
-              <Input onChange={handleChange} type="number" placeholder="Phone Number"></Input>
+              <Input  type="number" placeholder="Phone Number"></Input>
              </FormControl>
             </GridItem>
            
             <GridItem colSpan={4}>
-             <Button width="full" bg="green.300" size="md">Add Adress</Button>
+             <Button  width="full" bg="green.300" size="md">Add Adress</Button>
             </GridItem>
+        
           </SimpleGrid>
 
           </VStack>
@@ -196,9 +329,10 @@ function Checkout(props) {
           {/* this is for shopping bag */}
           <Heading size="md">SHOPPING BAG</Heading>
           <VStack >
-          <HStack  spacing={6} alignItems="center">
+            {data.map((ele,i)=>(
+          <HStack border="4px" borderColor="gray.200"  key={i} p={6}  spacing={10} alignItems="center">
             <AspectRatio ratio={1} w={24}>
-              <Img/>
+              <Img src ={ele.image}/>
             </AspectRatio>
             <Stack
             spacing={0}
@@ -207,15 +341,17 @@ function Checkout(props) {
             justifyContent="space-around"
             alignItems="center"
             >
-              <VStack w="full" spacing={0} alignItems="flex-start">
-                <Heading size="md">This is the entire</Heading>
-                <Text>fnmglfnmglnml</Text>
+              <VStack w="full" spacing={1} alignItems="flex-start">
+                <Heading size="md">{ele.title}</Heading>
+                <Text>{ele.details}</Text>
+                <Text>Quantity:{ele.quantity}</Text>
               </VStack>
               <Heading size="sm" alignItems="flex-end">
-                $119.50
+                ${ele.price*ele.quantity}.00
               </Heading>
             </Stack>
           </HStack>
+          ))}
           </VStack>
         </VStack>
 
@@ -229,8 +365,8 @@ function Checkout(props) {
                <Heading size="sm">USD</Heading>
             </HStack>
             <HStack justifyContent="space-between">
-               <Text>Quantity</Text>
-               <Heading size="sm">Total Price</Heading>
+               <Text>Total</Text>
+               <Heading size="sm">${(totalsum).toFixed(2)}</Heading>
             </HStack>
             <HStack justifyContent="space-between">
                <Text>Store Shipping Free</Text>
@@ -238,12 +374,14 @@ function Checkout(props) {
             </HStack>
             <HStack justifyContent="space-between">
                <Text>Taxes</Text>
-               <Heading size="sm">$0</Heading>
+               <Heading size="sm">
+                ${(tax).toFixed(2)}
+                </Heading>
             </HStack>
             <Divider/>
             <HStack justifyContent="space-between">
                <Text>Total</Text>
-               <Heading>$0</Heading>
+               <Heading size="md">${(totalsum+29+tax).toFixed(2)}</Heading>
             </HStack>
             
           </VStack>
@@ -272,7 +410,7 @@ function Checkout(props) {
             <GridItem colSpan={4}>
              <FormControl>
               <FormLabel>Card Number</FormLabel>
-              <Input type="number"  placeholder=" ******* *******"></Input>
+              <Input onChange={(e)=>setChecknumber(e.target.value)} type="number"  placeholder=" ******* *******"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={4}>
@@ -284,7 +422,7 @@ function Checkout(props) {
             <GridItem colSpan={4}>
              <FormControl>
               <FormLabel>CVV (3 digits)</FormLabel>
-              <Input  type="number"  placeholder="***"></Input>
+              <Input onChange={(e)=>setCvv(e.target.value)}  type="number"  placeholder="***"></Input>
              </FormControl>
             </GridItem>
             <GridItem colSpan={4}>
@@ -312,7 +450,9 @@ function Checkout(props) {
       </AccordionButton>
     </h2>
     <AccordionPanel  pb={4}>
-      <Button w="full" size="lg" color="white" bg="black" ><FaGooglePay size={60}/></Button>
+      <a style={{textDecoration:"none"}} target="_blank" href="https://pay.google.com/gp/w/u/0/home/signup">
+      <Button w="full" size="lg" color="white" bg="black" ><FaGooglePay size={45}/></Button>
+      </a>
     </AccordionPanel>
   </AccordionItem>
   <AccordionItem>
@@ -331,7 +471,9 @@ function Checkout(props) {
       </AccordionButton>
     </h2>
     <AccordionPanel pb={4}>
+      <a href="https://www.paypal.com/us/webapps/mpp/account-selection" target="_blank">
     <Button w="full" size="lg" color="blue.600" bg="yellow.400" ><FaPaypal size={40}/></Button>
+    </a>
     </AccordionPanel>
   </AccordionItem>
   <AccordionItem>
@@ -350,7 +492,7 @@ function Checkout(props) {
       </AccordionButton>
     </h2>
     <AccordionPanel pb={4}>
-     This services is not availaible fo india now
+     This services is not availaible for india now
     </AccordionPanel>
   </AccordionItem>
   <AccordionItem>
@@ -369,11 +511,11 @@ function Checkout(props) {
       </AccordionButton>
     </h2>
     <AccordionPanel pb={4}>
-    This services is not availaible fo india now
+    This services is not availaible for india now
     </AccordionPanel>
   </AccordionItem>
 </Accordion>
-   <Button bg="black" color="white">PLACE ORDER</Button>
+   <Button onClick={finallyPlace} bg="black" color="white">PLACE ORDER</Button>
       </VStack>
 
       <Text>By placing order you agree to <span style={{textDecoration: "underline",color:"blue"}}><a  href="">FashionMart Terms</a></span>. An authorization hold will be placed on your payment method. The funds will only be captured if your order can be confirmed.</Text>
@@ -381,7 +523,10 @@ function Checkout(props) {
          </VStack>
          
         </Flex> 
+        
      </Container>
+      
+      
   );
 }
 
