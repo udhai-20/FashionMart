@@ -1,20 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Sunflower&display=swap");
 .main_footer {
+  width: 100%;
+  /* border: 5px solid red; */
+  /* overflow: hidden; */
   margin-top: 50px;
+  /* box-sizing: border-box; */
   /* font-family: 'Sunflower', sans-serif; */
-  padding-left: 20px;
-  padding-right: 20px;
+  /* padding-left: 20px;
+  padding-right: 20px; */
   margin-bottom: 30px;
 }
 .mainbox {
   /* margin-top: 0px; */
-  display: grid;
+  width: 95%;
+  margin: auto;
+  display: grid; 
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 4px;
-  padding: 0 6px;
   text-align: start;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .mainbox h3 {
@@ -32,13 +35,13 @@
 }
 .lowerborder {
   margin-top: 2%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   background-color: black;
   height: -5px;
 }
 .upperborder {
   margin-top: 2%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   background-color: black;
   height: 0px;
 }
@@ -107,7 +110,7 @@
   outline: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.606);
   margin: auto;
-  margin: 10px 0;
+  margin: 10px 0px;
   height: 30px;
 }
 .email:focus {
@@ -175,14 +178,21 @@ input[type="radio"]:checked {
 
 @media only screen and (max-width: 800px) {
   .mainbox {
+    padding-left: 10px;
     grid-template-columns: repeat(3, 1fr);
+  }
+  .contacticons{
+    flex-direction: column;
   }
 }
 @media only screen and (max-width: 500px) {
   .mainbox {
+    /* padding-left: 10px; */
     grid-template-columns: repeat(2, 1fr);
   }
-  .contacticons {
-    padding: 0;
-  }
+
+    .contacticons{
+      flex-direction: column;
+    }
+
 }
