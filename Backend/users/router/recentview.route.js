@@ -2,7 +2,7 @@ const express = require("express");
 
 const recentRouter = express.Router();
 
-const { recentViewModel } = require("../../users/model/recentview.model");
+const { recentViewModel } = require("../model/recentview.model");
 
 recentRouter.get("/", async (req, res) => {
   try {

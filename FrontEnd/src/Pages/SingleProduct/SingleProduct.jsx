@@ -36,7 +36,8 @@ const data_1 = [
 
 function SingleProduct(props) {
   const { id } = useParams();
-  //get req for single page
+
+  // get req for single page
   const fet_data = () => {
     axios
       .get(`${id}`)

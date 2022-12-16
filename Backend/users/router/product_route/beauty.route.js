@@ -2,7 +2,7 @@ const express = require("express");
 
 const beautyRouter = express.Router();
 
-const { beautyModel } = require("../../../users/model/product_model/beauty.model");
+const { beautyModel } = require("../../model/product_model/beauty.model");
 
 beautyRouter.get("/", async (req, res) => {
   console.log(req.query);

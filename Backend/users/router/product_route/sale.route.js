@@ -2,7 +2,7 @@ const express = require("express");
 
 const saleRouter = express.Router();
 
-const { saleModel } = require("../../../users/model/product_model/sale.model");
+const { saleModel } = require("../../model/product_model/sale.model");
 
 saleRouter.get("/", async (req, res) => {
   console.log(req.query);

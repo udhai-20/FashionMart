@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const beautySchema = mongoose.Schema({
+const newtosaleSchema = mongoose.Schema({
     image: String,
     title: String,
     details: String,
@@ -11,6 +11,6 @@ const beautySchema = mongoose.Schema({
     userId:String
 });
 
-const beautyModel = mongoose.model("beauty", beautySchema);
+const newtosaleModel = mongoose.model("newtosaleMen", newtosaleSchema);
 
-module.exports = {beautyModel};
+module.exports = {newtosaleModel};
