@@ -13,21 +13,65 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiUserPin } from "react-icons/bi";
 import AdminAddDatas from "../AdminAddDatas/AdminAddDatas";
 import { getData } from "../Utils/customLocalstorage";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  beauty_Prod_Length,
+  kids_Prod_Length,
+  mens_Prod_Length,
+  womens_Prod_Length,
+} from "../../Redux/AuthReducer/Admin/actions";
+import AdminCollection from "../AdminCollection/AdminCollection";
+import { Link } from "react-router-dom";
 
 function AdminDashboard(props) {
+  const dispatch = useDispatch();
+  const [kids_length, setKids_Length] = useState(0);
+  const [mens_length, setMens_Length] = useState(0);
+  const [womens_length, setWomens_Length] = useState(0);
+  const [beauty_length, setBeauty_Length] = useState(0);
+  const ProdLength = useSelector((state) => state);
+
+  let data = ProdLength?.adminreducer?.data?.length;
+  let data1 = ProdLength.adminreducer?.mensprodlen;
+  let data2 = ProdLength.adminreducer?.womensprodlen;
+  let data3 = ProdLength.adminreducer?.beautyprodlen;
+
+  const handle = () => {
+    setKids_Length(data);
+    setMens_Length(data1);
+    setWomens_Length(data2);
+    setBeauty_Length(data3);
+  };
+  console.log("kids_length:", kids_length);
+  const kidsProd_Len = () => {
+    dispatch(kids_Prod_Length());
+  };
+  const mensProd_Len = () => {
+    dispatch(mens_Prod_Length());
+  };
+
+  const womensProd_Len = () => {
+    dispatch(womens_Prod_Length());
+  };
+
+  const beautyProd_Len = () => {
+    dispatch(beauty_Prod_Length());
+  };
+
+  useEffect(() => {
+    kidsProd_Len();
+    mensProd_Len();
+    womensProd_Len();
+    beautyProd_Len();
+    handle();
+  }, [data, data1, data2, data3]);
   getData("TOKEN");
   return (
-    <Container
-      bg={"white"}
-      maxW="85%"
-      marginTop={"2rem"}
-      height="200px"
-      zIndex={-1}
-    >
+    <Container bg={"white"} maxW="85%" marginTop={"2rem"}>
       <Box
         display={"flex"}
         justifyContent="center"
@@ -40,7 +84,7 @@ function AdminDashboard(props) {
         Admin Dashboard
       </Box>
       <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 4, sm: 1 }}
+        columns={{ base: 1, md: 2, lg: 4 }}
         spacing={10}
         padding=".875rem"
       >
@@ -226,7 +270,7 @@ function AdminDashboard(props) {
             backdropBlur="blur"
             cursor={"pointer"}
           >
-            <AdminAddDatas />
+            <AdminAddDatas val="Womens" />
           </Text>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
@@ -238,18 +282,19 @@ function AdminDashboard(props) {
               alt="avatar"
             />
           </Box>
-
-          <Text
-            fontSize={"1.5rem"}
-            fontWeight="600"
-            padding={".875rem"}
-            display={"flex"}
-            justifyContent="center"
-            color={"black"}
-            backdropBlur="blur"
-          >
-            Collections
-          </Text>
+          <Link to="/admin/collection" state={{ from: "Womens" }}>
+            <Text
+              fontSize={"1.5rem"}
+              fontWeight="600"
+              padding={".875rem"}
+              display={"flex"}
+              justifyContent="center"
+              color={"black"}
+              backdropBlur="blur"
+            >
+              Collections
+            </Text>
+          </Link>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
           <Box display={"flex"} justifyContent="center" alignItems={"center"}>
@@ -270,7 +315,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Total Collections-50
+            Total Collections-{womens_length}
           </Text>
         </Box>
       </SimpleGrid>
@@ -310,7 +355,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Womens
+            Mens
           </Text>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
@@ -332,7 +377,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Add Datas
+            <AdminAddDatas val="Mens" />
           </Text>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
@@ -344,18 +389,19 @@ function AdminDashboard(props) {
               alt="avatar"
             />
           </Box>
-
-          <Text
-            fontSize={"1.5rem"}
-            fontWeight="600"
-            padding={".875rem"}
-            display={"flex"}
-            justifyContent="center"
-            color={"black"}
-            backdropBlur="blur"
-          >
-            Collections
-          </Text>
+          <Link to="/admin/collection" state={{ from: "Mens" }}>
+            <Text
+              fontSize={"1.5rem"}
+              fontWeight="600"
+              padding={".875rem"}
+              display={"flex"}
+              justifyContent="center"
+              color={"black"}
+              backdropBlur="blur"
+            >
+              Collection
+            </Text>
+          </Link>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
           <Box display={"flex"} justifyContent="center" alignItems={"center"}>
@@ -376,7 +422,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Total Collections-50
+            Total Collections-{mens_length}
           </Text>
         </Box>
       </SimpleGrid>
@@ -416,7 +462,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Womens
+            Kids
           </Text>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
@@ -438,7 +484,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Add Datas
+            <AdminAddDatas val="Kids" />
           </Text>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
@@ -450,18 +496,20 @@ function AdminDashboard(props) {
               alt="avatar"
             />
           </Box>
-
-          <Text
-            fontSize={"1.5rem"}
-            fontWeight="600"
-            padding={".875rem"}
-            display={"flex"}
-            justifyContent="center"
-            color={"black"}
-            backdropBlur="blur"
-          >
-            Collections
-          </Text>
+          <Link to="/admin/collection" state={{ from: "Kids" }}>
+            <Text
+              fontSize={"1.5rem"}
+              fontWeight="600"
+              padding={".875rem"}
+              display={"flex"}
+              justifyContent="center"
+              color={"black"}
+              cursor="pointer"
+              backdropBlur="blur"
+            >
+              Collections
+            </Text>
+          </Link>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
           <Box display={"flex"} justifyContent="center" alignItems={"center"}>
@@ -482,7 +530,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Total Collections-50
+            Total Collections-{kids_length}
           </Text>
         </Box>
       </SimpleGrid>
@@ -544,7 +592,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Add Datas
+            <AdminAddDatas val="Beauty" />
           </Text>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
@@ -556,18 +604,19 @@ function AdminDashboard(props) {
               alt="avatar"
             />
           </Box>
-
-          <Text
-            fontSize={"1.5rem"}
-            fontWeight="600"
-            padding={".875rem"}
-            display={"flex"}
-            justifyContent="center"
-            color={"black"}
-            backdropBlur="blur"
-          >
-            Collections
-          </Text>
+          <Link to="/admin/collection" state={{ from: "Beauty" }}>
+            <Text
+              fontSize={"1.5rem"}
+              fontWeight="600"
+              padding={".875rem"}
+              display={"flex"}
+              justifyContent="center"
+              color={"black"}
+              backdropBlur="blur"
+            >
+              Collection
+            </Text>
+          </Link>
         </Box>
         <Box boxShadow="base" backdropBlur={"blur"} bg="blue.100" height="auto">
           <Box display={"flex"} justifyContent="center" alignItems={"center"}>
@@ -588,7 +637,7 @@ function AdminDashboard(props) {
             color={"black"}
             backdropBlur="blur"
           >
-            Total Collections-50
+            Total Collections-{beauty_length}
           </Text>
         </Box>
       </SimpleGrid>

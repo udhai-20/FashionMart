@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminAddDatas from "../Component/AdminAddDatas/AdminAddDatas";
 import AdminDashboard from "../Component/AdminDashboard/AdminDashboard";
 import AdminLogin from "../Component/AdminLogin/AdminLogin";
-import {Footer} from "../Component/Footer/Footer";
+import { Footer } from "../Component/Footer/Footer";
 import Navbar from "../Component/Navbar/Navbar";
 import PagenotFound from "../Component/PagenotFound/PagenotFound";
 import Admin from "../Pages/Admin/Admin";
@@ -19,7 +19,9 @@ import Product from "../Pages/Products/Product";
 import Profile from "../Pages/Profile/Profile";
 import SingleProduct from "../Pages/SingleProduct/SingleProduct";
 import Wishlist from "../Pages/Wishlist/Wishlist";
+import AdminCollection from "../Component/AdminCollection/AdminCollection";
 import Loading from "../Pages/Checkout/Loading";
+
 
 const AllRoutes = () => {
   return (
@@ -34,6 +36,7 @@ const AllRoutes = () => {
         <Route path="/admin/signup" element={<AdminSignup />}></Route>
         <Route path="/admin/login" element={<AdminLogin />}></Route>
         <Route path="/admin/dashboard" element={<AdminDashboard />}></Route>
+        <Route path="/admin/collection" element={<AdminCollection />}></Route>
         <Route path="/admin/adddata" element={<AdminAddDatas />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/wishlist" element={<Wishlist />}></Route>
