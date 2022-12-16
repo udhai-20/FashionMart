@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const beautySchema = mongoose.Schema({
+const tradingSchema = mongoose.Schema({
     image: String,
     title: String,
     details: String,
@@ -11,6 +11,6 @@ const beautySchema = mongoose.Schema({
     userId:String
 });
 
-const beautyModel = mongoose.model("beauty", beautySchema);
+const tradingModel = mongoose.model("tradingMen", tradingSchema);
 
-module.exports = {beautyModel};
+module.exports = {tradingModel};

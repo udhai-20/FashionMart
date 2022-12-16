@@ -28,6 +28,7 @@ export const reducer = (state = initialize, action) => {
       };
     }
     case types.GET_SUCCESS_DATA: {
+      // console.log(payload);
       return {
         ...state,
         isLoading: false,
@@ -57,48 +58,13 @@ export const reducer = (state = initialize, action) => {
         isError: false,
       };
     }
-    //UPDATE
-    case types.UPDATE_FAILURE_DATA: {
+    case types.like_data:{
+      console.log(payload)
       return {
         ...state,
-        isLoading: false,
-        isError: true,
-      };
-    }
-    case types.UPDATE_REQUEST_DATA: {
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    }
-    case types.UPDATE_SUCCESS_DATA: {
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-      };
-    }
-    //DELETE DATA
-    case types.DELETE_FAILURE_DATA: {
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    }
-    case types.DELETE_REQUEST_DATA: {
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    }
-    case types.DELETE_SUCCESS_DATA: {
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
+        isLoading :false,
+        isError : false,
+        data:payload
       };
     }
     default: {

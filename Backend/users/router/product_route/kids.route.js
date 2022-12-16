@@ -2,26 +2,31 @@ const express = require("express");
 
 const kidsRouter = express.Router();
 
-const { kidsModel } = require("../../../users/model/product_model/kids.model");
+const { kidsModel } = require("../../model/product_model/kids.model");
 
 kidsRouter.get("/", async (req, res) => {
   console.log(req.query);
-  const { _sort, _order } = req.query;
-  const { _page, _limit } = req.query;
+  const { _page, _limit,_sort, _order } = req.query;
 
   try {
     if (_sort === "price" && _order === "1") {
-      const getdata = await kidsModel.find().sort({ price: 1 });
-      res.send(getdata);
-    } else if (_sort === "price" && _order === "-1") {
-      const getdata = await kidsModel.find().sort({ price: -1 });
-      res.send(getdata);
-    } else if (_page > 0 && _limit > 0) {
+
       const skips = Number(_page) * Number(_limit) - Number(_limit);
       const getdata = await kidsModel
         .find()
         .skip(`${skips}`)
-        .limit(`${Number(_limit)}`);
+        .limit(`${Number(_limit)}`)
+        .sort({price:1})
+      res.send(getdata);
+
+    } else if (_sort === "price" && _order === "-1" || _page > 0 && _limit > 0) {
+
+      const skips = Number(_page) * Number(_limit) - Number(_limit);
+      const getdata = await kidsModel
+        .find()
+        .skip(`${skips}`)
+        .limit(`${Number(_limit)}`)
+        .sort({price:-1})
       res.send(getdata);
     } else {
       const getdata = await kidsModel.find();

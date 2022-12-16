@@ -2,7 +2,7 @@ const express = require("express");
 
 const orderRouter = express.Router();
 
-const { orderModel } = require("../../users/model/ordered.model");
+const { orderModel } = require("../model/ordered.model");
 
 orderRouter.get("/", async (req, res) => {
   try {

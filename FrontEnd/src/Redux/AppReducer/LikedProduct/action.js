@@ -30,20 +30,6 @@ const post_request = ()=>({
     type : types.POST_REQUEST_DATA
 })
 
-//UPDATE ACTION
-
-const update_failure = () =>({
-    type: types.UPDATE_FAILURE_DATA
-})
-
-
-const update_success =()=>({
-    type:types.UPDATE_SUCCESS_DATA,
-})
-
-const update_request = ()=>({
-    type : types.UPDATE_REQUEST_DATA
-})
 
 //DELETE ACTION
 const delete_failure = () =>({
@@ -62,17 +48,17 @@ const delete_request = ()=>({
 
 
 
-// export const postdata =(dispatch)=>(payload, token)=>{
-//     dispatch(post_request)
-//     axios({
-//         method:"post",
-//         baseURL:"http:localhost:8080",
-//         url:"/notes/create",
-//         headers: {"Authorization":`${token}`},
-//         data:payload
-//     }).then((response) => {
-//         console.log(response);
-//     }).catch((err)=>{
-//         dispatch(post_failure(err))
-//     })
-// }
+export const addlikedata =(payload)=>(dispatch)=>{
+    // console.log(payload)
+    dispatch(post_request)
+    axios({
+        method:"post",
+        baseURL:"https://colorful-erin-pike.cyclic.app",
+        url:"/like/add_to_like",
+        data:payload
+    }).then((response) => {
+        console.log(response);
+    }).catch((err)=>{
+        dispatch(post_failure(err))
+    })
+}

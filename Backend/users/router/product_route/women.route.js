@@ -2,7 +2,7 @@ const express = require("express");
 
 const womenRouter = express.Router();
 
-const { womenModel } = require("../../../users/model/product_model/women.model");
+const { womenModel } = require("../../model/product_model/women.model");
 
 womenRouter.get("/", async (req, res) => {
   console.log(req.query);
