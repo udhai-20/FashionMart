@@ -27,9 +27,23 @@ function AdminCollection() {
   console.log("from:", from);
   const [data, setData] = useState([]);
 
-  const kidsProd_Len = () => {
-    dispatch(kids_Prod_Length());
-  };
+  const kids = useSelector((state) => state.adminreducer.kidsprod);
+
+  const womens = useSelector((state) => state.adminreducer.womenprod);
+  const mens = useSelector((state) => state.adminreducer.mensuprod);
+  const beauty = useSelector((state) => state.adminreducer.beautyprod);
+
+  if (from == "Womens") {
+    var product = womens;
+  } else if (from == "Mens") {
+    var product = mens;
+  } else if (from == "Beauty") {
+    var product = beauty;
+  } else {
+    var product = kids;
+  }
+
+  const kidsProd_Len = () => {};
 
   const handleDelete = (id) => {
     console.log("id:", id);
@@ -44,17 +58,6 @@ function AdminCollection() {
     }
   };
   console.log("checking", from);
-  useEffect(() => {
-    if (from === "Kids") {
-      console.log("check");
-    }
-    if (from == "Womens") {
-      return;
-    }
-    if (from == "Mens") {
-      console.log("womens");
-    }
-  }, [from]);
 
   return (
     <Container maxW="90%" marginTop={"20px"}>
@@ -64,7 +67,7 @@ function AdminCollection() {
         </Text>
       </Box>
       <SimpleGrid columns={{ lg: 4, md: 3, base: 1 }} spacing={10}>
-        {/* {product?.length > 0 &&
+        {product?.length > 0 &&
           product.map((el, i) => {
             return (
               <Box
@@ -107,8 +110,8 @@ function AdminCollection() {
                     {el.compare}
                   </Text>
                 </Flex>
-                {/* delete icon */}
-        {/* <Box
+                {/* delete icon  */}
+                <Box
                   rounded="full"
                   width={"30px"}
                   position="absolute"
@@ -120,9 +123,9 @@ function AdminCollection() {
                     onClick={() => handleDelete(el._id)}
                     fontSize={"1.3rem"}
                   />
-                </Box> */}
-        {/* //edit icon */}
-        {/* <Box
+                </Box>
+                {/* //edit icon */}
+                <Box
                   rounded="full"
                   width={"30px"}
                   position="absolute"
@@ -130,12 +133,11 @@ function AdminCollection() {
                   right="10px"
                   color="blue.500"
                 >
-                 
                   <AdminEditData val={from} el={el} id={el._id} />
                 </Box>
               </Box>
             );
-          })}  */}
+          })}
       </SimpleGrid>
     </Container>
   );

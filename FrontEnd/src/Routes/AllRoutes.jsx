@@ -10,7 +10,8 @@ import Admin from "../Pages/Admin/Admin";
 import AdminSignup from "../Pages/AdminSignup/AdminSignup";
 import Cart from "../Pages/Cart/Cart";
 import Checkout from "../Pages/Checkout/Checkout";
-import Home from "../Pages/Home/Home";
+// import Home from "../Pages/Home/Home";
+import HomePage from "../Component/HomePage";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Login/Signup";
 import Order from "../Pages/Order/Order";
@@ -22,7 +23,6 @@ import Wishlist from "../Pages/Wishlist/Wishlist";
 import AdminCollection from "../Component/AdminCollection/AdminCollection";
 import Loading from "../Pages/Checkout/Loading";
 
-
 const AllRoutes = () => {
   return (
     <>
@@ -30,8 +30,8 @@ const AllRoutes = () => {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/otp" element={<Otp/>}></Route>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/otp" element={<Otp />}></Route>
         <Route path="/admin" element={<Admin />}></Route>
         <Route path="/admin/signup" element={<AdminSignup />}></Route>
         <Route path="/admin/login" element={<AdminLogin />}></Route>

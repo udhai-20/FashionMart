@@ -175,7 +175,7 @@ const kids_Prod_Length = () => (dispatch) => {
   axios({
     method: "get",
     baseURL: `${base_Api}`,
-    url: "/kids",
+    url: `/kids`,
     headers: { Authorization: `Bearer ${getData("TOKEN")}` },
   })
     .then((response) => {
@@ -267,7 +267,7 @@ const kids_delete = (id) => (dispatch) => {
     headers: { Authorization: `Bearer ${getData("TOKEN")}` },
   })
     .then((response) => {
-      dispatch(delete_success(response));
+      dispatch(delete_success());
       dispatch(kids_Prod_Length());
     })
     .catch((err) => {

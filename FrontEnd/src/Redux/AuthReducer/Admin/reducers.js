@@ -7,10 +7,10 @@ const initialize = {
   token: null,
   SignupData: null,
   Product: [],
-  kidsprodlen: null,
-  mensprodlen: null,
-  womensprodlen: null,
-  beautyprodlen: null,
+  kidsprod: [],
+  mensprod: [],
+  womensprod: [],
+  beautyprod: [],
 };
 
 export const adminreducer = (state = initialize, action) => {
@@ -58,7 +58,7 @@ export const adminreducer = (state = initialize, action) => {
       return {
         ...state,
         isLoading: false,
-        kidsprodlen: payload.length,
+        kidsprod: payload,
         data: payload,
       };
     }
@@ -81,7 +81,7 @@ export const adminreducer = (state = initialize, action) => {
       return {
         ...state,
         isLoading: false,
-        mensprodlen: payload.length,
+        mensprodlen: payload,
         data: payload,
       };
     }
