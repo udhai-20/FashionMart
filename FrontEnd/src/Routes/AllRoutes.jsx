@@ -10,12 +10,12 @@ import Admin from "../Pages/Admin/Admin";
 import AdminSignup from "../Pages/AdminSignup/AdminSignup";
 import Cart from "../Pages/Cart/Cart";
 import Checkout from "../Pages/Checkout/Checkout";
-import Home from "../Pages/Home/Home";
+// import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Login/Signup";
 import Order from "../Pages/Order/Order";
 import { Otp } from "../Pages/Otp Page/Otp";
-import Product from "../Pages/Products/Product";
+// import Product from "../Pages/Products/Product";
 import Profile from "../Pages/Profile/Profile";
 import SingleProduct from "../Pages/SingleProduct/SingleProduct";
 import Wishlist from "../Pages/Wishlist/Wishlist";
@@ -30,7 +30,7 @@ const AllRoutes = () => {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/" element={<Home />}></Route>
+        {/* <Route path="/" element={<Home />}></Route> */}
         <Route path="/otp" element={<Otp/>}></Route>
         <Route path="/admin" element={<Admin />}></Route>
         <Route path="/admin/signup" element={<AdminSignup />}></Route>
@@ -42,7 +42,7 @@ const AllRoutes = () => {
         <Route path="/wishlist" element={<Wishlist />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/order" element={<Order />}></Route>
-        <Route path="/product" element={<Product />}></Route>
+        {/* <Route path="/product" element={<Product />}></Route> */}
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/singleProduct/:id" element={<SingleProduct />}></Route>
         <Route path="/loading" element={<Loading />}></Route>

@@ -11,13 +11,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { get_failure, get_request, get_success } from "../../Redux/AppReducer/Cart/action";
 import Loading from "../Checkout/Loading";
 import ProductDetails from "../SingleProduct/ProductDetails";
+import { useNavigate } from "react-router-dom";
+import EmptyCart from "./EmptyCart";
 function Cart(props) {
 
   const data = useSelector((state)=>state.cartreducer.data);
   const loading = useSelector((state)=>state.cartreducer.isLoading);
   const sumprice =  data.reduce((sum, ele) => { return sum + ele.price*ele.quantity}, 0);
-  const [counter,setCounter] = useState(0)
-  console.log(counter);
+  const [counter,setCounter] = useState(1)
+  const navigate = useNavigate();
 
  
   const dispatch = useDispatch();
@@ -33,7 +35,7 @@ async function getData() {
   const myHeaders = new Headers({
        mode: 'no-cors',
       'Content-Type': 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzEyNjk3NzIsImV4cCI6MTY3MTM1NjE3Mn0.5o7W_4FPoIURun87X67jfFndkLIbkh6u41uXF-fZO14',
   });
   
   return  await fetch('https://colorful-erin-pike.cyclic.app/cart', {
@@ -64,20 +66,18 @@ async function getData() {
   },[]);
 
 // This is for update the data
-const postData = (id,quantity,counter) =>{
+const postData = (id,orqty) =>{
+  console.log(counter)
   const myHeaders = new Headers({
     mode: 'no-cors',
    'Content-Type': 'application/json',
-   Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
+   Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzEyNjk3NzIsImV4cCI6MTY3MTM1NjE3Mn0.5o7W_4FPoIURun87X67jfFndkLIbkh6u41uXF-fZO14',
 });
-let payload = {
-  quantity: quantity+counter,
-  
-};
+
 fetch(`https://colorful-erin-pike.cyclic.app/cart/update/${id}`, {
   method: "PUT",
   headers: myHeaders,
-  body: JSON.stringify(payload)
+  body: JSON.stringify({ quantity:orqty})
   
 })
   .then((res) => {
@@ -86,7 +86,7 @@ fetch(`https://colorful-erin-pike.cyclic.app/cart/update/${id}`, {
     }
   })
   .then((res) => {
-    console.log(res);
+    console.log("send successfully");
   })
   .catch((err) => {
     console.log(err);
@@ -94,23 +94,41 @@ fetch(`https://colorful-erin-pike.cyclic.app/cart/update/${id}`, {
 }
 
   
-   const Incfunc = (id,quantity) =>{
+   const Incfunc = (id,qty) =>{
     setCounter((prev)=>prev+1);
+    let Incq = (counter+qty)
+    postData(id,Incq)
 
-    postData(id,quantity,counter)
+    setTimeout(() => {
+      return navigate('/loading')
+    }, 900);
+    setTimeout(() => {
+      return navigate('/cart')
+    }, 1300);
+
 
   // 
 
 
 
    }
-   const Decfunc = (id,quantity) =>{
+   const Decfunc = (id,qty) =>{
     setCounter((prev)=>prev-1);
+    let Decq = Math.abs(counter-qty)
     
-    postData(id,quantity,counter)
+    postData(id,Decq)
+    
+    setTimeout(() => {
+      return navigate('/loading')
+    }, 1000);
+    setTimeout(() => {
+      return navigate('/cart')
+    }, 1300);
    }
   return (
     <> {loading === true ?  <VStack maxW="container.xl"p="10"><Loading/></VStack> :
+    <>
+     {data.length === 0 ? <Container maxH="" maxW="container.xl"p="10"><EmptyCart/></Container> :
     <Container maxW={"container.lg"} p={10} className="main-box">
       <VStack w="full" justify-content="center" mb={5} >
         <Heading size="md">FASHIONMART CONCIERGE</Heading>
@@ -142,7 +160,7 @@ fetch(`https://colorful-erin-pike.cyclic.app/cart/update/${id}`, {
                 <HStack >
                  <Button onClick={()=>Incfunc(ele._id,ele.quantity)} size="xs">+</Button>
                  <Text>{ele.quantity}</Text>
-                 <Button onClick={()=>Decfunc(ele._id,ele.quantity)} size="xs">-</Button>
+                 <Button disabled={ele.quantity<=1} onClick={()=>Decfunc(ele._id,ele.quantity)} size="xs">-</Button>
                 </HStack>
                 {/* alert append here */}
               </VStack>
@@ -191,7 +209,10 @@ fetch(`https://colorful-erin-pike.cyclic.app/cart/update/${id}`, {
       {/* carosul starts here */}
      <ProductDetails/>
     </Container>
-    }</>
+    }
+    </>
+     }
+     </>
   );
 }
 
