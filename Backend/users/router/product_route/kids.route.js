@@ -37,6 +37,18 @@ kidsRouter.get("/", async (req, res) => {
   }
 });
 
+kidsRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const getdata = await kidsModel.findById({_id:id});
+    res.send(getdata);
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
+
 // kidsRouter.post("/kids_data", async (req, res) => {
 //   try {
 //     const payload = req.body;

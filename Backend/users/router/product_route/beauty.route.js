@@ -4,24 +4,30 @@ const beautyRouter = express.Router();
 
 const { beautyModel } = require("../../model/product_model/beauty.model");
 
+
 beautyRouter.get("/", async (req, res) => {
   console.log(req.query);
-  const { _sort, _order } = req.query;
-  const { _page, _limit } = req.query;
+  const { _page, _limit,_sort, _order } = req.query;
 
   try {
     if (_sort === "price" && _order === "1") {
-      const getdata = await beautyModel.find().sort({ price: 1 });
-      res.send(getdata);
-    } else if (_sort === "price" && _order === "-1") {
-      const getdata = await beautyModel.find().sort({ price: -1 });
-      res.send(getdata);
-    } else if (_page > 0 && _limit > 0) {
+
       const skips = Number(_page) * Number(_limit) - Number(_limit);
       const getdata = await beautyModel
         .find()
         .skip(`${skips}`)
-        .limit(`${Number(_limit)}`);
+        .limit(`${Number(_limit)}`)
+        .sort({price:1})
+      res.send(getdata);
+
+    } else if (_sort === "price" && _order === "-1" || _page > 0 && _limit > 0) {
+
+      const skips = Number(_page) * Number(_limit) - Number(_limit);
+      const getdata = await beautyModel
+        .find()
+        .skip(`${skips}`)
+        .limit(`${Number(_limit)}`)
+        .sort({price:-1})
       res.send(getdata);
     } else {
       const getdata = await beautyModel.find();
@@ -31,6 +37,19 @@ beautyRouter.get("/", async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 });
+
+beautyRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const getdata = await beautyModel.findById({_id:id});
+    res.send(getdata);
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
+
 
 // beautyRouter.post("/beauty_data", async (req, res) => {
 //   try {

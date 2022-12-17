@@ -5,14 +5,36 @@ const recentRouter = express.Router();
 const { recentViewModel } = require("../model/recentview.model");
 
 recentRouter.get("/", async (req, res) => {
+  const userID = req.body.userId;
+  console.log(userID);
   try {
-    const getdata = await recentViewModel.find();
+    const getdata = await recentViewModel.find({userId:userID});
 
     res.send(getdata);
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 });
+
+recentRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const userID = req.body.userId;
+    console.log(userID);
+    const user = await recentViewModel.findOne({ _id: id });
+    console.log(user);
+    if(userID !== user.userId){
+      res.send("user is not authorized");
+    }else{
+      const getdata = await recentViewModel.findById({_id:id});
+      res.send(getdata);
+    }
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
 
 recentRouter.post("/add_to_recent_view", async (req, res) => {
   try {

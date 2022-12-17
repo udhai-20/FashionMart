@@ -6,22 +6,28 @@ const { womenModel } = require("../../model/product_model/women.model");
 
 womenRouter.get("/", async (req, res) => {
   console.log(req.query);
-  const { _sort, _order } = req.query;
-  const { _page, _limit } = req.query;
+  const { _page, _limit,_sort, _order } = req.query;
+
 
   try {
     if (_sort === "price" && _order === "1") {
-      const getdata = await womenModel.find().sort({ price: 1 });
-      res.send(getdata);
-    } else if (_sort === "price" && _order === "-1") {
-      const getdata = await womenModel.find().sort({ price: -1 });
-      res.send(getdata);
-    } else if (_page > 0 && _limit > 0) {
+
       const skips = Number(_page) * Number(_limit) - Number(_limit);
       const getdata = await womenModel
         .find()
         .skip(`${skips}`)
-        .limit(`${Number(_limit)}`);
+        .limit(`${Number(_limit)}`)
+        .sort({price:1})
+      res.send(getdata);
+
+    } else if (_sort === "price" && _order === "-1" || _page > 0 && _limit > 0) {
+
+      const skips = Number(_page) * Number(_limit) - Number(_limit);
+      const getdata = await womenModel
+        .find()
+        .skip(`${skips}`)
+        .limit(`${Number(_limit)}`)
+        .sort({price:-1})
       res.send(getdata);
     } else {
       const getdata = await womenModel.find();
@@ -31,6 +37,18 @@ womenRouter.get("/", async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 });
+
+womenRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const getdata = await womenModel.findById({_id:id});
+    res.send(getdata);
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
 
 // womenRouter.post("/women_data", async (req, res) => {
 //   try {

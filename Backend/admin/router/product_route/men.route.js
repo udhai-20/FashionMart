@@ -2,7 +2,7 @@ const express = require("express");
 
 const menRouter = express.Router();
 
-const { menModel } = require("../../../admin/model/product_model/men.model");
+const { menModel } = require("../../model/product_model/men.model");
 
 menRouter.get("/", async (req, res) => {
   console.log(req.query);
@@ -15,7 +15,19 @@ menRouter.get("/", async (req, res) => {
   }
 });
 
-menRouter.post("/kids_singledata", async (req, res) => {
+menRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const getdata = await menModel.findById({_id:id});
+    res.send(getdata);
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
+
+menRouter.post("/men_singledata", async (req, res) => {
   try {
     const payload = req.body;
     console.log(payload);
@@ -27,7 +39,7 @@ menRouter.post("/kids_singledata", async (req, res) => {
   }
 });
 
-menRouter.post("/kids_manydata", async (req, res) => {
+menRouter.post("/men_manydata", async (req, res) => {
   try {
     const payload = req.body;
     console.log(payload);

@@ -5,15 +5,38 @@ const cartRouter = express.Router();
 const { cartModel } = require("../model/cart.model");
 
 cartRouter.get("/", async (req, res) => {
-  try {
-    const getdata = await cartModel.find();
 
-    res.send(getdata);
+  const userID = req.body.userId;
+  console.log(userID);
+  try {
+  
+      const getdata = await cartModel.find({userId:userID});
+      res.send(getdata);
+  
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 });
 
+cartRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const userID = req.body.userId;
+    console.log(userID);
+    const user = await cartModel.findOne({ _id: id });
+    console.log(user);
+    if(userID !== user.userId){
+      res.send("user is not authorized");
+    }else{
+      const getdata = await cartModel.findById({_id:id});
+      res.send(getdata);
+    }
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
 
 cartRouter.post("/add_to_cart", async (req, res) => {
   try {
@@ -21,7 +44,7 @@ cartRouter.post("/add_to_cart", async (req, res) => {
     console.log(payload);
     const new_note = new cartModel(payload);
     await new_note.save();
-    res.send({ message: "note is created" });
+    res.send({ message: "data is created" });
   } catch (err) {
     res.status(400).send({ message: err.message });
   }

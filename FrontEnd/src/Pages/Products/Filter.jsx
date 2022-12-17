@@ -1,14 +1,7 @@
-import React,{useState} from 'react'
-import { Box, Select } from '@chakra-ui/react'
+import React from 'react'
+import { Select } from '@chakra-ui/react'
 
-function Filter() {
-const [order, setOrder]  = useState("");
-
-const filterHandler =()=>{
-
-}
-
-
+function Filter({filterHandler}) {
   return (
     <>
         <Select onChange={filterHandler} type="text">
