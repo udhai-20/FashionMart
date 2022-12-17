@@ -62,7 +62,7 @@ const Banner = () => {
     prevArrow: <PrevArrow />,
   };
   return (
-    <div style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
+    <div style={{ width: "80%", margin: "auto", marginTop: "20px",marginBottom:"100px" }}>
     <Slider {...settings} >
         {bannerArr.map((el) => (
             <div className={Styles.popup} key={el}>
