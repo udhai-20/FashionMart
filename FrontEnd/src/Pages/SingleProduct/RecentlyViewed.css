@@ -3,6 +3,12 @@
     padding: 1rem;
 }
 
+.recently_viewed_pic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .recently_viewed_child {
     display: flex;
     flex-direction: column;
