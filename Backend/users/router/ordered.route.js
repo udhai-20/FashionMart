@@ -5,14 +5,37 @@ const orderRouter = express.Router();
 const { orderModel } = require("../model/ordered.model");
 
 orderRouter.get("/", async (req, res) => {
+  const userID = req.body.userId;
+  console.log(userID);
   try {
-    const getdata = await orderModel.find();
+    const getdata = await orderModel.find({userId:userID});
 
     res.send(getdata);
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 });
+
+
+orderRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const userID = req.body.userId;
+    console.log(userID);
+    const user = await orderModel.findOne({ _id: id });
+    console.log(user);
+    if(userID !== user.userId){
+      res.send("user is not authorized");
+    }else{
+      const getdata = await orderModel.findById({_id:id});
+      res.send(getdata);
+    }
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
 
 orderRouter.post("/add_order", async (req, res) => {
   try {

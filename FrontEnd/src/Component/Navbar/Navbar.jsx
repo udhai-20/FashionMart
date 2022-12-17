@@ -132,7 +132,7 @@ function Navbar(props) {
                 _hover={{
                   textDecoration: "underline",
                 }}
-                onClick={() => navigate("/product")}
+                onClick={() => navigate("/women")}
               >
                 WOMENS
               </Link>
@@ -143,7 +143,7 @@ function Navbar(props) {
                 _hover={{
                   textDecoration: "underline",
                 }}
-                onClick={() => navigate("/product")}
+                onClick={() => navigate("/men")}
               >
                 MENS
               </Link>
@@ -154,7 +154,7 @@ function Navbar(props) {
                 _hover={{
                   textDecoration: "underline",
                 }}
-                onClick={() => navigate("/product")}
+                onClick={() => navigate("/beauty")}
               >
                 BEAUTY
               </Link>
@@ -165,7 +165,7 @@ function Navbar(props) {
                 _hover={{
                   textDecoration: "underline",
                 }}
-                onClick={() => navigate("/product")}
+                onClick={() => navigate("/kids")}
               >
                 KIDS
               </Link>
@@ -188,7 +188,7 @@ function Navbar(props) {
                 _hover={{
                   textDecoration: "underline",
                 }}
-                onClick={() => navigate("/product")}
+                onClick={() => navigate("/sale")}
               >
                 SALE
               </Link>

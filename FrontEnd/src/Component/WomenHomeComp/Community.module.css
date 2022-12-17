@@ -1,0 +1,68 @@
+
+
+/* .com_main_div{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 50px;
+  align-items: center;
+
+} */
+
+ .hrDiv {
+  margin-top: 5rem;
+  position: relative;
+}
+
+ .hrDiv > hr {
+  width: 92%;
+}
+ .hrDiv > p {
+  font-size: 1.8rem;
+  background-color: white;
+  position: absolute;
+  margin-top: -15px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.Community{
+  width: 70%;
+  margin: auto;
+  /* border: 5px solid red; */
+
+  /* margin: 50px 0px; */
+
+}
+
+.Community_div{
+  height: 350px;
+  margin: auto;
+  /* border: 5px solid red; */
+  margin-top: 50px;
+}
+
+.Community img{
+  width: 65%;
+  margin: auto;
+}
+
+.btn{
+  margin: 50px 0px;
+  display: flex;
+  justify-content: center;align-items: center;
+}
+.btn button{
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 1.2rem;
+
+}
+.btn button:hover{
+  background-color: black;
+  color: white;
+}

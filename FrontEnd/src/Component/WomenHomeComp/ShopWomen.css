@@ -1,0 +1,49 @@
+
+.shopW{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;align-items: center;
+}
+
+.feature{
+    font-size: 2rem;
+    font-weight:500;
+}
+
+.categories{
+    width: 100%;
+    /* border: 5px solid red; */
+    display: grid;
+    grid-template-columns: repeat(9,1fr);
+    justify-content: space-between;align-items: center;
+}
+
+.categories div{
+    width: 100%;
+    /* border: 5px solid red; */
+    margin: auto;
+    display: flex;
+    /* gap: 5px; */
+    flex-direction: column;
+    justify-content: space-between;align-items: center;
+}
+
+
+
+@media only screen and (max-width: 800px) {
+      
+   
+    .categories{
+       grid-template-columns: repeat(4,1fr);
+   }
+ }
+ @media only screen and (max-width: 500px) {
+  .categories{
+   grid-template-columns: repeat(2,1fr);
+  }
+
+
+
+ }

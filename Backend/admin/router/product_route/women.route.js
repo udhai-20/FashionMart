@@ -2,7 +2,7 @@ const express = require("express");
 
 const womenRouter = express.Router();
 
-const { womenModel } = require("../../../admin/model/product_model/women.model");
+const { womenModel } = require("../../model/product_model/women.model");
 
 womenRouter.get("/", async (req, res) => {
   console.log(req.query);
@@ -14,6 +14,18 @@ womenRouter.get("/", async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 });
+
+womenRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const getdata = await womenModel.findById({_id:id});
+    res.send(getdata);
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
 
 womenRouter.post("/women_singledata", async (req, res) => {
   try {

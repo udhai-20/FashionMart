@@ -32,11 +32,8 @@ export function TransitionExample({ id }) {
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY",
     });
-
-    return await fetch(
-      `https://colorful-erin-pike.cyclic.app/cart/delete/${id}`,
-      {
-        method: "DELETE",
+      return  await fetch(`https://colorful-erin-pike.cyclic.app/cart/delete/${id}`, {
+        method: 'DELETE',
         headers: myHeaders,
       }
     )

@@ -26,7 +26,6 @@ import SingleProduct from "../Pages/SingleProduct/SingleProduct";
 import Wishlist from "../Pages/Wishlist/Wishlist";
 import AdminCollection from "../Component/AdminCollection/AdminCollection";
 import Loading from "../Pages/Checkout/Loading";
-
 const AllRoutes = () => {
   return (
     <>

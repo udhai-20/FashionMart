@@ -1,10 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
-import { getData } from "../../Redux/AppReducer/Product/action";
 import { addlikedata } from "../../Redux/AppReducer/LikedProduct/action";
-import { Link, useSearchParams } from "react-router-dom";
-import { like_data } from "../../Redux/AppReducer/Product/action";
+import { Link } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import { useSearchParams } from "react-router-dom";
 
 import Pagination from "./Pagination";
 import Filter from "./Filter";
@@ -18,27 +18,15 @@ import {
   Img,
 } from "@chakra-ui/react";
 
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useDispatch } from "react-redux";
 
-function Product(props) {
+function Product({ data, setPage, setQuery, page, query, heading, details, kids}) {
   const [tablet] = useMediaQuery("(max-width: 768px)");
-  const [searchparams, setSearchParams] = useSearchParams();
-  const [like, setLike] = useState(false);
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
   const [total, setTotal] = useState(3);
-  const [query, setQuery] = useState("");
-  const { data, isLoading, isError } = useSelector((state) => {
-    return {
-      data: state.productreducer.data,
-      isLoading: state.productreducer.isLoading,
-      isError: state.productreducer.isError,
-    };
-  }, shallowEqual);
+  const [searchparams, setSearchParams] = useSearchParams();
 
-  console.log(data);
-
-  const LikeProduct = (item, id) => {
+  const LikeProduct = (item) => {
     const payload = {
       image: item.image,
       title: item.title,
@@ -50,22 +38,23 @@ function Product(props) {
     };
     // console.log(payload)
     dispatch(addlikedata(payload));
-
-    // dispatch(like_data(id));
   };
 
   const pageChangeHandle = (value) => {
-    // const page_limit = Math.ceil(data.length / 20);
-    // setTotal(page_limit);
     setPage((prev) => prev + value);
+  };
+  const filterHandler = (e) => {
+    const { value } = e.target;
+
+    if (value === "htl") {
+      setQuery(-1);
+    } else {
+      setQuery(1);
+    }
   };
 
   useEffect(() => {
-    setSearchParams({ page });
-  }, [page]);
-
-  useEffect(() => {
-    dispatch(getData(page, query));
+    setSearchParams({ page, query });
   }, [page, query]);
 
   return (
@@ -74,16 +63,17 @@ function Product(props) {
         {/* sidebar */}
         <Box
           display={tablet ? "none" : "block"}
-          border={"1px solid blue"}
           width={"272px"}
           minWidth={"auto"}
           height={"100vh"}
-          m="30px 20px"
+          m="20px 20px"
         >
-          <Box width={"272px"} minWidth={"auto"}></Box>
+          <Box width={"272px"} minWidth={"auto"} mt="150px">
+            <Sidebar />
+          </Box>
         </Box>
         {/* product section */}
-        <Box mt={"30px"} padding={"15px"}>
+        <Box mt={"20px"} padding={"15px"}>
           <Box mt={"30px"}>
             <Heading
               padding={"10px"}
@@ -93,14 +83,13 @@ function Product(props) {
               line-height={"40px"}
               textAlign={"left"}
             >
-              Kids' Fashion & Designer Products
+              {heading}
             </Heading>
           </Box>
           <Box>
             {/* details */}
             <Text fontSize={"12.9px"} ml="1%" mt={"5px"} mb={"5px"}>
-              Shop kids' fashion with price comparison across 500+ stores in one
-              place. Discover the latest designer fashion for kids at ModeSens.
+            {details}
             </Text>
           </Box>
           <Box
@@ -111,7 +100,7 @@ function Product(props) {
           >
             <Box height={"10vh"}>
               {/* filtering */}
-              <Filter />
+              <Filter filterHandler={filterHandler} />
             </Box>
             <Box height={"10vh"}>
               {/* pagination */}
@@ -124,7 +113,7 @@ function Product(props) {
           </Box>
           <Box>
             {/* products */}
-            {isLoading && <div>Loading...</div>}
+
             <Center>
               <Box
                 display={"grid"}
@@ -136,97 +125,91 @@ function Product(props) {
                 rowGap={"2px"}
                 columnGap={"2px"}
               >
-                {data?.map((item) => (
-                  <Box
-                    key={item._id}
-                    width={"100%"}
-                    boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
-                    cursor={"pointer"}
-                    _hover={{ background: "rgba(255,255,249)" }}
-                  >
+                {data.length > 0 &&
+                  data?.map((item) => (
                     <Box
-                      position={"relative"}
-                      left="85%"
-                      top={"10px"}
-                      onClick={() => LikeProduct(item, item._id)}
+                      key={item._id}
+                      // width={"100%"}
+                      boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
+                      cursor={"pointer"}
+                      _hover={{ background: "rgba(255,255,249)" }}
                     >
-                      {like ? (
+                      <Box
+                        position={"relative"}
+                        left="85%"
+                        top={"10px"}
+                        _hover={{ color: "red" }}
+                        onClick={() => LikeProduct(item)}
+                      >
                         <Icon
                           icon="mdi:cards-heart-outline"
                           fontSize={"22px"}
-                          color="red"
                         />
-                      ) : (
-                        <Icon
-                          icon="mdi:cards-heart-outline"
-                          fontSize={"22px"}
-                        />
-                      )}
-                    </Box>
-                    <Link
-                      to={`/singleProduct/${item._id}`}
-                      state={{ from: "Kids" }}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Center>
-                        <Img
-                          width={"70%"}
-                          height={"250px"}
-                          borderRadius="40px"
-                          transition={"all 0.5s ease-in-out"}
-                          _hover={{ transform: "scale(1.5)" }}
-                          src={item.image}
-                          alt="kids_clothes"
-                        />
-                      </Center>
-                      <Box padding={"10px"} mt={"20px"}>
-                        <Center>
-                          <Heading
-                            fontSize={"14px"}
-                            fontFamily={"sans-serif"}
-                            mt={"5px"}
-                            mb={"10px"}
-                          >
-                            {item.title}
-                          </Heading>
-                        </Center>
-                        <Center>
-                          <Text
-                            fontSize={"11.9px"}
-                            fontFamily={"sans-serif"}
-                            fontWeight={"bold"}
-                            mb={"10px"}
-                            color={"grey"}
-                          >
-                            {item.details}
-                          </Text>
-                        </Center>
-                        <Center>
-                          <Text
-                            fontSize={"12.9px"}
-                            fontFamily={"sans-serif"}
-                            fontWeight={"bold"}
-                            mt={"10px"}
-                            mb={"10px"}
-                          >
-                            ${item.price}
-                          </Text>
-                        </Center>
-                        <Center>
-                          <Text
-                            fontSize={"11.9px"}
-                            fontFamily={"sans-serif"}
-                            fontWeight={"bold"}
-                            mb={"10px"}
-                            color={"grey"}
-                          >
-                            {item.compare}
-                          </Text>
-                        </Center>
                       </Box>
-                    </Link>
-                  </Box>
-                ))}
+                      <Link
+                        to={`/singleProduct/${item._id}`}
+                        state={{from:kids}}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Center>
+                          <Img
+                            width={"70%"}
+                            height={"250px"}
+                            borderRadius="40px"
+                            transition={"all 0.5s ease-in-out"}
+                            _hover={{ transform: "scale(1.5)" }}
+                            src={item.image}
+                            alt="kids_clothes"
+                          />
+                        </Center>
+                        <Box padding={"10px"} mt={"20px"}>
+                          <Center>
+                            <Heading
+                              fontSize={"14px"}
+                              fontFamily={"sans-serif"}
+                              mt={"5px"}
+                              mb={"10px"}
+                            >
+                              {item.title}
+                            </Heading>
+                          </Center>
+                          <Center>
+                            <Text
+                              fontSize={"11.9px"}
+                              fontFamily={"sans-serif"}
+                              fontWeight={"bold"}
+                              mb={"10px"}
+                              color={"grey"}
+                            >
+                              {item.details}
+                            </Text>
+                          </Center>
+                          <Center>
+                            <Text
+                              fontSize={"12.9px"}
+                              fontFamily={"sans-serif"}
+                              fontWeight={"bold"}
+                              mt={"10px"}
+                              mb={"10px"}
+                            >
+                              ${item.price}
+                            </Text>
+                          </Center>
+                          <Center>
+                            <Text
+                              fontSize={"11.9px"}
+                              fontFamily={"sans-serif"}
+                              fontWeight={"bold"}
+                              mb={"10px"}
+                              color={"grey"}
+                            >
+                              {item.compare}
+                            </Text>
+                          </Center>
+                        </Box>
+                      </Link>
+                    </Box>
+                  ))}
               </Box>
             </Center>
           </Box>

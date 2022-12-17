@@ -27,6 +27,7 @@
     margin: auto;
     display: grid;
     grid-template-columns: repeat(6,1fr);
+    column-gap: 25px;
 }
 
 .brands_div img{

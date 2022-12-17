@@ -2,7 +2,7 @@ const express = require("express");
 
 const saleRouter = express.Router();
 
-const { saleModel } = require("../../../admin/model/product_model/sale.model");
+const { saleModel } = require("../../model/product_model/sale.model");
 
 saleRouter.get("/", async (req, res) => {
   console.log(req.query);
@@ -14,6 +14,19 @@ saleRouter.get("/", async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 });
+
+saleRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const getdata = await saleModel.findById({_id:id});
+    res.send(getdata);
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
+
 
 saleRouter.post("/sale_singledata", async (req, res) => {
   try {

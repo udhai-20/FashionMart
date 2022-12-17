@@ -2,7 +2,7 @@ const express = require("express");
 
 const beautyRouter = express.Router();
 
-const { beautyModel } = require("../../../admin/model/product_model/beauty.model");
+const { beautyModel } = require("../../model/product_model/beauty.model");
 
 beautyRouter.get("/", async (req, res) => {
   console.log(req.query);
@@ -16,6 +16,20 @@ beautyRouter.get("/", async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 });
+
+
+beautyRouter.get("/:id", async(req, res)=>{
+  try{
+    const id = req.params.id;
+    const getdata = await beautyModel.findById({_id:id});
+    res.send(getdata);
+    
+  }catch(err){
+    res.status(500).send({ message: err.message });
+
+  }
+})
+
 
 beautyRouter.post("/beauty_singledata", async (req, res) => {
   try {
