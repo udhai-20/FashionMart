@@ -27,20 +27,22 @@
   .Community_div{
     margin: auto;
     margin-top: 50px;
+    cursor: pointer;
   }
 
   .Community_div .qw{
     opacity: 0;
-   width: 79%;
+   width: 80%;
+   height: 50px;
    margin: auto;
    position: relative;
    z-index: 10;
-   top:-65px;
+   top:-50px;
    display: flex;
    font-weight: bold;
    justify-content: center;align-items: center;
    font-size: 1rem;
-   background-color: transparent;
+   background-color: rgb(223, 213, 213);
    cursor: pointer;
    border: 1px solid black;
    transition: all 0.4s ease-in;
@@ -60,7 +62,8 @@
   }
 
   .desc{
-    margin-top: -50px;
+    margin-top: 0px;
+    text-align: center;
   }
 
   
@@ -81,4 +84,8 @@
   .btn button:hover{
     background-color: black;
     color: white;
+  }
+
+  .com_main_div{
+margin-bottom: 100px;
   }

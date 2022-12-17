@@ -50,7 +50,7 @@
   width: 75%;
   margin: auto;
   margin-top: 50px;
-  margin-bottom:50px;
+  margin-bottom:100px;
 }
 
 .popUp__3 {
@@ -64,6 +64,14 @@
 
   display: flex;
   flex-direction: column;
+}
+
+.popUp__3>div:nth-child(2){
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 
 
