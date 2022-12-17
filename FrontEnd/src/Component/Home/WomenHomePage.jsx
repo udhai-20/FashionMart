@@ -3,13 +3,13 @@ import Bottom from './Footer/Bottom';
 // import SignUpPopUp from "./PopUp/SignUpPopUp"
 // import SignupPopup from './PopUp/SignUpPopUp';
 // import Login from './Login/Login';
-import Featured from './Home/Featured';
-import SpecialOffers from './Home/SpecialOffers';
-import Banner from './Home/Banner';
-import ShopWomen from './Home/ShopWomen';
-import Community from './Home/Community';
-import Trending from "./Home/Trending"
-const HomePage = () => {
+import Featured from './WomenHomeComp/Featured';
+import SpecialOffers from './WomenHomeComp/SpecialOffers';
+import Banner from './WomenHomeComp/Banner';
+import ShopWomen from './WomenHomeComp/ShopWomen';
+import Community from './WomenHomeComp/Community';
+import Trending from "./WomenHomeComp/Trending"
+const WomenHomePage = () => {
   return (
     <div>
     <Banner />
@@ -24,4 +24,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default WomenHomePage;

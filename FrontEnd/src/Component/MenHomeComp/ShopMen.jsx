@@ -1,6 +1,7 @@
 import React from "react"
-import "./ShopWomen.css"
+import "./ShopMen.css"
 import { useNavigate } from "react-router-dom"
+import MenHome from "./MenHome"
 
 let shopWarr = [
     {
@@ -52,6 +53,7 @@ let shopWarr = [
 export default function ShopWomen() {
      const navigate=useNavigate()
     return (
+        <>
         <div className="shopW">
             <div>
                 <p className="feature">Shop Women</p>
@@ -70,5 +72,9 @@ export default function ShopWomen() {
 
             </div>
         </div>
+        <div>
+           <MenHome />
+          </div>
+          </>
     )
 }
