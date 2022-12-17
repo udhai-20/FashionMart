@@ -17,7 +17,7 @@ app.use(cors())
 
 app.use(express.json());
 
-app.use("/admin", adminRouter);
+app.use("/", adminRouter);
 
 app.use(authenticate);
 
@@ -26,6 +26,8 @@ app.use("/kids", kidsRouter)
 app.use("/men", menRouter)
 app.use("/women", womenRouter)
 app.use("/sale", saleRouter)
+
+
 app.listen(process.env.PORT, async ()=>{
     try{
         await connection;
