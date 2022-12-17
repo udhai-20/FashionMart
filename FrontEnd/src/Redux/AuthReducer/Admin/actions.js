@@ -118,7 +118,7 @@ const admin_Signup_req = (payload) => (dispatch) => {
     method: "post",
     baseURL: "https://fine-ant-jumper.cyclic.app",
     url: "/admin/signup",
-    // headers: { Authorization: `${"token"}` },
+    // headers: { Authorization: `${"ADMINTOKEN"}` },
     data: payload,
   })
     .then((response) => {
@@ -137,7 +137,7 @@ const admin_Login_req = (payload) => (dispatch) => {
     method: "post",
     baseURL: "https://fine-ant-jumper.cyclic.app",
     url: "/admin/login",
-    // headers: { Authorization: `${"token"}` },
+    // headers: { Authorization: `${"ADMINTOKEN"}` },
     data: payload,
   })
     .then((response) => {
@@ -157,7 +157,7 @@ const admin_ProductAdd_req = (payload) => (dispatch) => {
     method: "post",
     baseURL: `${base_Api}`,
     url: "/kids/kids_singledata",
-    headers: { Authorization: `Bearer ${getData("TOKEN")}` },
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
     data: payload,
   })
     .then((response) => {
@@ -175,8 +175,8 @@ const kids_Prod_Length = () => (dispatch) => {
   axios({
     method: "get",
     baseURL: `${base_Api}`,
-    url: "/kids",
-    headers: { Authorization: `Bearer ${getData("TOKEN")}` },
+    url: `/kids`,
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
   })
     .then((response) => {
       dispatch(get_kids_success(response.data));
@@ -193,7 +193,7 @@ const mens_Prod_Length = () => (dispatch) => {
     method: "get",
     baseURL: `${base_Api}`,
     url: "/mens",
-    headers: { Authorization: `Bearer ${getData("TOKEN")}` },
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
   })
     .then((response) => {
       dispatch(get_kids_success(response.data));
@@ -210,7 +210,7 @@ const womens_Prod_Length = () => (dispatch) => {
     method: "get",
     baseURL: `${base_Api}`,
     url: "/womens",
-    headers: { Authorization: `Bearer ${getData("TOKEN")}` },
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
   })
     .then((response) => {
       dispatch(get_womens_success(response.data));
@@ -227,7 +227,7 @@ const beauty_Prod_Length = () => (dispatch) => {
     method: "get",
     baseURL: `${base_Api}`,
     url: "/beauty",
-    headers: { Authorization: `Bearer ${getData("TOKEN")}` },
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
   })
     .then((response) => {
       dispatch(get_beauty_success(response.data));
@@ -244,7 +244,7 @@ const kids_update = (id, payload) => (dispatch) => {
     method: "put",
     baseURL: `${base_Api}`,
     url: `kids/update/${id}`,
-    headers: { Authorization: `Bearer ${getData("TOKEN")}` },
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
     data: payload,
   })
     .then((response) => {
@@ -264,10 +264,10 @@ const kids_delete = (id) => (dispatch) => {
     method: "delete",
     baseURL: `${base_Api}`,
     url: `kids/delete/${id}`,
-    headers: { Authorization: `Bearer ${getData("TOKEN")}` },
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
   })
     .then((response) => {
-      dispatch(delete_success(response));
+      dispatch(delete_success());
       dispatch(kids_Prod_Length());
     })
     .catch((err) => {

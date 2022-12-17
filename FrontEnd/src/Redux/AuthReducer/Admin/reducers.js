@@ -7,15 +7,15 @@ const initialize = {
   token: null,
   SignupData: null,
   Product: [],
-  kidsprodlen: null,
-  mensprodlen: null,
-  womensprodlen: null,
-  beautyprodlen: null,
+  kidsprod: [],
+  mensprod: [],
+  womensprod: [],
+  beautyprod: [],
 };
 
 export const adminreducer = (state = initialize, action) => {
   const { payload, type } = action;
-  console.log("payload:", payload, type);
+  // console.log("payload:", payload, type);
   switch (type) {
     //get data
     case types.GET_FAILURE_DATA: {
@@ -58,7 +58,7 @@ export const adminreducer = (state = initialize, action) => {
       return {
         ...state,
         isLoading: false,
-        kidsprodlen: payload.length,
+        kidsprod: payload,
         data: payload,
       };
     }
@@ -81,8 +81,32 @@ export const adminreducer = (state = initialize, action) => {
       return {
         ...state,
         isLoading: false,
-        mensprodlen: payload.length,
+        mensprodlen: payload,
         data: payload,
+      };
+    }
+    //beauty length get req
+
+    case types.GET_REQUEST_BEAUTY_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case types.GET_SUCCESS_BEAUTY_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        beautyprod: payload,
+        data: payload,
+      };
+    }
+    case types.GET_FAILURE_BEAUTY_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
       };
     }
     //post

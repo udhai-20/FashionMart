@@ -39,7 +39,7 @@ export default function AdminLogin() {
       dispatch(admin_Login_req(formdata));
       setFormData({ ...formdata, email: "", password: "" });
       console.log("status.SignupData.token:", status.SignupData.token);
-      saveData("TOKEN", status.SignupData.token);
+      saveData("ADMINTOKEN", status.SignupData.token);
       console.log("check", status.SignupData.message == "login successful ");
       if (status.SignupData.message == "login successful ") {
         console.log("sucess");

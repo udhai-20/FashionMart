@@ -16,7 +16,6 @@ export const reducer = (state = initialize, action) => {
         ...state,
         isLoading: false,
         isError: true,
-        data: [],
       };
     }
     case types.GET_REQUEST_DATA: {
@@ -24,7 +23,6 @@ export const reducer = (state = initialize, action) => {
         ...state,
         isLoading: true,
         isError: false,
-        data: [],
       };
     }
     case types.GET_SUCCESS_DATA: {
@@ -102,7 +100,7 @@ export const reducer = (state = initialize, action) => {
       };
     }
     default: {
-        return state
+      return state;
     }
   }
 };

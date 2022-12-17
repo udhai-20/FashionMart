@@ -34,11 +34,11 @@ function AdminDashboard(props) {
   const [womens_length, setWomens_Length] = useState(0);
   const [beauty_length, setBeauty_Length] = useState(0);
   const ProdLength = useSelector((state) => state);
-
-  let data = ProdLength?.adminreducer?.data?.length;
-  let data1 = ProdLength.adminreducer?.mensprodlen;
-  let data2 = ProdLength.adminreducer?.womensprodlen;
-  let data3 = ProdLength.adminreducer?.beautyprodlen;
+  console.log("beauty_length:", beauty_length);
+  let data = ProdLength?.adminreducer?.kidsprod.length;
+  let data1 = ProdLength.adminreducer?.mensprod;
+  let data2 = ProdLength.adminreducer?.womensprod;
+  let data3 = ProdLength.adminreducer?.beautyprod;
 
   const handle = () => {
     setKids_Length(data);
@@ -69,7 +69,7 @@ function AdminDashboard(props) {
     beautyProd_Len();
     handle();
   }, [data, data1, data2, data3]);
-  getData("TOKEN");
+
   return (
     <Container bg={"white"} maxW="85%" marginTop={"2rem"}>
       <Box
