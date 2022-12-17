@@ -26,7 +26,7 @@ export function TransitionExample({id}) {
       const myHeaders = new Headers({
            mode: 'no-cors',
           'Content-Type': 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzEyNjk3NzIsImV4cCI6MTY3MTM1NjE3Mn0.5o7W_4FPoIURun87X67jfFndkLIbkh6u41uXF-fZO14',
       });
       
       return  await fetch(`https://colorful-erin-pike.cyclic.app/cart/delete/${id}`, {

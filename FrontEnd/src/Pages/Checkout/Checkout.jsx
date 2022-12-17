@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_failure, get_request, get_success } from "../../Redux/AppReducer/Cart/action";
 import Loading from "./Loading";
+import EmptyCart from "../Cart/EmptyCart";
 
 
 // const headers = {
@@ -55,7 +56,7 @@ function Checkout(props) {
   const myHeaders = new Headers({
        mode: 'no-cors',
       'Content-Type': 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzExNzI4MDEsImV4cCI6MTY3MTI1OTIwMX0.Sw4ghiMvhCgZEFW4rvbiR_NTXZdfUveQvBbKUNcoFCY',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzljMTJhOWFjYTBmOWJmZDY2MjBmMjAiLCJpYXQiOjE2NzEyNjk3NzIsImV4cCI6MTY3MTM1NjE3Mn0.5o7W_4FPoIURun87X67jfFndkLIbkh6u41uXF-fZO14',
   });
   
   return await fetch('https://colorful-erin-pike.cyclic.app/cart', {
@@ -151,11 +152,14 @@ function Checkout(props) {
   }
 
   return (
- 
+
+    <>
+    {loading === true ? <Loading/>:
+    <>
+     {data.length === 0 ? <Container maxH="" maxW="container.xl"p="10"><EmptyCart/></Container> :
      <Container maxH="" maxW="container.xl"p="10">
-    
        <VStack alignItems="center" w={{base:"xl",md:"3xl"}} m="auto" h="full">
-       <Heading>FASHIONMART CONCIERGE</Heading>
+       <Heading size="md">FASHIONMART CONCIERGE</Heading>
        <Text>Let FashionMart determine which store fulfill your request to get the
           best price for the product you want - </Text>
           <Text>enjoy a worry-free experience
@@ -525,7 +529,11 @@ function Checkout(props) {
         </Flex> 
         
      </Container>
-      
+     }
+     </>
+      }
+     </>
+    
       
   );
 }
