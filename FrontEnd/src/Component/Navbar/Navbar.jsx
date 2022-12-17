@@ -30,11 +30,16 @@ import {
 } from "@chakra-ui/icons";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { getData } from "../Utils/customLocalstorage";
+const usertoken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
 function Navbar(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(false);
+  const [cart, cartLength] = useState(0);
   const navigate = useNavigate();
   const menu = useRef();
   const handelSearch = () => {
@@ -49,6 +54,28 @@ function Navbar(props) {
     console.log("user");
     setUser(!user);
   };
+  //for cart length in nave bar api req
+  console.log("cart:", cart);
+  const getlcartLength = () => {
+    axios({
+      method: "get",
+      baseURL: "https://colorful-erin-pike.cyclic.app",
+      url: "/cart",
+      headers: { Authorization: `Bearer ${usertoken}` },
+    })
+      .then((response) => {
+        cartLength(response.data.length);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+  useEffect(() => {
+    getlcartLength();
+  }, [cart]);
+
+  ///admin check
+  let admintoken = getData("ADMINTOKEN");
 
   return (
     <>
@@ -75,12 +102,21 @@ function Navbar(props) {
               margin={{ base: "auto", lg: "0px" }}
               display={{ base: "flex", md: "flex" }}
             >
-              <Image
-                src="https://cdn.modesens.com/static/img/20190228newlogo-black.svg"
-                color={"gray.500"}
-                width="100%"
-                onClick={() => navigate("")}
-              />
+              {admintoken ? (
+                <Image
+                  src="https://cdn.modesens.com/static/img/20190228newlogo-black.svg"
+                  color={"gray.500"}
+                  width="100%"
+                  onClick={() => navigate("/admin/dashboard")}
+                />
+              ) : (
+                <Image
+                  src="https://cdn.modesens.com/static/img/20190228newlogo-black.svg"
+                  color={"gray.500"}
+                  width="100%"
+                  onClick={() => navigate("")}
+                />
+              )}
             </Box>
             <HStack
               as={"nav"}
@@ -164,22 +200,25 @@ function Navbar(props) {
               <Box fontSize={"2xl"}>
                 <IoIosNotificationsOutline />
               </Box>
-              <Box fontSize={"2xl"} positon={"relative"}>
-                <BsBagCheck onClick={() => navigate("/cart")} />
-                <Box
-                  position={"absolute"}
-                  top="2"
-                  right={"92"}
-                  bg="red.500"
-                  width={"23px"}
-                  textAlign="center"
-                  rounded={"full"}
-                  fontSize={"sm"}
-                  color="whiteAlpha.800"
-                >
-                  1
+              {!admintoken && (
+                <Box fontSize={"2xl"} positon={"relative"}>
+                  <BsBagCheck onClick={() => navigate("/cart")} />
+
+                  <Box
+                    position={"absolute"}
+                    top="2"
+                    right={"92"}
+                    bg="red.500"
+                    width={"23px"}
+                    textAlign="center"
+                    rounded={"full"}
+                    fontSize={"sm"}
+                    color="whiteAlpha.800"
+                  >
+                    {cart}
+                  </Box>
                 </Box>
-              </Box>
+              )}
 
               <Menu>
                 <Button
@@ -189,12 +228,21 @@ function Navbar(props) {
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar
-                    size={"sm"}
-                    src={
-                      "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                    }
-                  />
+                  {admintoken ? (
+                    <Avatar
+                      size={"sm"}
+                      src={
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_pZuKOLx3vHc4VqzvQlK3tIhCI3rJMjxhm-Im0Zm-9g&s"
+                      }
+                    />
+                  ) : (
+                    <Avatar
+                      size={"sm"}
+                      src={
+                        "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                      }
+                    />
+                  )}
                 </Button>
                 {user ? (
                   <Box
@@ -262,10 +310,25 @@ function Navbar(props) {
                       >
                         Wishlist
                       </Link>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/admin/signup");
+                          setUser(!user);
+                        }}
+                      >
+                        Admin
+                      </Link>
                     </Stack>
                   </Box>
                 ) : null}
               </Menu>
+
               {open ? (
                 <Box
                   position={"absolute"}
@@ -300,22 +363,24 @@ function Navbar(props) {
           {/* ///small screen details mobile screen right side navbar*/}
           <Flex alignItems={"center"} display={{ md: "none" }}>
             <HStack spacing={5} alignItems={"center"}>
-              <Box fontSize={"xl"} positon={"relative"}>
-                <BsBagCheck onClick={() => navigate("/cart")} />
-                <Box
-                  position={"absolute"}
-                  top="2"
-                  right={"92"}
-                  bg="red.500"
-                  width={"23px"}
-                  textAlign="center"
-                  rounded={"full"}
-                  fontSize={"sm"}
-                  color="whiteAlpha.800"
-                >
-                  1
+              {!admintoken && (
+                <Box fontSize={"xl"} positon={"relative"}>
+                  <BsBagCheck onClick={() => navigate("/cart")} />
+                  <Box
+                    position={"absolute"}
+                    top="2"
+                    right={"92"}
+                    bg="red.500"
+                    width={"23px"}
+                    textAlign="center"
+                    rounded={"full"}
+                    fontSize={"sm"}
+                    color="whiteAlpha.800"
+                  >
+                    {cart}
+                  </Box>
                 </Box>
-              </Box>
+              )}
 
               <Menu>
                 <Button
@@ -325,12 +390,21 @@ function Navbar(props) {
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar
-                    size={"sm"}
-                    src={
-                      "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                    }
-                  />
+                  {admintoken ? (
+                    <Avatar
+                      size={"sm"}
+                      src={
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_pZuKOLx3vHc4VqzvQlK3tIhCI3rJMjxhm-Im0Zm-9g&s"
+                      }
+                    />
+                  ) : (
+                    <Avatar
+                      size={"sm"}
+                      src={
+                        "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                      }
+                    />
+                  )}
                 </Button>
                 {user ? (
                   <Box
@@ -398,6 +472,20 @@ function Navbar(props) {
                         }}
                       >
                         Wishlist
+                      </Link>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/admin/signup");
+                          setUser(!user);
+                        }}
+                      >
+                        Admin
                       </Link>
                     </Stack>
                   </Box>

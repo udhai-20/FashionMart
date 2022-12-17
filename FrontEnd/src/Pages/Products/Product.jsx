@@ -2,12 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { getData } from "../../Redux/AppReducer/Product/action";
-import {addlikedata} from '../../Redux/AppReducer/LikedProduct/action';
+import { addlikedata } from "../../Redux/AppReducer/LikedProduct/action";
 import { Link, useSearchParams } from "react-router-dom";
-import {like_data} from "../../Redux/AppReducer/Product/action";
+import { like_data } from "../../Redux/AppReducer/Product/action";
 
 import Pagination from "./Pagination";
-import Filter from './Filter';
+import Filter from "./Filter";
 
 import {
   Box,
@@ -22,12 +22,12 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 function Product(props) {
   const [tablet] = useMediaQuery("(max-width: 768px)");
-  const [searchparams, setSearchParams] = useSearchParams()
+  const [searchparams, setSearchParams] = useSearchParams();
   const [like, setLike] = useState(false);
   const dispatch = useDispatch();
-  const [page, setPage]  = useState(1);
+  const [page, setPage] = useState(1);
   const [total, setTotal] = useState(3);
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState("");
   const { data, isLoading, isError } = useSelector((state) => {
     return {
       data: state.productreducer.data,
@@ -39,14 +39,14 @@ function Product(props) {
   console.log(data);
 
   const LikeProduct = (item, id) => {
-    const payload ={
-      "image": item.image,
-      "title": item.title,
-      "details": item.details,
-      "offers":item.offers || "",
-      "price":item.price,
-      "quantity":item.quantity,
-      "compare": item.compare,
+    const payload = {
+      image: item.image,
+      title: item.title,
+      details: item.details,
+      offers: item.offers || "",
+      price: item.price,
+      quantity: item.quantity,
+      compare: item.compare,
     };
     // console.log(payload)
     dispatch(addlikedata(payload));
@@ -54,22 +54,19 @@ function Product(props) {
     // dispatch(like_data(id));
   };
 
-  const pageChangeHandle=(value)=>{
+  const pageChangeHandle = (value) => {
     // const page_limit = Math.ceil(data.length / 20);
     // setTotal(page_limit);
-    setPage(prev => prev + value);
+    setPage((prev) => prev + value);
+  };
 
-  }
-
-
-  useEffect(()=>{
-    setSearchParams({page})
-  },[page])
+  useEffect(() => {
+    setSearchParams({ page });
+  }, [page]);
 
   useEffect(() => {
     dispatch(getData(page, query));
   }, [page, query]);
-
 
   return (
     <Box>
@@ -114,16 +111,14 @@ function Product(props) {
           >
             <Box height={"10vh"}>
               {/* filtering */}
-              <Filter
-              
-              />
+              <Filter />
             </Box>
             <Box height={"10vh"}>
               {/* pagination */}
-              <Pagination 
-              pageChangeHandle={pageChangeHandle}
-              currentPage={page}
-              totalPages={total}
+              <Pagination
+                pageChangeHandle={pageChangeHandle}
+                currentPage={page}
+                totalPages={total}
               />
             </Box>
           </Box>
@@ -153,7 +148,7 @@ function Product(props) {
                       position={"relative"}
                       left="85%"
                       top={"10px"}
-                      onClick={()=>LikeProduct(item, item._id)}
+                      onClick={() => LikeProduct(item, item._id)}
                     >
                       {like ? (
                         <Icon
@@ -168,7 +163,11 @@ function Product(props) {
                         />
                       )}
                     </Box>
-                    <Link to={`/singleProduct/${item._id}`} style={{textDecoration:"none"}}>
+                    <Link
+                      to={`/singleProduct/${item._id}`}
+                      state={{ from: "Kids" }}
+                      style={{ textDecoration: "none" }}
+                    >
                       <Center>
                         <Img
                           width={"70%"}
@@ -186,8 +185,7 @@ function Product(props) {
                             fontSize={"14px"}
                             fontFamily={"sans-serif"}
                             mt={"5px"}
-                            mb={"10px"} 
-            
+                            mb={"10px"}
                           >
                             {item.title}
                           </Heading>

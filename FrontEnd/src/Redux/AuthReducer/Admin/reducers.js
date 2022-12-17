@@ -15,7 +15,7 @@ const initialize = {
 
 export const adminreducer = (state = initialize, action) => {
   const { payload, type } = action;
-  console.log("payload:", payload, type);
+  // console.log("payload:", payload, type);
   switch (type) {
     //get data
     case types.GET_FAILURE_DATA: {
@@ -83,6 +83,30 @@ export const adminreducer = (state = initialize, action) => {
         isLoading: false,
         mensprodlen: payload,
         data: payload,
+      };
+    }
+    //beauty length get req
+
+    case types.GET_REQUEST_BEAUTY_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case types.GET_SUCCESS_BEAUTY_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        beautyprod: payload,
+        data: payload,
+      };
+    }
+    case types.GET_FAILURE_BEAUTY_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
       };
     }
     //post

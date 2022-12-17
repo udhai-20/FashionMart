@@ -16,7 +16,7 @@ import { useToast } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { admin_Signup_req } from "../../Redux/AuthReducer/Admin/actions";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const initial = {
   email: "",
@@ -84,8 +84,18 @@ export default function AdminSignup() {
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Admin Signup</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
+            Already Have A accrount
+            <Button
+              color={"blue.500"}
+              variant="link"
+              textStyle={"none"}
+              marginLeft="10px"
+              onClick={() => navigate("/admin/login")}
+            >
+              Login
+            </Button>
           </Text>
+          |
         </Stack>
         <Box
           rounded={"lg"}
