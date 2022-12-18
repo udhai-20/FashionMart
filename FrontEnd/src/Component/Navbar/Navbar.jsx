@@ -30,18 +30,24 @@ import {
 } from "@chakra-ui/icons";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getData } from "../Utils/customLocalstorage";
+import { cart_length } from "../../Redux/AppReducer/SingleProduct/action";
 const usertoken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
 function Navbar(props) {
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(false);
   const [cart, cartLength] = useState(0);
   const navigate = useNavigate();
   const menu = useRef();
+  const length = useSelector(
+    (state) => state.singleproductreducer.navbarcartlength.length
+  );
+  console.log("length:", length);
   const handelSearch = () => {
     console.log("clicked");
     setOpen(!open);
@@ -56,22 +62,9 @@ function Navbar(props) {
   };
   //for cart length in nave bar api req
   console.log("cart:", cart);
-  const getlcartLength = () => {
-    axios({
-      method: "get",
-      baseURL: "https://colorful-erin-pike.cyclic.app",
-      url: "/cart",
-      headers: { Authorization: `Bearer ${usertoken}` },
-    })
-      .then((response) => {
-        cartLength(response.data.length);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
+
   useEffect(() => {
-    getlcartLength();
+    dispatch(cart_length(usertoken));
   }, [cart]);
 
   ///admin check
@@ -215,7 +208,7 @@ function Navbar(props) {
                     fontSize={"sm"}
                     color="whiteAlpha.800"
                   >
-                    {cart}
+                    {length}
                   </Box>
                 </Box>
               )}
@@ -377,7 +370,7 @@ function Navbar(props) {
                     fontSize={"sm"}
                     color="whiteAlpha.800"
                   >
-                    {cart}
+                    {length}
                   </Box>
                 </Box>
               )}
