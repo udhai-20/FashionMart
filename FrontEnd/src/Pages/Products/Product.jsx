@@ -5,6 +5,7 @@ import { addlikedata } from "../../Redux/AppReducer/LikedProduct/action";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useSearchParams } from "react-router-dom";
+import {addRecentdata} from '../../Redux/AppReducer/recentView/action';
 import Pagination from "./Pagination";
 import Filter from "./Filter";
 
@@ -48,18 +49,6 @@ function Product({
     dispatch(addlikedata(payload));
   };
 
-  const recentViewHandler = (item) => {
-    const payload = {
-      image: item.image,
-      title: item.title,
-      details: item.details,
-      offers: item.offers || "",
-      price: item.price,
-      quantity: item.quantity,
-      compare: item.compare,
-    };
-    // dispatch(addRecentdata(payload));
-  };
   const pageChangeHandle = (value) => {
     setPage((prev) => prev + value);
   };
@@ -152,7 +141,7 @@ function Product({
                       boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
                       cursor={"pointer"}
                       _hover={{ background: "rgba(255,255,249)" }}
-                      onClick={() => recentViewHandler(item)}
+                    
                     >
                       <Box
                         position={"relative"}
