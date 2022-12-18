@@ -1,3 +1,4 @@
+import { getData } from "../../../Component/Utils/customLocalstorage";
 import * as types from "./actionType";
 import axios from "axios";
 
@@ -39,8 +40,8 @@ const delete_success = () => ({
 const delete_failure = () => ({
   type: types.DELETE_FAILURE_DATA,
 });
-const usertoken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
+const usertoken = getData("token");
+console.log("usertoken:", usertoken);
 export const addlikedata = (payload) => (dispatch) => {
   // console.log(payload)
   dispatch(post_request);
@@ -60,7 +61,7 @@ export const addlikedata = (payload) => (dispatch) => {
 };
 
 /////like get request
-const getlikedata = (usertoken) => (dispatch) => {
+const getlikedata = () => (dispatch) => {
   // console.log(payload)
   dispatch(get_request());
   axios({
@@ -78,7 +79,7 @@ const getlikedata = (usertoken) => (dispatch) => {
 };
 
 //like deleteData
-const getlikeDeletedata = (id, usertoken) => (dispatch) => {
+const getlikeDeletedata = (id) => (dispatch) => {
   dispatch(delete_request());
   axios({
     method: "delete",

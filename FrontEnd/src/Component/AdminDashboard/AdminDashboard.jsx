@@ -36,10 +36,10 @@ function AdminDashboard(props) {
   const ProdLength = useSelector((state) => state);
   console.log("beauty_length:", beauty_length);
   let data = ProdLength?.adminreducer?.kidsprod.length;
-  let data1 = ProdLength.adminreducer?.mensprod;
-  let data2 = ProdLength.adminreducer?.womensprod;
-  let data3 = ProdLength.adminreducer?.beautyprod;
-
+  let data1 = ProdLength.adminreducer?.mensprod.length;
+  let data2 = ProdLength.adminreducer?.womensprod.length;
+  let data3 = ProdLength.adminreducer?.beautyprod.length;
+  console.log(data1, "mens");
   const handle = () => {
     setKids_Length(data);
     setMens_Length(data1);

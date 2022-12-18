@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
+import firebase from "../../Service/firebase";
+import { auth } from "../../Service/firebase";
 import {
   Box,
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -12,15 +13,20 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Link,
   ScaleFade,
   Image,
   InputRightElement,
   Input,
   InputGroup,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { BsBagCheck } from "react-icons/bs";
 import logo from "../Images/FashionMart.png";
+import { FaRegUser } from "react-icons/fa";
 import {
   HamburgerIcon,
   CloseIcon,
@@ -28,17 +34,25 @@ import {
   CheckIcon,
   Search2Icon,
 } from "@chakra-ui/icons";
+import Login from "../../Pages/Login/Login";
+
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getData } from "../Utils/customLocalstorage";
 import { cart_length } from "../../Redux/AppReducer/SingleProduct/action";
-const usertoken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
+
 function Navbar(props) {
+  const [username, setUsername] = useState(null);
   const dispatch = useDispatch();
+  const [prod, setProd] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isSecondModalOpen,
+    onOpen: onSecondModalOpen,
+    onClose: onSecondModalClose,
+  } = useDisclosure();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(false);
   const [cart, cartLength] = useState(0);
@@ -62,14 +76,19 @@ function Navbar(props) {
   };
   //for cart length in nave bar api req
   console.log("cart:", cart);
-
+  const usertoken = getData("token");
   useEffect(() => {
     dispatch(cart_length(usertoken));
   }, [cart]);
-
   ///admin check
   let admintoken = getData("ADMINTOKEN");
-
+  //firbase
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      setUsername(user);
+    });
+  }, []);
+  console.log(username);
   return (
     <>
       <Box
@@ -84,10 +103,10 @@ function Navbar(props) {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            icon={prod ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
             display={{ lg: "none" }}
-            onClick={isOpen ? onClose : onOpen}
+            onClick={() => setProd(!prod)}
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box
@@ -111,81 +130,140 @@ function Navbar(props) {
                 />
               )}
             </Box>
-            <HStack
-              as={"nav"}
-              fontWeight="500"
-              fontSize={"small"}
-              spacing={4}
-              display={{ base: "none", lg: "flex" }}
-            >
-              <Link
-                px={2}
-                py={1}
-                rounded={"md"}
-                _hover={{
-                  textDecoration: "underline",
-                }}
-                onClick={() => navigate("/women")}
+            {admintoken ? (
+              <HStack
+                as={"nav"}
+                fontWeight="500"
+                fontSize={"small"}
+                spacing={4}
+                display={{ base: "none", lg: "flex" }}
               >
-                WOMENS
-              </Link>
-              <Link
-                px={2}
-                py={1}
-                rounded={"md"}
-                _hover={{
-                  textDecoration: "underline",
-                }}
-                onClick={() => navigate("/men")}
+                <NavLink
+                  to="/admin/collection"
+                  state={{ from: "Womens" }}
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                >
+                  WOMENS
+                </NavLink>
+                <NavLink
+                  to="/admin/collection"
+                  state={{ from: "Mens" }}
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                >
+                  MENS
+                </NavLink>
+                <NavLink
+                  to="/admin/collection"
+                  state={{ from: "Beauty" }}
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                >
+                  BEAUTY
+                </NavLink>
+                <NavLink
+                  to="/admin/collection"
+                  state={{ from: "Kids" }}
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                >
+                  KIDS
+                </NavLink>
+              </HStack>
+            ) : (
+              <HStack
+                as={"nav"}
+                fontWeight="500"
+                fontSize={"small"}
+                spacing={4}
+                display={{ base: "none", lg: "flex" }}
               >
-                MENS
-              </Link>
-              <Link
-                px={2}
-                py={1}
-                rounded={"md"}
-                _hover={{
-                  textDecoration: "underline",
-                }}
-                onClick={() => navigate("/beauty")}
-              >
-                BEAUTY
-              </Link>
-              <Link
-                px={2}
-                py={1}
-                rounded={"md"}
-                _hover={{
-                  textDecoration: "underline",
-                }}
-                onClick={() => navigate("/kids")}
-              >
-                KIDS
-              </Link>
-              <Link
-                px={2}
-                py={1}
-                rounded={"md"}
-                _hover={{
-                  textDecoration: "underline",
-                }}
-                onClick={() => navigate("/product")}
-              >
-                HOME
-              </Link>
-              <Link
-                px={2}
-                py={1}
-                rounded={"md"}
-                color
-                _hover={{
-                  textDecoration: "underline",
-                }}
-                onClick={() => navigate("/sale")}
-              >
-                SALE
-              </Link>
-            </HStack>
+                <Link
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => navigate("/women")}
+                >
+                  WOMENS
+                </Link>
+                <Link
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => navigate("/men")}
+                >
+                  MENS
+                </Link>
+                <Link
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => navigate("/beauty")}
+                >
+                  BEAUTY
+                </Link>
+                <Link
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => navigate("/kids")}
+                >
+                  KIDS
+                </Link>
+                <Link
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => navigate("")}
+                >
+                  HOME
+                </Link>
+                <Link
+                  px={2}
+                  py={1}
+                  rounded={"md"}
+                  color
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => navigate("/sale")}
+                >
+                  SALE
+                </Link>
+              </HStack>
+            )}
           </HStack>
           <Flex alignItems={"center"} display={{ base: "none", md: "flex" }}>
             <HStack spacing={5} alignItems={"center"}>
@@ -212,41 +290,68 @@ function Navbar(props) {
                   </Box>
                 </Box>
               )}
-
-              <Menu>
-                <Button
-                  onClick={handleUser}
-                  rounded={"full"}
-                  variant={"link"}
-                  cursor={"pointer"}
-                  minW={0}
-                >
-                  {admintoken ? (
-                    <Avatar
-                      size={"sm"}
-                      src={
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_pZuKOLx3vHc4VqzvQlK3tIhCI3rJMjxhm-Im0Zm-9g&s"
-                      }
+              {username ? (
+                <Menu isOpen={isOpen}>
+                  <MenuButton onMouseEnter={onOpen} onMouseLeave={onClose}>
+                    <Image
+                      width="30px"
+                      height="30px"
+                      borderRadius={"50%"}
+                      src={username.photoURL}
                     />
-                  ) : (
-                    <Avatar
-                      size={"sm"}
-                      src={
-                        "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                      }
-                    />
-                  )}
-                </Button>
-                {user ? (
-                  <Box
-                    pb={4}
-                    bg="gray.100"
-                    position={"absolute"}
-                    right="30px"
-                    top={"60px"}
-                    width={{ base: "20%", lg: "15%" }}
+                  </MenuButton>
+                  <MenuList
+                    width={"200px"}
+                    borderRadius="10px"
+                    onMouseEnter={onOpen}
+                    onMouseLeave={onClose}
                   >
-                    <Stack spacing={"4"}>
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/profile");
+                          setUser(!user);
+                        }}
+                      >
+                        {username.displayName}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          auth.signOut();
+                          window.location.reload();
+                        }}
+                      >
+                        Sign Out
+                      </Link>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              ) : (
+                <Menu isOpen={isOpen}>
+                  <MenuButton onMouseEnter={onOpen} onMouseLeave={onClose}>
+                    <FaRegUser size={23} />
+                  </MenuButton>
+                  <MenuList
+                    width={"200px"}
+                    borderRadius="10px"
+                    onMouseEnter={onOpen}
+                    onMouseLeave={onClose}
+                  >
+                    <MenuItem>
                       <Link
                         px={2}
                         py={1}
@@ -261,6 +366,8 @@ function Navbar(props) {
                       >
                         Profile
                       </Link>
+                    </MenuItem>
+                    <MenuItem>
                       <Link
                         px={2}
                         py={1}
@@ -268,13 +375,15 @@ function Navbar(props) {
                         _hover={{
                           textDecoration: "underline",
                         }}
-                        onClick={() => {
-                          logout();
-                          setUser(!user);
-                        }}
+                        // onClick={() => {
+
+                        //   setUser(!user);
+                        // }}
                       >
-                        Logout
+                        <Login />
                       </Link>
+                    </MenuItem>
+                    <MenuItem>
                       <Link
                         px={2}
                         py={1}
@@ -289,6 +398,8 @@ function Navbar(props) {
                       >
                         Orders
                       </Link>
+                    </MenuItem>
+                    <MenuItem>
                       <Link
                         px={2}
                         py={1}
@@ -303,6 +414,8 @@ function Navbar(props) {
                       >
                         Wishlist
                       </Link>
+                    </MenuItem>
+                    <MenuItem>
                       <Link
                         px={2}
                         py={1}
@@ -317,10 +430,10 @@ function Navbar(props) {
                       >
                         Admin
                       </Link>
-                    </Stack>
-                  </Box>
-                ) : null}
-              </Menu>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              )}
 
               {open ? (
                 <Box
@@ -375,119 +488,99 @@ function Navbar(props) {
                 </Box>
               )}
 
-              <Menu>
-                <Button
-                  onClick={handleUser}
-                  rounded={"full"}
-                  variant={"link"}
-                  cursor={"pointer"}
-                  minW={0}
+              <Menu isOpen={isOpen}>
+                <MenuButton onMouseEnter={onOpen} onMouseLeave={onClose}>
+                  <FaRegUser size={23} />
+                </MenuButton>
+                <MenuList
+                  width={"200px"}
+                  borderRadius="10px"
+                  onMouseEnter={onOpen}
+                  onMouseLeave={onClose}
                 >
-                  {admintoken ? (
-                    <Avatar
-                      size={"sm"}
-                      src={
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_pZuKOLx3vHc4VqzvQlK3tIhCI3rJMjxhm-Im0Zm-9g&s"
-                      }
-                    />
-                  ) : (
-                    <Avatar
-                      size={"sm"}
-                      src={
-                        "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                      }
-                    />
-                  )}
-                </Button>
-                {user ? (
-                  <Box
-                    pb={4}
-                    bg="gray.100"
-                    position={"absolute"}
-                    right="0px"
-                    zIndex={"10"}
-                    top={"68px"}
-                    width={"100%"}
-                  >
-                    <Stack spacing={"4"}>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/profile");
-                          setUser(!user);
-                        }}
-                      >
-                        Profile
-                      </Link>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          logout();
-                          setUser(!user);
-                        }}
-                      >
-                        Logout
-                      </Link>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/order");
-                          setUser(!user);
-                        }}
-                      >
-                        Orders
-                      </Link>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/wishlist");
-                          setUser(!user);
-                        }}
-                      >
-                        Wishlist
-                      </Link>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/admin/signup");
-                          setUser(!user);
-                        }}
-                      >
-                        Admin
-                      </Link>
-                    </Stack>
-                  </Box>
-                ) : null}
+                  <MenuItem>
+                    <Link
+                      px={2}
+                      py={1}
+                      rounded={"md"}
+                      _hover={{
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => {
+                        navigate("/profile");
+                        setUser(!user);
+                      }}
+                    >
+                      Profile
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      px={2}
+                      py={1}
+                      rounded={"md"}
+                      _hover={{
+                        textDecoration: "underline",
+                      }}
+                      // onClick={() => {
 
-                {/* <MenuItem>LogOut</MenuItem>
-                  <MenuDivider />
-                  <MenuItem>Orders</MenuItem> */}
+                      //   setUser(!user);
+                      // }}
+                    >
+                      <Login />
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      px={2}
+                      py={1}
+                      rounded={"md"}
+                      _hover={{
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => {
+                        navigate("/order");
+                        setUser(!user);
+                      }}
+                    >
+                      Orders
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      px={2}
+                      py={1}
+                      rounded={"md"}
+                      _hover={{
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => {
+                        navigate("/wishlist");
+                        setUser(!user);
+                      }}
+                    >
+                      Wishlist
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      px={2}
+                      py={1}
+                      rounded={"md"}
+                      _hover={{
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => {
+                        navigate("/admin/signup");
+                        setUser(!user);
+                      }}
+                    >
+                      Admin
+                    </Link>
+                  </MenuItem>
+                </MenuList>
               </Menu>
+
               {open ? (
                 <Box
                   position={"absolute"}
@@ -517,8 +610,8 @@ function Navbar(props) {
         </Flex>
 
         {/* ///side bars */}
-        {isOpen ? (
-          <ScaleFade initialScale={0.6} in={isOpen}>
+        {prod && (
+          <ScaleFade initialScale={0.6} in={onSecondModalOpen}>
             <Box
               pb={4}
               width={{ base: "100%", md: "30%" }}
@@ -539,7 +632,7 @@ function Navbar(props) {
                   }}
                   onClick={() => {
                     onClose();
-                    navigate("/product");
+                    navigate("/women");
                   }}
                 >
                   WOMENS
@@ -553,7 +646,7 @@ function Navbar(props) {
                   }}
                   onClick={() => {
                     onClose();
-                    navigate("/product");
+                    navigate("/men");
                   }}
                 >
                   MENS
@@ -567,7 +660,7 @@ function Navbar(props) {
                   }}
                   onClick={() => {
                     onClose();
-                    navigate("/product");
+                    navigate("/beauty");
                   }}
                 >
                   BEAUTY
@@ -581,7 +674,7 @@ function Navbar(props) {
                   }}
                   onClick={() => {
                     onClose();
-                    navigate("/product");
+                    navigate("/kids");
                   }}
                 >
                   KIDS
@@ -595,7 +688,7 @@ function Navbar(props) {
                   }}
                   onClick={() => {
                     onClose();
-                    navigate("/product");
+                    navigate("");
                   }}
                 >
                   HOME
@@ -610,7 +703,7 @@ function Navbar(props) {
                   }}
                   onClick={() => {
                     onClose();
-                    navigate("/product");
+                    navigate("/sale");
                   }}
                 >
                   SALE
@@ -618,10 +711,188 @@ function Navbar(props) {
               </Stack>
             </Box>
           </ScaleFade>
-        ) : null}
+        )}
       </Box>
     </>
   );
 }
 
 export default Navbar;
+// {prod && !admintoken ? (
+//   <ScaleFade initialScale={0.6} in={onSecondModalOpen}>
+//     <Box
+//       pb={4}
+//       width={{ base: "100%", md: "30%" }}
+//       bg="gray.100"
+//       zIndex={"2"}
+//       position={"absolute"}
+//       left="0px"
+//       display={{ lg: "none", base: "flex" }}
+//       height={{ base: "auto", md: "100vh" }}
+//     >
+//       <Stack spacing={"4"}>
+//         <Link
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onClose();
+//             navigate("/women");
+//           }}
+//         >
+//           WOMENS
+//         </Link>
+//         <Link
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onClose();
+//             navigate("/men");
+//           }}
+//         >
+//           MENS
+//         </Link>
+//         <Link
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onClose();
+//             navigate("/beauty");
+//           }}
+//         >
+//           BEAUTY
+//         </Link>
+//         <Link
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onClose();
+//             navigate("/kids");
+//           }}
+//         >
+//           KIDS
+//         </Link>
+//         <Link
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onClose();
+//             navigate("");
+//           }}
+//         >
+//           HOME
+//         </Link>
+//         <Link
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           color
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onClose();
+//             navigate("/sale");
+//           }}
+//         >
+//           SALE
+//         </Link>
+//       </Stack>
+//     </Box>
+//   </ScaleFade>
+// ) : (
+//   <ScaleFade initialScale={0.6} in={onSecondModalOpen}>
+//     <Box
+//       pb={4}
+//       width={{ base: "100%", md: "30%" }}
+//       bg="gray.100"
+//       zIndex={"2"}
+//       position={"absolute"}
+//       left="0px"
+//       display={{ lg: "none", base: "flex" }}
+//       height={{ base: "auto", md: "100vh" }}
+//     >
+//       <Stack spacing={"4"}>
+//         <NavLink
+//           to="/admin/collection"
+//           state={{ from: "Womens" }}
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onSecondModalClose();
+//           }}
+//         >
+//           WOMENS
+//         </NavLink>
+//         <NavLink
+//           to="/admin/collection"
+//           state={{ from: "Mens" }}
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onSecondModalClose();
+//           }}
+//         >
+//           MENS
+//         </NavLink>
+//         <NavLink
+//           to="/admin/collection"
+//           state={{ from: "Beauty" }}
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onSecondModalClose();
+//           }}
+//         >
+//           BEAUTY
+//         </NavLink>
+//         <NavLink
+//           to="/admin/collection"
+//           state={{ from: "Kids" }}
+//           px={2}
+//           py={1}
+//           rounded={"md"}
+//           _hover={{
+//             textDecoration: "underline",
+//           }}
+//           onClick={() => {
+//             onSecondModalClose();
+//           }}
+//         >
+//           KIDS
+//         </NavLink>
+//       </Stack>
+//     </Box>
+//   </ScaleFade>
+// )}

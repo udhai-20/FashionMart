@@ -18,7 +18,13 @@ import {
   Toast,
   useToast,
 } from "@chakra-ui/react";
-import { admin_ProductAdd_req } from "../../Redux/AuthReducer/Admin/actions";
+import {
+  admin_ProductAdd_req,
+  admin_ProductAdd_req_beauty,
+  admin_ProductAdd_req_mens,
+  admin_ProductAdd_req_womens,
+  mens_Prod_Length,
+} from "../../Redux/AuthReducer/Admin/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../Utils/customLocalstorage";
 const initial = {
@@ -40,19 +46,18 @@ function AdminAddDatas({ val }) {
     const { name, value } = e.target;
     setFormData({ ...formdata, [name]: value });
   };
-  // console.log("value", val);
+  console.log("value", val);
   const handleSubmit = () => {
     // console.log("click");
     // console.log("formdata:", formdata);
     if (
       image !== "" &&
       title !== "" &&
-      detail !== "" &&
+      details !== "" &&
       price !== "" &&
       quantity !== "" &&
       compare !== ""
     ) {
-      onClose();
       if (val == "Kids") {
         dispatch(admin_ProductAdd_req(formdata));
         setFormData({
@@ -61,10 +66,51 @@ function AdminAddDatas({ val }) {
           title: "",
           offer: "",
           price: "",
-          detail: "",
+          details: "",
           quantity: "",
           compare: "",
         });
+        onClose();
+      } else if (val == "Beauty") {
+        dispatch(admin_ProductAdd_req_beauty(formdata));
+        setFormData({
+          ...formdata,
+          image: "",
+          title: "",
+          offer: "",
+          price: "",
+          details: "",
+          quantity: "",
+          compare: "",
+        });
+        onClose();
+      } else if (val == "Womens") {
+        dispatch(admin_ProductAdd_req_womens(formdata));
+        setFormData({
+          ...formdata,
+          image: "",
+          title: "",
+          offer: "",
+          price: "",
+          details: "",
+          quantity: "",
+          compare: "",
+        });
+        onClose();
+      } else if (val == "Mens") {
+        console.log(val);
+        dispatch(admin_ProductAdd_req_mens(formdata));
+        setFormData({
+          ...formdata,
+          image: "",
+          title: "",
+          offer: "",
+          price: "",
+          details: "",
+          quantity: "",
+          compare: "",
+        });
+        onClose();
       } else {
         toast({
           position: "top",
@@ -86,7 +132,7 @@ function AdminAddDatas({ val }) {
       });
     }
   };
-  const { image, title, detail, offer, price, quantity, compare } = formdata;
+  const { image, title, details, offer, price, quantity, compare } = formdata;
 
   return (
     <>
@@ -127,8 +173,8 @@ function AdminAddDatas({ val }) {
               <FormControl>
                 <FormLabel>details</FormLabel>
                 <Input
-                  value={detail}
-                  name="detail"
+                  value={details}
+                  name="details"
                   onChange={handleCatch}
                   placeholder="Enter the details"
                 />

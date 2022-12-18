@@ -12,13 +12,20 @@ import {
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import {
+  beauty_Prod_Length,
+  beauty_delete,
   kids_Prod_Length,
   kids_delete,
   kids_update,
+  mens_Prod_Length,
+  mens_delete,
+  womens_Prod_Length,
+  womens_delete,
 } from "../../Redux/AuthReducer/Admin/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import AdminEditData from "../AdminEditData/AdminEditData";
+import Pagination from "../../Pages/Products/Pagination";
 
 function AdminCollection() {
   const location = useLocation();
@@ -26,13 +33,14 @@ function AdminCollection() {
   const { from } = location.state;
   console.log("from:", from);
   const [data, setData] = useState([]);
-
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(3);
+  const [query, setQuery] = useState("");
   const kids = useSelector((state) => state.adminreducer.kidsprod);
-
-  const womens = useSelector((state) => state.adminreducer.womenprod);
-  const mens = useSelector((state) => state.adminreducer.mensuprod);
+  const womens = useSelector((state) => state.adminreducer.womensprod);
+  const mens = useSelector((state) => state.adminreducer.mensprod);
   const beauty = useSelector((state) => state.adminreducer.beautyprod);
-
+  console.log("women", womens);
   if (from == "Womens") {
     var product = womens;
   } else if (from == "Mens") {
@@ -42,25 +50,53 @@ function AdminCollection() {
   } else {
     var product = kids;
   }
+  const beautyProd_Len = () => {
+    dispatch(beauty_Prod_Length());
+  };
+  const kidsProd_Len = () => {
+    dispatch(kids_Prod_Length());
+  };
+  const mensProd_Len = () => {
+    dispatch(mens_Prod_Length());
+  };
 
-  const kidsProd_Len = () => {};
+  const womensProd_Len = () => {
+    dispatch(womens_Prod_Length());
+  };
 
   const handleDelete = (id) => {
     console.log("id:", id);
     if (from == "Kids") {
       dispatch(kids_delete(id));
     } else if (from == "Womens") {
-      console.log("womens");
+      dispatch(womens_delete(id));
     } else if (from == "Mens") {
-      console.log("Mens");
+      dispatch(mens_delete(id));
     } else if (from == "Beauty") {
-      console.log("Beauty");
+      dispatch(beauty_delete(id));
     }
   };
-  console.log("checking", from);
+
+  const pageChangeHandle = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    beautyProd_Len();
+    kidsProd_Len();
+    mensProd_Len();
+    womensProd_Len();
+  }, []);
 
   return (
     <Container maxW="90%" marginTop={"20px"}>
+      <Box>
+        <Pagination
+          pageChangeHandle={pageChangeHandle}
+          currentPage={page}
+          totalPages={total}
+        />
+      </Box>
       <Box>
         <Text fontSize={"1.3rem"} fontWeight="600">
           {from}-Section

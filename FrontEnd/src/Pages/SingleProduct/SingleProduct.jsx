@@ -31,7 +31,7 @@ import {
   getsingleData_mens,
   getsingleData_women,
 } from "../../Redux/AppReducer/SingleProduct/action";
-
+import { getData } from "../../Component/Utils/customLocalstorage";
 // const data_1 = [
 //   {
 //     title: "WAVE",
@@ -88,9 +88,7 @@ function SingleProduct(props) {
   // console.log("product:", product);
   const { id } = useParams();
   // console.log("id:", id);
-  const usertoken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
-
+  const usertoken = getData("token");
   // get req for single page
   const fet_data_kids = () => {
     dispatch(getsingleData_kids(id, usertoken));

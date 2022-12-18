@@ -6,87 +6,118 @@ import {
   // ModalFooter,
   // ModalBody,
   ModalCloseButton,
-} from '@chakra-ui/modal';
-import React, { useState } from "react"
-import styles from "./Login.module.css"
-import {useNavigate} from "react-router-dom"
-import {Button,useDisclosure} from "@chakra-ui/react"
+} from "@chakra-ui/modal";
+import { Box } from "@chakra-ui/react";
+import React, { useState } from "react";
+import styles from "./Login.module.css";
+import { useNavigate } from "react-router-dom";
+import { Button, useDisclosure } from "@chakra-ui/react";
+import { signupdata, logindata } from "../../Redux/AuthReducer/users/actions";
+import { useDispatch } from "react-redux";
+import { getData, saveData } from "../../Component/Utils/customLocalstorage";
+import { useSelector } from "react-redux";
+import { Link } from "@chakra-ui/react";
+import { signInWithGoogle } from "../../Service/firebase";
 
-
-export default function Login(){
-
-  
-  const navigate=useNavigate()
-  const [user,setUser] = useState(true)
-  const [text,setText] = useState(true)
-
+export default function Login() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(true);
+  const [text, setText] = useState(true);
+  const [tokenid, setToken] = useState(false);
   // const [visibility,setVisibility] = useState(false)
-  const [loginForm,setLoginForm] = useState({})
+  const [loginForm, setLoginForm] = useState({});
   const [signupForm, setSignupForm] = useState({});
-  const [token,setToken] = useState(false)
+
+  const dispatch = useDispatch();
+
+  const id = getData("token");
+
+  const { response } = useSelector((state) => {
+    return {
+      response: state.AuthReducer.response,
+    };
+  });
+
+  console.log(response);
 
   const handleChangeLogin = (e) => {
-      const name = e.target.name;
-      setLoginForm({...loginForm,[name]:e.target.value})
-  }
+    const name = e.target.name;
+    setLoginForm({ ...loginForm, [name]: e.target.value });
+  };
 
   const handleLogin = (e) => {
-      e.preventDefault();
-      // check the login form data with the server 
-
-      if(token){
-          alert("Login Success")
-          // setVisibility(false)
-          navigate("/")        
-      }else{
-          alert("Please enter correct details")
+    e.preventDefault();
+    // check the login form data with the server
+    const payload = {
+      email: loginForm.email,
+      password: loginForm.password,
+    };
+    dispatch(logindata(payload));
+    if (payload.email && payload.password) {
+      if (response.message === "login successful ") {
+        alert("Login Successful !");
+        setToken(true);
+        onClose();
+      } else {
+        alert("please check your credentials");
       }
-  }
+    } else {
+      alert("please check your credentials");
+    }
+  };
 
   const handleChangeSignup = (e) => {
-      const name = e.target.name;
-      setSignupForm({...signupForm,[name]:e.target.value})
-  }
+    const name = e.target.name;
+    setSignupForm({ ...signupForm, [name]: e.target.value });
+  };
 
-  const handleSignup =(e) => {
-      e.preventDefault();
+  const handleSignup = (e) => {
+    e.preventDefault();
+    const payload = {
+      email: signupForm.email,
+      password: signupForm.password,
+    };
 
-      // post the data to the server 
+    if (payload.email && payload.password) {
+      dispatch(signupdata(payload));
+      alert("Signup Successful !");
+      setUser(true);
+    } else {
+      alert("please check your credentials");
+    }
+  };
 
-      if(signupForm){
-          navigate("/")
-          // setVisibility(false)
-          alert("Signup Successful")
-      }else{
-          alert("Please fill the details correctly")
-      }
-  }
+  const setSignText = () => {
+    onOpen();
+  };
 
- 
+  const signOut = () => {
+    setToken(false);
+    saveData("token", "");
+    navigate("/");
+  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Box>
+        {id !== "" ? (
+          <Link onClick={signOut}>Sign Out</Link>
+        ) : (
+          <Link onClick={setSignText}>Sign In</Link>
+        )}
+      </Box>
 
-  // const popupCloseHandler = (e) => {
-  //     setVisibility(e);
-  //   };
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent
+          className={styles.modalContainor}
+          maxW={{ base: "300pxpx", md: "700px", lg: "1200px" }}
+        >
+          {/* <ModalHeader>Modal Title</ModalHeader> */}
+          {/* <ModalBody> */}
+          <ModalCloseButton />
 
-  const setSignText =() => {
-      onOpen();
-  }
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
-return (
-  <>
-  <div>
-  <Button onClick={setSignText}>{text ? "Sign In" : "Sign Out"}</Button>
-  </div>
- 
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent className={styles.modalContainor} maxW={{ base: '300pxpx', md: '700px', lg: '1200px' }}>
-        {/* <ModalHeader>Modal Title</ModalHeader> */}
-        {/* <ModalBody> */}
-        <ModalCloseButton />
-
-        <div className={styles.containerLogin}>
+          <div className={styles.containerLogin}>
             <div className={styles.left}>
               <img
                 src="https://modesens-web15.vercel.app/assets/login.2d1c8a59.png"
@@ -121,7 +152,7 @@ return (
                       required
                     />
                     <br />
-  
+
                     <input
                       className={styles.login}
                       type="submit"
@@ -138,7 +169,7 @@ return (
                     </div>
                   </div>
                   <div className={styles.logos}>
-                    <div>
+                    <div onClick={signInWithGoogle}>
                       <img
                         src="https://modesens.com/static/img/login-icon/20210617google.svg"
                         alt=""
@@ -164,9 +195,9 @@ return (
                     </div>
                   </div>
                   <p
-                   
                     style={{ textDecoration: "none", color: "black" }}
-                    onClick={() => setUser(false)}                    >
+                    onClick={() => setUser(false)}
+                  >
                     Don't have an account? Please Sign up
                   </p>
                 </div>
@@ -220,7 +251,7 @@ return (
                     </div>
                   </div>
                   <div className={styles.logos}>
-                    <div>
+                    <div onClick={signInWithGoogle}>
                       <img
                         src="https://modesens.com/static/img/login-icon/20210617google.svg"
                         alt=""
@@ -246,7 +277,6 @@ return (
                     </div>
                   </div>
                   <p
-                   
                     style={{ textDecoration: "none", color: "black" }}
                     onClick={() => setUser(true)}
                   >
@@ -261,10 +291,10 @@ return (
               </div>
             )}
           </div>
-        
-        {/* </ModalBody> */}
-      </ModalContent>
-    </Modal>
-  </>
-)
+
+          {/* </ModalBody> */}
+        </ModalContent>
+      </Modal>
+    </>
+  );
 }

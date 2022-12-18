@@ -20,7 +20,10 @@ import {
 } from "@chakra-ui/react";
 import {
   admin_ProductAdd_req,
+  beauty_update,
   kids_update,
+  mens_update,
+  womens_update,
 } from "../../Redux/AuthReducer/Admin/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../Utils/customLocalstorage";
@@ -51,14 +54,24 @@ function AdminEditData({ val, el, id }) {
     if (
       image !== "" &&
       title !== "" &&
-      //   detail !== "" &&
+      details !== "" &&
       price !== "" &&
       quantity !== "" &&
       compare !== ""
     ) {
-      onClose();
       if (val == "Kids") {
         dispatch(kids_update(id, formdata));
+        onClose();
+      } else if (val == "Beauty") {
+        // console.log(val);
+        dispatch(beauty_update(id, formdata));
+        onClose();
+      } else if (val == "Womens") {
+        dispatch(womens_update(id, formdata));
+        onClose();
+      } else if (val == "Mens") {
+        dispatch(mens_update(id, formdata));
+        onClose();
       } else {
         toast({
           position: "top",
@@ -81,7 +94,7 @@ function AdminEditData({ val, el, id }) {
     }
   };
 
-  const { image, title, detail, offer, price, quantity, compare } = formdata;
+  const { image, title, details, offer, price, quantity, compare } = formdata;
 
   return (
     <>
@@ -123,7 +136,7 @@ function AdminEditData({ val, el, id }) {
                 <FormLabel>details</FormLabel>
                 <Input
                   defaultValue={el.details}
-                  name="detail"
+                  name="details"
                   onChange={handleCatch}
                   placeholder="Enter the details"
                 />

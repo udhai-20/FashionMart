@@ -43,13 +43,9 @@ import {
 } from "../../Redux/AppReducer/Cart/action";
 import Loading from "./Loading";
 import EmptyCart from "../Cart/EmptyCart";
-
-// const headers = {
-//   "Content-Type": "application/json",
-//   Authorization: `Bearer ${"token"}`, //token from local storage
-// };
-
+import { getData } from "../../Component/Utils/customLocalstorage";
 function Checkout(props) {
+  const token = getData("token");
   const data = useSelector((state) => state.cartreducer.data);
   const loading = useSelector((state) => state.cartreducer.isLoading);
   console.log(data);
@@ -72,8 +68,6 @@ function Checkout(props) {
   const [country, setCountry] = useState("");
   const [checknumber, setChecknumber] = useState("");
   const [checkcvv, setCvv] = useState("");
-  // console.log(nameone,nametwo,city,country,state,phone,addressone,addresstwo,zipcode);
-  console.log(toggle);
   const totalsum = data.reduce((sum, ele) => {
     return sum + ele.price * ele.quantity;
   }, 0);
@@ -81,12 +75,11 @@ function Checkout(props) {
     return sum + ele.quantity;
   }, 0);
   let tax = totalqty >= 6 ? 29 : 10;
-  async function getData() {
+  async function fetchData() {
     const myHeaders = new Headers({
       mode: "no-cors",
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY",
+      Authorization: `Bearer ${token}`,
     });
 
     return await fetch("https://colorful-erin-pike.cyclic.app/cart", {
@@ -114,7 +107,7 @@ function Checkout(props) {
   }
 
   useEffect(() => {
-    getData();
+    fetchData();
   }, []);
   const handleChange = (e) => {
     const { type, checked, value, name } = e.target;

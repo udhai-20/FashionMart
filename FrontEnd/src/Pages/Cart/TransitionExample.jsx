@@ -18,19 +18,19 @@ import {
   delete_request,
   delete_success,
 } from "../../Redux/AppReducer/Cart/action";
+import { getData } from "../../Component/Utils/customLocalstorage";
 export function TransitionExample({ id }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
   const toast = useToast();
-
+  const token = getData("token");
   const dispatch = useDispatch();
   // this is the delete function
   async function deleteData() {
     const myHeaders = new Headers({
       mode: "no-cors",
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY",
+      Authorization: `Bearer ${token}`,
     });
     return await fetch(
       `https://colorful-erin-pike.cyclic.app/cart/delete/${id}`,

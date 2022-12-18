@@ -15,7 +15,7 @@ const initialize = {
 
 export const adminreducer = (state = initialize, action) => {
   const { payload, type } = action;
-  // console.log("payload:", payload, type);
+  console.log("payload:", payload, type);
   switch (type) {
     //get data
     case types.GET_FAILURE_DATA: {
@@ -63,6 +63,29 @@ export const adminreducer = (state = initialize, action) => {
       };
     }
     //womens length get req
+    case types.GET_FAILURE_WOMENS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+    case types.GET_REQUEST_WOMENS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case types.GET_SUCCESS_WOMENS_PRODLENGTH: {
+      return {
+        ...state,
+        isLoading: false,
+        womensprod: payload,
+        data: payload,
+      };
+    }
+    //mens prod len
     case types.GET_FAILURE_MENS_PRODLENGTH: {
       return {
         ...state,
@@ -81,12 +104,12 @@ export const adminreducer = (state = initialize, action) => {
       return {
         ...state,
         isLoading: false,
-        mensprodlen: payload,
+        mensprod: payload,
         data: payload,
       };
     }
-    //beauty length get req
 
+    //beauty length get req
     case types.GET_REQUEST_BEAUTY_PRODLENGTH: {
       return {
         ...state,

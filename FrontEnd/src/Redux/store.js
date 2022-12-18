@@ -9,7 +9,7 @@ import { reducer as productreducer } from "./AppReducer/Product/reducer";
 import { reducer as singleproductreducer } from "./AppReducer/SingleProduct/reducer";
 import { reducer as LikedProductreducer } from "./AppReducer/LikedProduct/reducer";
 import { adminreducer as adminreducer } from "./AuthReducer/Admin/reducers";
-import { AuthReducer as AuthReducer } from "./AuthReducer/users/reducers";
+import { reducer as AuthReducer } from "./AuthReducer/users/reducers";
 
 import thunk from "redux-thunk";
 

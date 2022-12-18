@@ -15,19 +15,21 @@ import {
   getlikeDeletedata,
   getlikedata,
 } from "../../Redux/AppReducer/LikedProduct/action";
+import { getData } from "../../Component/Utils/customLocalstorage";
 
-const usertoken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
+// const usertoken = getData("token");
+
 function Wishlist(props) {
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.LikedProductreducer.loading);
   const likeData = useSelector((state) => state.LikedProductreducer.data);
   console.log("likeData:", likeData);
   const showData = () => {
-    dispatch(getlikedata(usertoken));
+    dispatch(getlikedata());
   };
   const handleDelete = (id) => {
     console.log(id);
-    dispatch(getlikeDeletedata(id, usertoken));
+    dispatch(getlikeDeletedata(id));
   };
   useEffect(() => {
     showData();
@@ -35,7 +37,7 @@ function Wishlist(props) {
 
   return (
     <Container maxW="90%" marginTop={"20px"}>
-      {likeData.length <= 0 && (
+      {likeData?.length <= 0 && (
         <Box display={"flex"} justifyContent="center" alignItems={"center"}>
           <Image
             width={"50%"}
@@ -43,8 +45,9 @@ function Wishlist(props) {
           />
         </Box>
       )}
+
       <SimpleGrid columns={{ lg: 4, md: 3, base: 1 }} spacing={10}>
-        {likeData.length > 0 &&
+        {likeData?.length > 0 &&
           likeData.map((el, i) => {
             return (
               <Box

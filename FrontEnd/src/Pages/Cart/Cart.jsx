@@ -27,6 +27,7 @@ import Loading from "../Checkout/Loading";
 import ProductDetails from "../SingleProduct/ProductDetails";
 import { useNavigate } from "react-router-dom";
 import EmptyCart from "./EmptyCart";
+import { getData } from "../../Component/Utils/customLocalstorage";
 function Cart(props) {
   const data = useSelector((state) => state.cartreducer.data);
   const loading = useSelector((state) => state.cartreducer.isLoading);
@@ -41,12 +42,14 @@ function Cart(props) {
 
   // get products
   // get data from cart api
-  async function getData() {
+  const token = getData("token");
+  console.log("token:", token);
+
+  async function fetchData() {
     const myHeaders = new Headers({
       mode: "no-cors",
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY",
+      Authorization: `Bearer ${token}`,
     });
 
     return await fetch("https://colorful-erin-pike.cyclic.app/cart", {
@@ -73,7 +76,7 @@ function Cart(props) {
   }
 
   useEffect(() => {
-    getData();
+    fetchData();
   }, []);
 
   // This is for update the data
@@ -82,8 +85,7 @@ function Cart(props) {
     const myHeaders = new Headers({
       mode: "no-cors",
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY",
+      Authorization: `Bearer ${token}`,
     });
 
     fetch(`https://colorful-erin-pike.cyclic.app/cart/update/${id}`, {
@@ -114,7 +116,7 @@ function Cart(props) {
     }, 900);
     setTimeout(() => {
       return navigate("/cart");
-    }, 1300);
+    }, 1000);
 
     //
   };
@@ -156,7 +158,6 @@ function Cart(props) {
                   enjoy a worry-free experience with no additional cost to you.
                 </span>
               </VStack>
-
               <Box className="show-details">
                 <Box className="product-details">
                   <h4
@@ -169,48 +170,49 @@ function Cart(props) {
                     SHOPPING BAG
                   </h4>
 
-                  {data.map((ele, i) => (
-                    <HStack
-                      key={i}
-                      spacing={4}
-                      border="4px"
-                      borderColor="gray.300"
-                    >
-                      <AspectRatio ml={5} p={5} ratio={1} w={24}>
-                        <Img className="product-img" src={ele.image} alt="" />
-                      </AspectRatio>
+                  {data.length > 0 &&
+                    data?.map((ele, i) => (
+                      <HStack
+                        key={i}
+                        spacing={4}
+                        border="4px"
+                        borderColor="gray.300"
+                      >
+                        <AspectRatio ml={5} p={5} ratio={1} w={24}>
+                          <Img className="product-img" src={ele.image} alt="" />
+                        </AspectRatio>
 
-                      <VStack alignItems="left" p="10px">
-                        <Heading size="sm">{ele.title}</Heading>
-                        <Text>{ele.details}</Text>
-                        {/* <h3>Size:{ele.}</h3> */}
-                        {/* <h3>Quantity:{ele.quantity}</h3> */}
-                        <HStack>
-                          <Button
-                            onClick={() => Incfunc(ele._id, ele.quantity)}
-                            size="xs"
-                          >
-                            +
-                          </Button>
-                          <Text>{ele.quantity}</Text>
-                          <Button
-                            disabled={ele.quantity <= 1}
-                            onClick={() => Decfunc(ele._id, ele.quantity)}
-                            size="xs"
-                          >
-                            -
-                          </Button>
-                        </HStack>
-                        {/* alert append here */}
-                      </VStack>
-                      <Heading size="md" p={2}>
-                        ${ele.price * ele.quantity}.00
-                      </Heading>
-                      <VStack mt="-10px" alignItems="end">
-                        <TransitionExample id={ele._id} />
-                      </VStack>
-                    </HStack>
-                  ))}
+                        <VStack alignItems="left" p="10px">
+                          <Heading size="sm">{ele.title}</Heading>
+                          <Text>{ele.details}</Text>
+                          {/* <h3>Size:{ele.}</h3> */}
+                          {/* <h3>Quantity:{ele.quantity}</h3> */}
+                          <HStack>
+                            <Button
+                              onClick={() => Incfunc(ele._id, ele.quantity)}
+                              size="xs"
+                            >
+                              +
+                            </Button>
+                            <Text>{ele.quantity}</Text>
+                            <Button
+                              disabled={ele.quantity <= 1}
+                              onClick={() => Decfunc(ele._id, ele.quantity)}
+                              size="xs"
+                            >
+                              -
+                            </Button>
+                          </HStack>
+                          {/* alert append here */}
+                        </VStack>
+                        <Heading size="md" p={2}>
+                          ${ele.price * ele.quantity}.00
+                        </Heading>
+                        <VStack mt="-10px" alignItems="end">
+                          <TransitionExample id={ele._id} />
+                        </VStack>
+                      </HStack>
+                    ))}
                 </Box>
                 <VStack alignItems="left" p={0}>
                   <h4
@@ -257,9 +259,10 @@ function Cart(props) {
                   Recently Viewed
                 </Heading>
               </VStack>
-
               {/* carosul starts here */}
-              <ProductDetails />
+              <Box marginTop={"25px"}>
+                <ProductDetails />
+              </Box>
             </Container>
           )}
         </>

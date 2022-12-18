@@ -110,7 +110,8 @@ const delete_success = () => ({
 const delete_failure = () => ({
   type: types.DELETE_FAILURE_DATA,
 });
-
+const admintoken = getData("ADMINTOKEN");
+console.log("admintoken:", admintoken);
 const admin_Signup_req = (payload) => (dispatch) => {
   console.log("payload:", payload);
   dispatch(post_request());
@@ -149,7 +150,6 @@ const admin_Login_req = (payload) => (dispatch) => {
 };
 
 /// for adding products kids
-
 const admin_ProductAdd_req = (payload) => (dispatch) => {
   console.log("payload:", payload);
   dispatch(post_request_product());
@@ -163,6 +163,65 @@ const admin_ProductAdd_req = (payload) => (dispatch) => {
     .then((response) => {
       dispatch(post_success_product(response.data));
       dispatch(kids_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(post_failure_product(err));
+    });
+};
+/// for adding products beauty
+const admin_ProductAdd_req_beauty = (payload) => (dispatch) => {
+  console.log("payload:", payload);
+  dispatch(post_request_product());
+  axios({
+    method: "post",
+    baseURL: `${base_Api}`,
+    url: "/beauty/beauty_singledata",
+    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
+    data: payload,
+  })
+    .then((response) => {
+      dispatch(post_success_product(response.data));
+      dispatch(beauty_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(post_failure_product(err));
+    });
+};
+
+/// for adding products womens
+const admin_ProductAdd_req_womens = (payload) => (dispatch) => {
+  console.log("payload:", payload);
+  dispatch(post_request_product());
+  axios({
+    method: "post",
+    baseURL: `${base_Api}`,
+    url: "/women/women_singledata",
+    headers: { Authorization: `Bearer ${admintoken}` },
+    data: payload,
+  })
+    .then((response) => {
+      dispatch(post_success_product(response.data));
+      dispatch(womens_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(post_failure_product(err));
+    });
+};
+
+/// for adding products mens
+const admin_ProductAdd_req_mens = (payload) => (dispatch) => {
+  console.log("payload:", payload);
+  dispatch(post_request_product());
+  axios({
+    method: "post",
+    baseURL: `${base_Api}`,
+    url: "/men/men_singledata",
+    headers: { Authorization: `Bearer ${admintoken}` },
+    data: payload,
+  })
+    .then((response) => {
+      dispatch(post_success_product(response.data));
+      dispatch(mens_Prod_Length());
     })
     .catch((err) => {
       dispatch(post_failure_product(err));
@@ -188,18 +247,18 @@ const kids_Prod_Length = () => (dispatch) => {
 
 ///mens length
 const mens_Prod_Length = () => (dispatch) => {
-  dispatch(get_kids_request());
+  dispatch(get_mens_request());
   axios({
     method: "get",
     baseURL: `${base_Api}`,
-    url: "/mens",
+    url: "/men",
     headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
   })
     .then((response) => {
-      dispatch(get_kids_success(response.data));
+      dispatch(get_mens_success(response.data));
     })
     .catch((err) => {
-      dispatch(get_kids_failure(err));
+      dispatch(get_mens_failure(err));
     });
 };
 
@@ -209,11 +268,12 @@ const womens_Prod_Length = () => (dispatch) => {
   axios({
     method: "get",
     baseURL: `${base_Api}`,
-    url: "/womens",
-    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
+    url: "/women",
+    headers: { Authorization: `Bearer ${admintoken}` },
   })
     .then((response) => {
       dispatch(get_womens_success(response.data));
+      console.log(response.data);
     })
     .catch((err) => {
       dispatch(get_womens_failure(err));
@@ -227,7 +287,7 @@ const beauty_Prod_Length = () => (dispatch) => {
     method: "get",
     baseURL: `${base_Api}`,
     url: "/beauty",
-    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
+    headers: { Authorization: `Bearer ${admintoken}` },
   })
     .then((response) => {
       dispatch(get_beauty_success(response.data));
@@ -244,12 +304,69 @@ const kids_update = (id, payload) => (dispatch) => {
     method: "put",
     baseURL: `${base_Api}`,
     url: `kids/update/${id}`,
-    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
+    headers: { Authorization: `Bearer ${admintoken}` },
     data: payload,
   })
     .then((response) => {
       dispatch(update_success(response.data));
       dispatch(kids_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(update_failure(err));
+    });
+};
+///patch for beauty
+const beauty_update = (id, payload) => (dispatch) => {
+  console.log(id, payload);
+  dispatch(update_request());
+  axios({
+    method: "put",
+    baseURL: `${base_Api}`,
+    url: `beauty/update/${id}`,
+    headers: { Authorization: `Bearer ${admintoken}` },
+    data: payload,
+  })
+    .then((response) => {
+      dispatch(update_success(response.data));
+      dispatch(beauty_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(update_failure(err));
+    });
+};
+///patch for womens
+const womens_update = (id, payload) => (dispatch) => {
+  console.log(id, payload);
+  dispatch(update_request());
+  axios({
+    method: "put",
+    baseURL: `${base_Api}`,
+    url: `women/update/${id}`,
+    headers: { Authorization: `Bearer ${admintoken}` },
+    data: payload,
+  })
+    .then((response) => {
+      dispatch(update_success(response.data));
+      dispatch(womens_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(update_failure(err));
+    });
+};
+///patch for mens
+const mens_update = (id, payload) => (dispatch) => {
+  console.log(id, payload);
+  dispatch(update_request());
+  axios({
+    method: "put",
+    baseURL: `${base_Api}`,
+    url: `men/update/${id}`,
+    headers: { Authorization: `Bearer ${admintoken}` },
+    data: payload,
+  })
+    .then((response) => {
+      dispatch(update_success(response.data));
+      dispatch(mens_Prod_Length());
     })
     .catch((err) => {
       dispatch(update_failure(err));
@@ -264,11 +381,69 @@ const kids_delete = (id) => (dispatch) => {
     method: "delete",
     baseURL: `${base_Api}`,
     url: `kids/delete/${id}`,
-    headers: { Authorization: `Bearer ${getData("ADMINTOKEN")}` },
+    headers: { Authorization: `Bearer ${admintoken}` },
   })
     .then((response) => {
       dispatch(delete_success());
       dispatch(kids_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(delete_failure(err));
+    });
+};
+
+//delete for beauty
+const beauty_delete = (id) => (dispatch) => {
+  console.log(id);
+  dispatch(delete_request());
+  axios({
+    method: "delete",
+    baseURL: `${base_Api}`,
+    url: `beauty/delete/${id}`,
+    headers: { Authorization: `Bearer ${admintoken}` },
+  })
+    .then((response) => {
+      dispatch(delete_success());
+      dispatch(beauty_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(delete_failure(err));
+    });
+};
+
+//delete for womens
+const womens_delete = (id) => (dispatch) => {
+  console.log(id);
+  dispatch(delete_request());
+  axios({
+    method: "delete",
+    baseURL: `${base_Api}`,
+    url: `women/delete/${id}`,
+    headers: { Authorization: `Bearer ${admintoken}` },
+  })
+    .then((response) => {
+      console.log(response);
+      dispatch(delete_success());
+      dispatch(womens_Prod_Length());
+    })
+    .catch((err) => {
+      dispatch(delete_failure(err));
+    });
+};
+
+//delete for mens
+const mens_delete = (id) => (dispatch) => {
+  console.log(id);
+  dispatch(delete_request());
+  axios({
+    method: "delete",
+    baseURL: `${base_Api}`,
+    url: `men/delete/${id}`,
+    headers: { Authorization: `Bearer ${admintoken}` },
+  })
+    .then((response) => {
+      dispatch(delete_success());
+      dispatch(mens_Prod_Length());
     })
     .catch((err) => {
       dispatch(delete_failure(err));
@@ -308,4 +483,13 @@ export {
   get_beauty_failure,
   womens_Prod_Length,
   beauty_Prod_Length,
+  admin_ProductAdd_req_beauty,
+  beauty_delete,
+  beauty_update,
+  admin_ProductAdd_req_womens,
+  womens_delete,
+  womens_update,
+  mens_update,
+  mens_delete,
+  admin_ProductAdd_req_mens,
 };

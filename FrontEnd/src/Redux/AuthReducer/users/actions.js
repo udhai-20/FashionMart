@@ -1,19 +1,6 @@
-import * as types from "./actionType";
+import * as types from "./actionTypes";
 import axios from "axios";
-
-//GET DATA
-const get_failure = () => ({
-  type: types.GET_FAILURE_DATA,
-});
-
-const get_success = (data) => ({
-  type: types.GET_SUCCESS_DATA,
-  payload: data,
-});
-
-const get_request = () => ({
-  type: types.GET_REQUEST_DATA,
-});
+import { saveData } from "../../../Component/Utils/customLocalstorage";
 
 //POST ACTION
 const post_failure = () => ({
@@ -28,44 +15,48 @@ const post_request = () => ({
   type: types.POST_REQUEST_DATA,
 });
 
-//UPDATE ACTION
+export const signupdata = (payload) => (dispatch) => {
+  dispatch(post_request);
+  axios({
+    method: "post",
+    baseURL: "https://colorful-erin-pike.cyclic.app",
+    url: "/signup",
+    data: payload,
+  })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => {
+      dispatch(post_failure(err));
+    });
+};
 
-const update_failure = () => ({
-  type: types.UPDATE_FAILURE_DATA,
+const post_failure_login = () => ({
+  type: types.POST_FAILURE_DATA_LOGIN,
 });
 
-const update_success = () => ({
-  type: types.UPDATE_SUCCESS_DATA,
+const post_success_login = (payload) => ({
+  type: types.POST_SUCCESS_DATA_LOGIN,
+  payload,
 });
 
-const update_request = () => ({
-  type: types.UPDATE_REQUEST_DATA,
+const post_request_login = () => ({
+  type: types.POST_REQUEST_DATA_LOGIN,
 });
-
-//DELETE ACTION
-const delete_failure = () => ({
-  type: types.DELETE_FAILURE_DATA,
-});
-
-const delete_success = () => ({
-  type: types.DELETE_SUCCESS_DATA,
-});
-
-const delete_request = () => ({
-  type: types.DELETE_REQUEST_DATA,
-});
-
-// export const postdata =(dispatch)=>(payload, token)=>{
-//     dispatch(post_request)
-//     axios({
-//         method:"post",
-//         baseURL:"http:localhost:8080",
-//         url:"/notes/create",
-//         headers: {"Authorization":`${token}`},
-//         data:payload
-//     }).then((response) => {
-//         console.log(response);
-//     }).catch((err)=>{
-//         dispatch(post_failure(err))
-//     })
-// }
+export const logindata = (payload) => (dispatch) => {
+  dispatch(post_request_login);
+  axios({
+    method: "post",
+    baseURL: "https://colorful-erin-pike.cyclic.app",
+    url: "/login",
+    data: payload,
+  })
+    .then((response) => {
+      // console.log(response.data.token);
+      dispatch(post_success_login(response.data));
+      saveData("token", response.data.token);
+    })
+    .catch((err) => {
+      dispatch(post_failure_login(err));
+    });
+};
