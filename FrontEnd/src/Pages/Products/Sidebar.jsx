@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box, Text } from "@chakra-ui/react";
+import { Link } from 'react-router-dom';
 import {
   Accordion,
   AccordionItem,
@@ -16,9 +17,9 @@ function Sidebar() {
           h="auto"
         //   border={"1px solid black"}
           mr={"40px"}
-          fontSize={"14px"}
+          fontSize={"15px"}
         >
-          <Text mb={"10px"}>Browse by:</Text>
+          <Text mb={"10px"} fontWeight="bold" >Browse by:</Text>
           <hr />
           <Box>
             <Text
@@ -34,16 +35,18 @@ function Sidebar() {
               Clothing
             </Text>
             <Box>
-              <Text
-                mb={"3px"}
-                _hover={{
-                  borderBottom: "1px solid black",
-                  width: "fit-content",
-                }}
-                cursor={"pointer"}
-              >
-                New!
-              </Text>
+              <Link to={"/men"}>
+                <Text
+                  mb={"3px"}
+                  _hover={{
+                    borderBottom: "1px solid black",
+                    width: "fit-content",
+                  }}
+                  cursor={"pointer"}
+                >
+                  New!
+                </Text>
+              </Link>
               <Text
                 mb={"3px"}
                 _hover={{
@@ -54,26 +57,30 @@ function Sidebar() {
               >
                 Top Rated
               </Text>
-              <Text
-                mb={"3px"}
-                _hover={{
-                  borderBottom: "1px solid black",
-                  width: "fit-content",
-                }}
-                cursor={"pointer"}
-              >
-                Activewear
-              </Text>
-              <Text
-                mb={"3px"}
-                _hover={{
-                  borderBottom: "1px solid black",
-                  width: "fit-content",
-                }}
-                cursor={"pointer"}
-              >
-                Blazers
-              </Text>
+              <Link to={"/kids"}>
+                <Text
+                  mb={"3px"}
+                  _hover={{
+                    borderBottom: "1px solid black",
+                    width: "fit-content",
+                  }}
+                  cursor={"pointer"}
+                >
+                  kids
+                </Text>
+              </Link>
+              <Link to={"/men"}>
+                <Text
+                  mb={"3px"}
+                  _hover={{
+                    borderBottom: "1px solid black",
+                    width: "fit-content",
+                  }}
+                  cursor={"pointer"}
+                >
+                  Blazers
+                </Text>
+              </Link>
               <Text
                 mb={"3px"}
                 _hover={{
@@ -104,16 +111,18 @@ function Sidebar() {
               >
                 Intimates & Lingerie
               </Text>
-              <Text
-                mb={"3px"}
-                _hover={{
-                  borderBottom: "1px solid black",
-                  width: "fit-content",
-                }}
-                cursor={"pointer"}
-              >
-                Jackets & Coats
-              </Text>
+              <Link to={"/men"}>
+                <Text
+                  mb={"3px"}
+                  _hover={{
+                    borderBottom: "1px solid black",
+                    width: "fit-content",
+                  }}
+                  cursor={"pointer"}
+                >
+                  Jackets & Coats
+                </Text>
+              </Link>
               <Text
                 mb={"3px"}
                 _hover={{
@@ -164,16 +173,18 @@ function Sidebar() {
               >
                 Pants
               </Text>
-              <Text
-                mb={"3px"}
-                _hover={{
-                  borderBottom: "1px solid black",
-                  width: "fit-content",
-                }}
-                cursor={"pointer"}
-              >
-                Petites
-              </Text>
+              <Link to={"/women"}>
+                <Text
+                  mb={"3px"}
+                  _hover={{
+                    borderBottom: "1px solid black",
+                    width: "fit-content",
+                  }}
+                  cursor={"pointer"}
+                >
+                  Petites
+                </Text>
+              </Link>
               <Text
                 mb={"3px"}
                 _hover={{
@@ -184,16 +195,18 @@ function Sidebar() {
               >
                 Plus
               </Text>
-              <Text
-                mb={"3px"}
-                _hover={{
-                  borderBottom: "1px solid black",
-                  width: "fit-content",
-                }}
-                cursor={"pointer"}
-              >
-                Shorts
-              </Text>
+              <Link to={"/women"}>
+                <Text
+                  mb={"3px"}
+                  _hover={{
+                    borderBottom: "1px solid black",
+                    width: "fit-content",
+                  }}
+                  cursor={"pointer"}
+                >
+                  Shorts
+                </Text>
+              </Link>
               <Text
                 mb={"3px"}
                 _hover={{
@@ -246,7 +259,7 @@ function Sidebar() {
               </Text>
             </Box>
           </Box>
-          <Text paddingBottom={"10px"} pt="10px">
+          <Text paddingBottom={"10px"} pt="10px" fontWeight={"bold"}>
             Filter By:
           </Text>
           <hr />

@@ -22,7 +22,8 @@ function Kids() {
 
   const from = "kids";
   const heading = "Kids' Fashion & Designer Products";
-  const details = "Shop kids' fashion with price comparison across 500+ stores in one place. Discover the latest designer fashion for kids at ModeSens."
+  const details =
+    "Shop kids' fashion with price comparison across 500+ stores in one place. Discover the latest designer fashion for kids at ModeSens.";
   return (
     <Box>
       <Product
@@ -32,8 +33,13 @@ function Kids() {
         page={page}
         query={query}
         heading={heading}
+<<<<<<< HEAD
+        details={details}
+        catagory={from}
+=======
         details = {details}
-        kids ={from}
+        category ={from}
+>>>>>>> 642e5b7d8cee8337f0c465b67fe68f041528d41b
       />
     </Box>
   );
