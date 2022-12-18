@@ -125,7 +125,7 @@ const getsingleData_women = (id, usertoken) => (dispatch) => {
   axios({
     method: "get",
     baseURL: "https://colorful-erin-pike.cyclic.app",
-    url: `/kids/${id}`,
+    url: `/women/${id}`,
     headers: { Authorization: `Bearer ${usertoken}` },
   })
     .then((response) => {
@@ -142,7 +142,7 @@ const getsingleData_mens = (id, usertoken) => (dispatch) => {
   axios({
     method: "get",
     baseURL: "https://colorful-erin-pike.cyclic.app",
-    url: `/kids/${id}`,
+    url: `/men/${id}`,
     headers: { Authorization: `Bearer ${usertoken}` },
   })
     .then((response) => {
@@ -159,7 +159,7 @@ const getsingleData_beauty = (id, usertoken) => (dispatch) => {
   axios({
     method: "get",
     baseURL: "https://colorful-erin-pike.cyclic.app",
-    url: `/kids/${id}`,
+    url: `/beauty/${id}`,
     headers: { Authorization: `Bearer ${usertoken}` },
   })
     .then((response) => {

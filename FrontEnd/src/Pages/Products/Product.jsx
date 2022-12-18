@@ -5,7 +5,6 @@ import { addlikedata } from "../../Redux/AppReducer/LikedProduct/action";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useSearchParams } from "react-router-dom";
-
 import Pagination from "./Pagination";
 import Filter from "./Filter";
 
@@ -28,11 +27,7 @@ function Product({
   query,
   heading,
   details,
-<<<<<<< HEAD
-  catagory,
-=======
   category,
->>>>>>> 642e5b7d8cee8337f0c465b67fe68f041528d41b
 }) {
   const [tablet] = useMediaQuery("(max-width: 768px)");
   const dispatch = useDispatch();
@@ -53,6 +48,18 @@ function Product({
     dispatch(addlikedata(payload));
   };
 
+  const recentViewHandler = (item) => {
+    const payload = {
+      image: item.image,
+      title: item.title,
+      details: item.details,
+      offers: item.offers || "",
+      price: item.price,
+      quantity: item.quantity,
+      compare: item.compare,
+    };
+    // dispatch(addRecentdata(payload));
+  };
   const pageChangeHandle = (value) => {
     setPage((prev) => prev + value);
   };
@@ -75,7 +82,6 @@ function Product({
       <Box display={"flex"} justifyContent="center" width={"100%"}>
         {/* sidebar */}
         <Box
-         
           display={tablet ? "none" : "block"}
           width={"20%"}
           minWidth={"auto"}
@@ -146,7 +152,7 @@ function Product({
                       boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
                       cursor={"pointer"}
                       _hover={{ background: "rgba(255,255,249)" }}
-                    
+                      onClick={() => recentViewHandler(item)}
                     >
                       <Box
                         position={"relative"}
@@ -162,11 +168,7 @@ function Product({
                       </Box>
                       <Link
                         to={`/singleProduct/${item._id}`}
-<<<<<<< HEAD
-                        state={{ from: catagory }}
-=======
                         state={{ from: category }}
->>>>>>> 642e5b7d8cee8337f0c465b67fe68f041528d41b
                         style={{ textDecoration: "none" }}
                       >
                         <Center>

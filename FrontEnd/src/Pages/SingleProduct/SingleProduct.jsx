@@ -65,7 +65,7 @@ function SingleProduct(props) {
   const { from } = location.state;
   // console.log("from:", from);
   // var from = "beauty";
-  let find = useSelector((state) => state.singleproductreducer);
+
   let kids = useSelector((state) => state.singleproductreducer?.kiddata);
   let mens = useSelector((state) => state.singleproductreducer?.mendata);
   let womens = useSelector((state) => state.singleproductreducer?.womendata);
@@ -74,9 +74,9 @@ function SingleProduct(props) {
   console.log("allproduct:", allproduct);
   if (from == "kids") {
     var product = kids;
-  } else if (from == "womens") {
+  } else if (from == "women") {
     var product = womens;
-  } else if (from == "mens") {
+  } else if (from == "men") {
     var product = mens;
   } else if (from == "beauty") {
     var product = beauty;
