@@ -20,7 +20,16 @@ import {
 
 import { useDispatch } from "react-redux";
 
-function Product({ data, setPage, setQuery, page, query, heading, details, kids}) {
+function Product({
+  data,
+  setPage,
+  setQuery,
+  page,
+  query,
+  heading,
+  details,
+  category,
+}) {
   const [tablet] = useMediaQuery("(max-width: 768px)");
   const dispatch = useDispatch();
   const [total, setTotal] = useState(3);
@@ -59,13 +68,13 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
 
   return (
     <Box>
-      <Box display={"flex"}>
+      <Box display={"flex"} justifyContent="center" width={"100%"}>
         {/* sidebar */}
         <Box
+         
           display={tablet ? "none" : "block"}
-          width={"272px"}
+          width={"20%"}
           minWidth={"auto"}
-          height={"100vh"}
           m="20px 20px"
         >
           <Box width={"272px"} minWidth={"auto"} mt="150px">
@@ -73,8 +82,8 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
           </Box>
         </Box>
         {/* product section */}
-        <Box mt={"20px"} padding={"15px"}>
-          <Box mt={"30px"}>
+        <Box mt={"20px"} padding={"15px"} width={"80%"}>
+          <Box mt={"20px"}>
             <Heading
               padding={"10px"}
               fontSize={"25.94px"}
@@ -89,7 +98,7 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
           <Box>
             {/* details */}
             <Text fontSize={"12.9px"} ml="1%" mt={"5px"} mb={"5px"}>
-            {details}
+              {details}
             </Text>
           </Box>
           <Box
@@ -133,6 +142,7 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
                       boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
                       cursor={"pointer"}
                       _hover={{ background: "rgba(255,255,249)" }}
+                    
                     >
                       <Box
                         position={"relative"}
@@ -148,12 +158,12 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
                       </Box>
                       <Link
                         to={`/singleProduct/${item._id}`}
-                        state={{from:kids}}
+                        state={{ from: category }}
                         style={{ textDecoration: "none" }}
                       >
                         <Center>
                           <Img
-                            width={"70%"}
+                            width={"60%"}
                             height={"250px"}
                             borderRadius="40px"
                             transition={"all 0.5s ease-in-out"}
@@ -212,6 +222,14 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
                   ))}
               </Box>
             </Center>
+          </Box>
+          <Box height={"10vh"} mt="10">
+            {/* pagination */}
+            <Pagination
+              pageChangeHandle={pageChangeHandle}
+              currentPage={page}
+              totalPages={total}
+            />
           </Box>
         </Box>
       </Box>

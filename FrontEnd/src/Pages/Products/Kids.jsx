@@ -33,7 +33,7 @@ function Kids() {
         query={query}
         heading={heading}
         details = {details}
-        kids ={from}
+        category ={from}
       />
     </Box>
   );
