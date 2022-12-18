@@ -1,24 +1,26 @@
 
 import React from "react";
 import Slider from "react-slick";
-
+import { useEffect,useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 import Styles from "./Trending.module.css";
 
-let  prodArr=[
-  "https://cdn.modesens.com/umedia/1707018s?w=400",
-  "https://cdn.modesens.com/umedia/1707030s?w=400",
-  "https://cdn.modesens.com/umedia/1707011s?w=400",
-  "https://cdn.modesens.com/umedia/1686127s?w=400",
-  "https://cdn.modesens.com/umedia/1707018s?w=400",
-  "https://cdn.modesens.com/umedia/1707030s?w=400",
-  "https://cdn.modesens.com/umedia/1707011s?w=400",
-  "https://cdn.modesens.com/umedia/1686127s?w=400",
+// let  prodArr=[
+//   "https://cdn.modesens.com/umedia/1707018s?w=400",
+//   "https://cdn.modesens.com/umedia/1707030s?w=400",
+//   "https://cdn.modesens.com/umedia/1707011s?w=400",
+//   "https://cdn.modesens.com/umedia/1686127s?w=400",
+//   "https://cdn.modesens.com/umedia/1707018s?w=400",
+//   "https://cdn.modesens.com/umedia/1707030s?w=400",
+//   "https://cdn.modesens.com/umedia/1707011s?w=400",
+//   "https://cdn.modesens.com/umedia/1686127s?w=400",
 
-]
+// ]
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
@@ -82,6 +84,32 @@ const Trending = () => {
       }
     ]
   };
+
+  const [data,setData] = useState([])
+
+  const navigate=useNavigate();
+  
+ const getData = ()=> {
+  // dispatch(get_request)
+  return axios({
+    method: "get",
+    baseURL: "https://colorful-erin-pike.cyclic.app",
+    url:"/trading"
+  })
+    .then((res) => {
+      setData(res.data)
+    })
+    .catch((err) => {
+      // dispatch(get_failure);
+      console.log(err);
+    });
+};
+
+useEffect(()=>{
+    getData();
+},[])
+
+console.log(data)
   return (
     <div className={Styles.com_main_div}>
          <div className={Styles.hrDiv}>
@@ -93,12 +121,12 @@ const Trending = () => {
     >
       <Slider {...settings}>
       
-        {prodArr.map((el)=> (
+        {data.length>0 && data?.map((el)=> (
           <div key={el} className={Styles.Community_div}>
             <div>
             <img
               // src="https://cdn.modesens.com/banner/20220609-modesens-FPillowBags-364x484-F.jpg"
-              src={el}
+              src={el.image}
               alt="prod_comm"
               width="100%"
               height="100%"
@@ -108,9 +136,9 @@ const Trending = () => {
             </div>
                             </div>
                             <div className={Styles.desc}>
-                               <h3>TITLE</h3>
-                               <p>Desc</p>
-                               <h3><span>red price off</span>-$100</h3>
+                               <h3>{el.title}</h3>
+                               <p>{el.details}</p>
+                               <h3><span style={{color:"#C00000",fontWeight: "bolder"}}>20% off</span> - ${el.price}</h3>
                                <p>Compare stores</p>
                             </div>
 
@@ -121,7 +149,7 @@ const Trending = () => {
       </Slider>
     </div>
     <div className={Styles.btn}>
-      <button>VIEW ALL</button>
+      <button onClick={()=>navigate("/men")}>VIEW ALL</button>
     </div>
     </div>
   );

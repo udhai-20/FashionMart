@@ -1,7 +1,9 @@
 
 import React from "react";
 import Slider from "react-slick";
-
+import axios from "axios";
+import { useEffect,useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -55,6 +57,7 @@ function PrevArrow(props) {
   );
 }
 
+
 const RecentlyViewed = () => {
   const settings = {
     dots:true,
@@ -82,6 +85,38 @@ const RecentlyViewed = () => {
       }
     ]
   };
+
+
+  // console.log(data)
+const [data,setData] = useState([])
+
+const navigate=useNavigate();
+
+const getData = ()=> {
+// dispatch(get_request)
+return axios({
+  method: "get",
+  baseURL: "https://colorful-erin-pike.cyclic.app",
+  url:"/men"
+})
+  .then((res) => {
+    setData(res.data)
+  })
+  .catch((err) => {
+    // dispatch(get_failure);
+    console.log(err);
+  });
+};
+
+useEffect(()=>{
+  getData();
+},[])
+
+console.log(data)
+
+
+
+  
   return (
     <div className={Styles.com_main_div}>
          <div className={Styles.hrDiv}>
@@ -93,12 +128,12 @@ const RecentlyViewed = () => {
     >
       <Slider {...settings}>
       
-        {prodArr.map((el)=> (
-          <div key={el} className={Styles.Community_div}>
+        {data.length>0 && data?.map((el)=> (
+          <div key={el.id} className={Styles.Community_div}>
             <div>
             <img
               // src="https://cdn.modesens.com/banner/20220609-modesens-FPillowBags-364x484-F.jpg"
-              src={el}
+              src={el.image}
               alt="prod_comm"
               width="100%"
               height="100%"
@@ -108,9 +143,9 @@ const RecentlyViewed = () => {
             </div>
                             </div>
                             <div className={Styles.desc}>
-                               <h3>TITLE</h3>
-                               <p>Desc</p>
-                               <h3><span>red price off</span>-$100</h3>
+                               <h3>{el.title}</h3>
+                               <p>{el.details}</p>
+                               <h3><span style={{color:"#C00000",fontWeight: "bolder"}}>20% off</span> - ${el.price}</h3>
                                <p>Compare stores</p>
                             </div>
 

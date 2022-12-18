@@ -51,6 +51,7 @@
   margin: auto;
   margin-top: 50px;
   margin-bottom:100px;
+  /* border: 5px solid red; */
 }
 
 .popUp__3 {
@@ -80,7 +81,8 @@
   /* width: 22.625rem !important; */
   width: 90%;
   margin: auto;
-  height: 35.938rem;
+  margin-bottom:30px;
+  /* height: 35.938rem; */
 }
 /* .popUp__3 > div:nth-child(2) { */
   /* width: 22.625rem !important; */

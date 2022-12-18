@@ -11,7 +11,9 @@
     width: 92%;
   }
    .hrDiv > p {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    font-weight:500;
+    /* font-weight: 700; */
     background-color: white;
     position: absolute;
     margin-top: -15px;
@@ -42,7 +44,8 @@
    font-weight: bold;
    justify-content: center;align-items: center;
    font-size: 1rem;
-   background-color: rgb(223, 213, 213);
+   /* background-color: rgb(223, 213, 213); */
+   background-color: transparent;
    cursor: pointer;
    border: 1px solid black;
    transition: all 0.4s ease-in;
@@ -62,7 +65,12 @@
   }
 
   .desc{
-    margin-top: 0px;
+    /* border: 5px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* margin-top: -1000px; */
+    gap: 5px;
     text-align: center;
   }
 
@@ -88,4 +96,25 @@
 
   .com_main_div{
 margin-bottom: 100px;
+/* border: 5px solid red; */
+  }
+
+  .desc{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0px;
+    gap: 5px;
+    text-align: center;
+  }
+
+  .desc h3{
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .desc p{
+    color: #989898;
+    font-size: 18px;
+    font-weight: bold;
   }
