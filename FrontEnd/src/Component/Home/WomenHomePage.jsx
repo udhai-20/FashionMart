@@ -9,6 +9,7 @@ import Banner from "../WomenHomeComp/Banner";
 import ShopWomen from "../WomenHomeComp/ShopWomen";
 import Community from "../WomenHomeComp/Community";
 import Trending from "../WomenHomeComp/Trending";
+import RecentlyViewed from "../WomenHomeComp/RecentlyViewed";
 const WomenHomePage = () => {
   return (
     <div>
@@ -17,7 +18,7 @@ const WomenHomePage = () => {
       <ShopWomen />
       <Trending />
       <SpecialOffers />
-      <Trending />
+      <RecentlyViewed />
       <Community />
       <Bottom />
     </div>

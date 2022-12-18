@@ -3,7 +3,6 @@
 .feature_main_div{
     width: 80%;
     height: auto;
-  /* border: 5px solid red; */
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -11,19 +10,26 @@
     align-items: center;
 }
 
+.feature_mian_div{
+    /* border: 5px solid red; */
+    margin-bottom: 100px;
+}
+
 
 .feature{
     font-size: 2rem;
     font-weight:500;
 }
-
+   .feature_title{
+    text-align: center;
+   }
 .feature_desc{
     font-size: 1.8rem;
     color: #a1a1a1;
     margin-top: -10px;
 }
 .brands_div{
-    width: 80%;
+    width: 85%;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(6,1fr);

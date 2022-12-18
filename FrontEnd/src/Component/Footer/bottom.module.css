@@ -6,6 +6,14 @@
   margin: auto;
   padding: 0;
 }
+
+.ImgDiv2 img,.ImgDiv1 img{
+justify-content: center;
+/* border: 5px solid red; */
+margin: auto;
+}
+
+
 .wrapper {
   width: 100%;
   /* height: 790px; */
@@ -18,9 +26,12 @@
 .left,
 .right {
   padding-top: 15px;
-
   flex: 1;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
 }
 .left h1,
 .right h1 {

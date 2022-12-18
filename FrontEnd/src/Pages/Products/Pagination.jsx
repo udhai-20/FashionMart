@@ -4,7 +4,8 @@ import { Button, Box } from "@chakra-ui/react";
 function Pagination({ pageChangeHandle, currentPage, totalPages }) {
   const prev = (
     <>
-      <Button width="15px" height={"20px"} disabled={currentPage === 1} onClick={() => pageChangeHandle(-1)}>
+      <Button background={"none"} border="none"   width="0px"
+      height={"30px"} disabled={currentPage === 1} onClick={() => pageChangeHandle(-1)}>
         ←
       </Button>
     </>
@@ -12,20 +13,27 @@ function Pagination({ pageChangeHandle, currentPage, totalPages }) {
   const current = (
     <>
       <Button 
+        width="20px"
+        height={"30px"}
+      border="none"
       background={"none"}
-      width="15px" height={"20px"} onClick={pageChangeHandle}>
-        <span>{currentPage}</span>
+      fontWeight="bold"
+      >
+        {currentPage}
       </Button>
     </>
   );
   const next = (
     <>
       <Button
-      width="15px" height={"20px"}
+      width="0px"
+      height={"30px"}
+      border="none"
+      background={"none"}
         disabled={currentPage === totalPages}
         onClick={() => pageChangeHandle(1)}
       >
-        <span> →</span>
+        →
       </Button>
     </>
   );

@@ -28,7 +28,11 @@ function Product({
   query,
   heading,
   details,
+<<<<<<< HEAD
   catagory,
+=======
+  category,
+>>>>>>> 642e5b7d8cee8337f0c465b67fe68f041528d41b
 }) {
   const [tablet] = useMediaQuery("(max-width: 768px)");
   const dispatch = useDispatch();
@@ -68,13 +72,13 @@ function Product({
 
   return (
     <Box>
-      <Box display={"flex"}>
+      <Box display={"flex"} justifyContent="center" width={"100%"}>
         {/* sidebar */}
         <Box
+         
           display={tablet ? "none" : "block"}
-          width={"272px"}
+          width={"20%"}
           minWidth={"auto"}
-          height={"100vh"}
           m="20px 20px"
         >
           <Box width={"272px"} minWidth={"auto"} mt="150px">
@@ -82,8 +86,8 @@ function Product({
           </Box>
         </Box>
         {/* product section */}
-        <Box mt={"20px"} padding={"15px"}>
-          <Box mt={"30px"}>
+        <Box mt={"20px"} padding={"15px"} width={"80%"}>
+          <Box mt={"20px"}>
             <Heading
               padding={"10px"}
               fontSize={"25.94px"}
@@ -142,6 +146,7 @@ function Product({
                       boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
                       cursor={"pointer"}
                       _hover={{ background: "rgba(255,255,249)" }}
+                    
                     >
                       <Box
                         position={"relative"}
@@ -157,12 +162,16 @@ function Product({
                       </Box>
                       <Link
                         to={`/singleProduct/${item._id}`}
+<<<<<<< HEAD
                         state={{ from: catagory }}
+=======
+                        state={{ from: category }}
+>>>>>>> 642e5b7d8cee8337f0c465b67fe68f041528d41b
                         style={{ textDecoration: "none" }}
                       >
                         <Center>
                           <Img
-                            width={"70%"}
+                            width={"60%"}
                             height={"250px"}
                             borderRadius="40px"
                             transition={"all 0.5s ease-in-out"}
@@ -221,6 +230,14 @@ function Product({
                   ))}
               </Box>
             </Center>
+          </Box>
+          <Box height={"10vh"} mt="10">
+            {/* pagination */}
+            <Pagination
+              pageChangeHandle={pageChangeHandle}
+              currentPage={page}
+              totalPages={total}
+            />
           </Box>
         </Box>
       </Box>
