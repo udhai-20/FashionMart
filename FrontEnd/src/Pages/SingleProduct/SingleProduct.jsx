@@ -26,30 +26,34 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addtobasg,
   getsingleData,
+  getsingleData_beauty,
+  getsingleData_kids,
+  getsingleData_mens,
+  getsingleData_women,
 } from "../../Redux/AppReducer/SingleProduct/action";
 
-const data_1 = [
-  {
-    title: "WAVE",
-    details: "Blue & White Classic Track Jacket",
-    offer: "$529 (44% OFF)",
-    price: "$700",
-    SIZE: "S",
-    quantity: 1,
-    compare: "sdfd",
-    image: "https://cdn.modesens.com/product/49347342_2?w=400",
-  },
-  {
-    title: "WAVE",
-    details: "Blue & White Classic Track Jacket",
-    offer: "$529 (44% OFF)",
-    price: "$800",
-    SIZE: "S",
-    quantity: 1,
-    compare: "sdfd",
-    image: "https://cdn.modesens.com/product/49347342_2?w=400",
-  },
-];
+// const data_1 = [
+//   {
+//     title: "WAVE",
+//     details: "Blue & White Classic Track Jacket",
+//     offer: "$529 (44% OFF)",
+//     price: "$700",
+//     SIZE: "S",
+//     quantity: 1,
+//     compare: "sdfd",
+//     image: "https://cdn.modesens.com/product/49347342_2?w=400",
+//   },
+//   {
+//     title: "WAVE",
+//     details: "Blue & White Classic Track Jacket",
+//     offer: "$529 (44% OFF)",
+//     price: "$800",
+//     SIZE: "S",
+//     quantity: 1,
+//     compare: "sdfd",
+//     image: "https://cdn.modesens.com/product/49347342_2?w=400",
+//   },
+// ];
 
 function SingleProduct(props) {
   const navigate = useNavigate();
@@ -60,11 +64,27 @@ function SingleProduct(props) {
   const [data, setData] = useState({});
   const { from } = location.state;
   // console.log("from:", from);
-  let kids = useSelector((state) => state.singleproductreducer.data);
-  let product;
-  if (from == "Kids") {
-    product = kids;
+  // var from = "beauty";
+  let find = useSelector((state) => state.singleproductreducer);
+  let kids = useSelector((state) => state.singleproductreducer?.kiddata);
+  let mens = useSelector((state) => state.singleproductreducer?.mendata);
+  let womens = useSelector((state) => state.singleproductreducer?.womendata);
+  let beauty = useSelector((state) => state.singleproductreducer?.beautydata);
+  let allproduct = useSelector((state) => state.singleproductreducer);
+  console.log("allproduct:", allproduct);
+  if (from == "kids") {
+    var product = kids;
+  } else if (from == "womens") {
+    var product = womens;
+  } else if (from == "mens") {
+    var product = mens;
+  } else if (from == "beauty") {
+    var product = beauty;
   }
+  // console.log("find:", find);
+  // console.log("  product:", product);
+  // console.log(" kids:", kids);
+  // console.log("  beauty:", beauty);
   // console.log("product:", product);
   const { id } = useParams();
   // console.log("id:", id);
@@ -72,14 +92,22 @@ function SingleProduct(props) {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
 
   // get req for single page
-  const fet_data = () => {
-    dispatch(getsingleData(id, usertoken));
+  const fet_data_kids = () => {
+    dispatch(getsingleData_kids(id, usertoken));
+  };
+  const fet_data_women = () => {
+    dispatch(getsingleData_women(id, usertoken));
+  };
+  const fet_data_mens = () => {
+    dispatch(getsingleData_mens(id, usertoken));
+  };
+  const fet_data_beauty = () => {
+    dispatch(getsingleData_beauty(id, usertoken));
   };
   //cart page post request for dynamic data
-  console.log("xhexk", size);
   const handleStoreData = (el) => {
-    console.log("xhexk", size);
-    setData({ ...el, Size: size });
+    // console.log("xhexk", size);
+    // setData({ ...el, Size: size });
     if (size == "") {
       toast({
         position: "top",
@@ -92,7 +120,7 @@ function SingleProduct(props) {
     } else {
       ///in kids section u need to include the size schema
       // console.log("data;:", data);
-      dispatch(addtobasg(data, usertoken));
+      dispatch(addtobasg(el, usertoken));
 
       toast({
         position: "top",
@@ -108,10 +136,20 @@ function SingleProduct(props) {
     // console.log(el);
   };
   useEffect(() => {
-    fet_data();
-    // console.log("datas useEffect", datas);
-    // setData({ ...datas, Size: size });
-  }, [size]);
+    fet_data_kids();
+    // fet_data_women();
+    // fet_data_mens();
+    // fet_data_beauty();
+  }, []);
+  useEffect(() => {
+    fet_data_women();
+  }, []);
+  useEffect(() => {
+    fet_data_mens();
+  }, []);
+  useEffect(() => {
+    fet_data_beauty();
+  }, []);
   return (
     <Container maxW="85%" marginTop={"20px"} bg="white.500">
       <Text marginBottom={{ base: "10px" }}>

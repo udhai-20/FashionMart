@@ -39,7 +39,8 @@ const delete_success = () => ({
 const delete_failure = () => ({
   type: types.DELETE_FAILURE_DATA,
 });
-
+const usertoken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzlkODU4NGQ2ZGM2NTkxMzMzNTU0ZDAiLCJpYXQiOjE2NzEyNjc5MjUsImV4cCI6MTY3MTM1NDMyNX0.VpGo1n-po3-9wsQhAIiRnh_sZA2RxsSDcXZj2IODMlY";
 export const addlikedata = (payload) => (dispatch) => {
   // console.log(payload)
   dispatch(post_request);
@@ -48,6 +49,7 @@ export const addlikedata = (payload) => (dispatch) => {
     baseURL: "https://colorful-erin-pike.cyclic.app",
     url: "/like/add_to_like",
     data: payload,
+    headers: { authorization: `Bearer ${usertoken}` },
   })
     .then((response) => {
       console.log(response);
@@ -58,14 +60,14 @@ export const addlikedata = (payload) => (dispatch) => {
 };
 
 /////like get request
-const getlikedata = (payload) => (dispatch) => {
+const getlikedata = (usertoken) => (dispatch) => {
   // console.log(payload)
   dispatch(get_request());
   axios({
     method: "get",
     baseURL: "https://colorful-erin-pike.cyclic.app",
     url: "/like",
-    data: payload,
+    headers: { authorization: `Bearer ${usertoken}` },
   })
     .then((response) => {
       dispatch(get_success(response.data));
@@ -76,16 +78,17 @@ const getlikedata = (payload) => (dispatch) => {
 };
 
 //like deleteData
-const getlikeDeletedata = (id) => (dispatch) => {
+const getlikeDeletedata = (id, usertoken) => (dispatch) => {
   dispatch(delete_request());
   axios({
     method: "delete",
     baseURL: "https://colorful-erin-pike.cyclic.app",
     url: `/like/delete/${id}`,
+    headers: { authorization: `Bearer ${usertoken}` },
   })
     .then((response) => {
       dispatch(delete_success());
-      dispatch(getlikedata());
+      dispatch(getlikedata(usertoken));
     })
     .catch((err) => {
       dispatch(delete_failure(err));

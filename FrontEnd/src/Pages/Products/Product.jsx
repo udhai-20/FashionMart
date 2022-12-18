@@ -20,7 +20,16 @@ import {
 
 import { useDispatch } from "react-redux";
 
-function Product({ data, setPage, setQuery, page, query, heading, details, kids}) {
+function Product({
+  data,
+  setPage,
+  setQuery,
+  page,
+  query,
+  heading,
+  details,
+  catagory,
+}) {
   const [tablet] = useMediaQuery("(max-width: 768px)");
   const dispatch = useDispatch();
   const [total, setTotal] = useState(3);
@@ -89,7 +98,7 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
           <Box>
             {/* details */}
             <Text fontSize={"12.9px"} ml="1%" mt={"5px"} mb={"5px"}>
-            {details}
+              {details}
             </Text>
           </Box>
           <Box
@@ -148,7 +157,7 @@ function Product({ data, setPage, setQuery, page, query, heading, details, kids}
                       </Box>
                       <Link
                         to={`/singleProduct/${item._id}`}
-                        state={{from:kids}}
+                        state={{ from: catagory }}
                         style={{ textDecoration: "none" }}
                       >
                         <Center>
