@@ -11,6 +11,7 @@ import {
   Flex,
   Image,
   SimpleGrid,
+  Skeleton,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -35,6 +36,7 @@ function AdminDashboard(props) {
   const [beauty_length, setBeauty_Length] = useState(0);
   const ProdLength = useSelector((state) => state);
   console.log("beauty_length:", beauty_length);
+  const loading = useSelector((state) => state.adminreducer.isLoading);
   let data = ProdLength?.adminreducer?.kidsprod.length;
   let data1 = ProdLength.adminreducer?.mensprod.length;
   let data2 = ProdLength.adminreducer?.womensprod.length;
@@ -64,12 +66,39 @@ function AdminDashboard(props) {
 
   useEffect(() => {
     kidsProd_Len();
+    handle();
+  }, [data]);
+  // womensProd_Len();
+  // beautyProd_Len();
+  // handle();
+  useEffect(() => {
     mensProd_Len();
+    handle();
+  }, [data1]);
+  useEffect(() => {
     womensProd_Len();
+    handle();
+  }, [data2]);
+  useEffect(() => {
     beautyProd_Len();
     handle();
-  }, [data, data1, data2, data3]);
+  }, [data3]);
+  useEffect(() => {
+    handle();
+  }, []);
 
+  if (loading) {
+    return (
+      <Container maxW="90%" marginTop={"20px"}>
+        <SimpleGrid columns={{ lg: 4, md: 3, base: 1 }} spacing={10}>
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+        </SimpleGrid>
+      </Container>
+    );
+  }
   return (
     <Container bg={"white"} maxW="85%" marginTop={"2rem"}>
       <Box

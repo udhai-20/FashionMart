@@ -8,6 +8,7 @@ import {
   GridItem,
   Image,
   SimpleGrid,
+  Skeleton,
   Text,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
@@ -36,6 +37,7 @@ function AdminCollection() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(3);
   const [query, setQuery] = useState("");
+  const loading = useSelector((state) => state.adminreducer.isLoading);
   const kids = useSelector((state) => state.adminreducer.kidsprod);
   const womens = useSelector((state) => state.adminreducer.womensprod);
   const mens = useSelector((state) => state.adminreducer.mensprod);
@@ -87,6 +89,19 @@ function AdminCollection() {
     mensProd_Len();
     womensProd_Len();
   }, []);
+
+  if (loading) {
+    return (
+      <Container maxW="90%" marginTop={"20px"}>
+        <SimpleGrid columns={{ lg: 4, md: 3, base: 1 }} spacing={10}>
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+        </SimpleGrid>
+      </Container>
+    );
+  }
 
   return (
     <Container maxW="90%" marginTop={"20px"}>

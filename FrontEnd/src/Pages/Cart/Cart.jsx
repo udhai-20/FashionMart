@@ -25,7 +25,7 @@ import {
 } from "../../Redux/AppReducer/Cart/action";
 import Loading from "../Checkout/Loading";
 import ProductDetails from "../SingleProduct/ProductDetails";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EmptyCart from "./EmptyCart";
 import { getData } from "../../Component/Utils/customLocalstorage";
 function Cart(props) {
@@ -239,10 +239,7 @@ function Cart(props) {
                       <Heading size="sm">${sumprice.toFixed(2)}</Heading>
                     </HStack>
                   </VStack>
-                  <a
-                    style={{ textDecoration: "none" }}
-                    href="http://localhost:3000/checkout"
-                  >
+                  <Link style={{ textDecoration: "none" }} to="/checkout">
                     <Button
                       w="full"
                       bg="black"
@@ -251,7 +248,7 @@ function Cart(props) {
                     >
                       GO TO Checkout
                     </Button>
-                  </a>
+                  </Link>
                 </VStack>
               </Box>
               <VStack>

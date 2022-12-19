@@ -9,6 +9,9 @@ import {
   GridItem,
   Image,
   Select,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
   Spacer,
   Stack,
   Text,
@@ -65,7 +68,7 @@ function SingleProduct(props) {
   const { from } = location.state;
   // console.log("from:", from);
   // var from = "beauty";
-
+  let loading = useSelector((state) => state.singleproductreducer.isLoading);
   let kids = useSelector((state) => state.singleproductreducer?.kiddata);
   let mens = useSelector((state) => state.singleproductreducer?.mendata);
   let womens = useSelector((state) => state.singleproductreducer?.womendata);
@@ -148,6 +151,37 @@ function SingleProduct(props) {
   useEffect(() => {
     fet_data_beauty();
   }, []);
+  console.log("loading:", loading);
+  if (loading) {
+    return (
+      <Grid templateColumns={"repeat(2, 1fr)"} gap={6} padding={".5rem"}>
+        <GridItem colSpan={{ base: 2, md: 1 }} w="100%">
+          <Box
+            display={"flex"}
+            justifyContent="center"
+            alignItems={"center"}
+            maxW="85%"
+            padding="6"
+            bg="white"
+          >
+            <Skeleton height="200px" w={"40%"} />
+          </Box>
+        </GridItem>
+        <GridItem
+          display={"flex"}
+          justifyContent="center"
+          alignItems={"center"}
+          maxW="85%"
+          padding="6"
+          bg="white"
+          colSpan={{ base: 2, md: 1 }}
+          w="100%"
+        >
+          <Skeleton height="200px" w={"40%"} />
+        </GridItem>
+      </Grid>
+    );
+  }
   return (
     <Container maxW="85%" marginTop={"20px"} bg="white.500">
       <Text marginBottom={{ base: "10px" }}>

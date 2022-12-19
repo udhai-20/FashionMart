@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { admin_Login_req } from "../../Redux/AuthReducer/Admin/actions";
 import { useNavigate } from "react-router-dom";
 import { saveData } from "../Utils/customLocalstorage";
@@ -34,46 +34,39 @@ export default function AdminLogin() {
     const { name, value } = e.target;
     setFormData({ ...formdata, [name]: value });
   };
+
+  let flag;
   const hamdleSubmit = () => {
+    flag = false;
     if (email !== "" && password !== "") {
       dispatch(admin_Login_req(formdata));
-      setFormData({ ...formdata, email: "", password: "" });
-      console.log("status.SignupData.token:", status.SignupData.token);
+      flag = true;
+    }
+    if (status.SignupData?.message == "login successful ") {
+      console.log("sucess");
       saveData("ADMINTOKEN", status.SignupData.token);
-      console.log("check", status.SignupData.message == "login successful ");
-      if (status.SignupData.message == "login successful ") {
-        console.log("sucess");
-        toast({
-          position: "top",
-          title: "Login successful",
-          description: "Login to Admin Panel",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
-        navigate("/admin/dashboard");
-      } else {
-        console.log("failure");
-        toast({
-          position: "top",
-          title: "Login Failed",
-          description: "please check entered Email || password",
-          status: "error",
-          duration: 1500,
-          isClosable: true,
-        });
-      }
-    } else {
       toast({
         position: "top",
-        title: "please fill the input field",
-        description: "Signup Failed",
-        status: "error",
+        title: "Login successful",
+        description: "Login to Admin Panel",
+        status: "success",
         duration: 2000,
+        isClosable: true,
+      });
+      navigate("/admin/dashboard");
+    } else {
+      console.log("failure");
+      toast({
+        position: "top",
+        title: "Login Failed",
+        description: "please check entered Email || password",
+        status: "error",
+        duration: 1500,
         isClosable: true,
       });
     }
   };
+
   const { email, password } = formdata;
   return (
     <Flex

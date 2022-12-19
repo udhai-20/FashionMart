@@ -7,6 +7,7 @@ import {
   GridItem,
   Image,
   SimpleGrid,
+  Skeleton,
   Text,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
@@ -21,7 +22,7 @@ import { getData } from "../../Component/Utils/customLocalstorage";
 
 function Wishlist(props) {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.LikedProductreducer.loading);
+  const loading = useSelector((state) => state.LikedProductreducer.isLoading);
   const likeData = useSelector((state) => state.LikedProductreducer.data);
   console.log("likeData:", likeData);
   const showData = () => {
@@ -34,10 +35,21 @@ function Wishlist(props) {
   useEffect(() => {
     showData();
   }, []);
-
+  if (loading) {
+    return (
+      <Container maxW="90%" marginTop={"20px"}>
+        <SimpleGrid columns={{ lg: 4, md: 3, base: 1 }} spacing={10}>
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+        </SimpleGrid>
+      </Container>
+    );
+  }
   return (
     <Container maxW="90%" marginTop={"20px"}>
-      {likeData?.length <= 0 && (
+      {likeData?.length === 0 && (
         <Box display={"flex"} justifyContent="center" alignItems={"center"}>
           <Image
             width={"50%"}

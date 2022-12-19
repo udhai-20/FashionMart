@@ -35,12 +35,13 @@ import {
   Search2Icon,
 } from "@chakra-ui/icons";
 import Login from "../../Pages/Login/Login";
+import fashion from "../Images/Ig.png";
 
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { getData } from "../Utils/customLocalstorage";
+import { getData, saveData } from "../Utils/customLocalstorage";
 import { cart_length } from "../../Redux/AppReducer/SingleProduct/action";
 
 function Navbar(props) {
@@ -83,6 +84,7 @@ function Navbar(props) {
   ///admin check
   let admintoken = getData("ADMINTOKEN");
   //firbase
+  console.log("admintoken res", admintoken !== "");
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       setUsername(user);
@@ -116,21 +118,21 @@ function Navbar(props) {
             >
               {admintoken ? (
                 <Image
-                  src="https://cdn.modesens.com/static/img/20190228newlogo-black.svg"
+                  src={fashion}
                   color={"gray.500"}
                   width="100%"
                   onClick={() => navigate("/admin/dashboard")}
                 />
               ) : (
                 <Image
-                  src="https://cdn.modesens.com/static/img/20190228newlogo-black.svg"
+                  src={fashion}
                   color={"gray.500"}
                   width="100%"
                   onClick={() => navigate("")}
                 />
               )}
             </Box>
-            {admintoken ? (
+            {admintoken !== "" ? (
               <HStack
                 as={"nav"}
                 fontWeight="500"
@@ -306,38 +308,42 @@ function Navbar(props) {
                     onMouseEnter={onOpen}
                     onMouseLeave={onClose}
                   >
-                    <MenuItem>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/profile");
-                          setUser(!user);
-                        }}
-                      >
-                        {username.displayName}
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          auth.signOut();
-                          window.location.reload();
-                        }}
-                      >
-                        Sign Out
-                      </Link>
-                    </MenuItem>
+                    {admintoken == "" && (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            navigate("/profile");
+                            setUser(!user);
+                          }}
+                        >
+                          {username.displayName}
+                        </Link>
+                      </MenuItem>
+                    )}
+                    {admintoken == "" && (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            auth.signOut();
+                            window.location.reload();
+                          }}
+                        >
+                          Sign Out
+                        </Link>
+                      </MenuItem>
+                    )}
                   </MenuList>
                 </Menu>
               ) : (
@@ -351,86 +357,111 @@ function Navbar(props) {
                     onMouseEnter={onOpen}
                     onMouseLeave={onClose}
                   >
-                    <MenuItem>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/profile");
-                          setUser(!user);
-                        }}
-                      >
-                        Profile
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        // onClick={() => {
+                    {admintoken == "" && (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            navigate("/profile");
+                            setUser(!user);
+                          }}
+                        >
+                          Profile
+                        </Link>
+                      </MenuItem>
+                    )}
+                    {admintoken == "" && (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                        >
+                          <Login />
+                        </Link>
+                      </MenuItem>
+                    )}
+                    {admintoken == "" && (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            navigate("/order");
+                            setUser(!user);
+                          }}
+                        >
+                          Orders
+                        </Link>
+                      </MenuItem>
+                    )}
+                    {admintoken == "" && (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            navigate("/wishlist");
+                            setUser(!user);
+                          }}
+                        >
+                          Wishlist
+                        </Link>
+                      </MenuItem>
+                    )}
 
-                        //   setUser(!user);
-                        // }}
-                      >
-                        <Login />
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/order");
-                          setUser(!user);
-                        }}
-                      >
-                        Orders
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/wishlist");
-                          setUser(!user);
-                        }}
-                      >
-                        Wishlist
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link
-                        px={2}
-                        py={1}
-                        rounded={"md"}
-                        _hover={{
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => {
-                          navigate("/admin/signup");
-                          setUser(!user);
-                        }}
-                      >
-                        Admin
-                      </Link>
-                    </MenuItem>
+                    {admintoken !== "" ? (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            navigate("/admin/login");
+                            saveData("ADMINTOKEN", "");
+                            setUser(!user);
+                          }}
+                        >
+                          Admin_Logout
+                        </Link>
+                      </MenuItem>
+                    ) : (
+                      <MenuItem>
+                        <Link
+                          px={2}
+                          py={1}
+                          rounded={"md"}
+                          _hover={{
+                            textDecoration: "underline",
+                          }}
+                          onClick={() => {
+                            navigate("/admin/signup");
+                            setUser(!user);
+                          }}
+                        >
+                          Admin
+                        </Link>
+                      </MenuItem>
+                    )}
                   </MenuList>
                 </Menu>
               )}
@@ -498,86 +529,113 @@ function Navbar(props) {
                   onMouseEnter={onOpen}
                   onMouseLeave={onClose}
                 >
-                  <MenuItem>
-                    <Link
-                      px={2}
-                      py={1}
-                      rounded={"md"}
-                      _hover={{
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => {
-                        navigate("/profile");
-                        setUser(!user);
-                      }}
-                    >
-                      Profile
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      px={2}
-                      py={1}
-                      rounded={"md"}
-                      _hover={{
-                        textDecoration: "underline",
-                      }}
-                      // onClick={() => {
+                  {admintoken == "" && (
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/profile");
+                          setUser(!user);
+                        }}
+                      >
+                        Profile
+                      </Link>
+                    </MenuItem>
+                  )}
 
-                      //   setUser(!user);
-                      // }}
-                    >
-                      <Login />
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      px={2}
-                      py={1}
-                      rounded={"md"}
-                      _hover={{
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => {
-                        navigate("/order");
-                        setUser(!user);
-                      }}
-                    >
-                      Orders
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      px={2}
-                      py={1}
-                      rounded={"md"}
-                      _hover={{
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => {
-                        navigate("/wishlist");
-                        setUser(!user);
-                      }}
-                    >
-                      Wishlist
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      px={2}
-                      py={1}
-                      rounded={"md"}
-                      _hover={{
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => {
-                        navigate("/admin/signup");
-                        setUser(!user);
-                      }}
-                    >
-                      Admin
-                    </Link>
-                  </MenuItem>
+                  {admintoken == "" && (
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                      >
+                        <Login />
+                      </Link>
+                    </MenuItem>
+                  )}
+                  {admintoken == "" && (
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/order");
+                          setUser(!user);
+                        }}
+                      >
+                        Orders
+                      </Link>
+                    </MenuItem>
+                  )}
+
+                  {admintoken == "" && (
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/wishlist");
+                          setUser(!user);
+                        }}
+                      >
+                        Wishlist
+                      </Link>
+                    </MenuItem>
+                  )}
+
+                  {admintoken !== "" ? (
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/admin/login");
+                          saveData("ADMINTOKEN", "");
+                          setUser(!user);
+                        }}
+                      >
+                        Admin_Logout
+                      </Link>
+                    </MenuItem>
+                  ) : (
+                    <MenuItem>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={"md"}
+                        _hover={{
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          navigate("/admin/signup");
+                          setUser(!user);
+                        }}
+                      >
+                        Admin
+                      </Link>
+                    </MenuItem>
+                  )}
                 </MenuList>
               </Menu>
 
