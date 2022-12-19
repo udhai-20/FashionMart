@@ -49,44 +49,58 @@ orderRouter.post("/add_order", async (req, res) => {
   }
 });
 
-// cartRouter.put("/update/:cartId", async (req, res) => {
-//   try {
-//     const payload = req.body;
-//     const cartId = req.params.cartId;
+orderRouter.put("/update/:orderId", async (req, res) => {
+  try {
+    const payload = req.body;
+    const orderId = req.params.orderId;
 
-//     const cartID = req.body.cartId;
-//     console.log(cartID);
-//     const user = await cartModel.findOne({ _id: cartId });
-//     console.log(user);
-//     if (cartID !== user.cartId) {
-//       res.send("user is not authorized");
-//     } else {
-//       await cartModel.findByIdAndUpdate({ _id: cartId }, payload);
-//       res.send("note is updated");
-//     }
-//   } catch (err) {
-//     res.status(400).send({ message: err.message });
-//   }
-// });
+    const userID = req.body.userId;
+    console.log(userID);
+    const user = await orderModel.findOne({ _id: orderId });
+    console.log(user);
+    if (userID !== user.userId) {
+      res.send("user is not authorized");
+    } else {
+      await orderModel.findByIdAndUpdate({ _id: orderId }, payload);
+      res.send("note is updated");
+    }
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
 
-// cartRouter.delete("/delete/:cartId", async (req, res) => {
-//   try {
 
-//     const cartId = req.params.cartId;
+orderRouter.delete("/delete/:orderId", async (req, res) => {
+  try {
+   
+    const orderId = req.params.orderId;
 
-//     const cartID = req.body.cartId;
-//     console.log(cartID);
-//     const user = await cartModel.findOne({ _id: cartId });
-//     console.log(user);
-//     if (cartID !== user.cartId) {
-//       res.send("user is not authorized");
-//     } else {
-//       await cartModel.findByIdAndDelete({ _id: cartId });
-//       res.send("note is deleted");
-//     }
-//   } catch (err) {
-//     res.status(400).send({ message: err.message });
-//   }
-// });
+    const userID = req.body.userId;
+    console.log(userID);
+    const user = await orderModel.findOne({ _id: orderId });
+    console.log(user);
+    if (userID !== user.userId) {
+      res.send("user is not authorized");
+    } else {
+      await orderModel.findByIdAndDelete({ _id: orderId });
+      res.send("item is deleted");
+    }
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
+
+orderRouter.get("/delete/allorders", async (req, res) => {
+  try {
+    // const cartId = req.params.cartId;
+    const userID = req.body.userId;
+ 
+      await orderModel.deleteMany({userId:userID});
+      res.send("all is deleted");
+    
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
 
 module.exports = { orderRouter };

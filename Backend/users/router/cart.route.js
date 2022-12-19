@@ -90,4 +90,18 @@ cartRouter.delete("/delete/:cartId", async (req, res) => {
   }
 });
 
+cartRouter.get("/delete/allcarts", async (req, res) => {
+  try {
+    // const cartId = req.params.cartId;
+    const userID = req.body.userId;
+    console.log(cartModel)
+      await cartModel.deleteMany({userId:userID});
+      res.send("all is deleted");
+    
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
+
+
 module.exports = { cartRouter };

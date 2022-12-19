@@ -42,10 +42,22 @@ recentRouter.post("/add_to_recent_view", async (req, res) => {
     console.log(payload);
     const new_note = new recentViewModel(payload);
     await new_note.save();
-    res.send({ message: "note is created" });
+    res.send({ message: "item is created" });
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
 });
 
+recentRouter.get("/delete/allrecentview", async (req, res) => {
+  try {
+    // const cartId = req.params.cartId;
+    const userID = req.body.userId;
+    console.log(cartModel)
+      await recentViewModel.deleteMany({userId:userID});
+      res.send("all are deleted");
+    
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
 module.exports = { recentRouter };

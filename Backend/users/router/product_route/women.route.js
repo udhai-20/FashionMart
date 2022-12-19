@@ -38,6 +38,7 @@ womenRouter.get("/", async (req, res) => {
   }
 });
 
+
 womenRouter.get("/:id", async(req, res)=>{
   try{
     const id = req.params.id;
