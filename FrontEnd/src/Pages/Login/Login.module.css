@@ -30,6 +30,7 @@
   /* box-shadow: rgba(0, 0, 0, 0.4) 0px 22px 70px 320px; */
   width:100%;
   height: auto;
+  margin: auto;
   /* border: 5px solid red; */
   /* height: 600px; */
   /* margin: auto; */
@@ -37,6 +38,7 @@
   box-sizing: border-box;
   display: flex;
   background-color: white;
+  justify-content: center;
   /* position: absolute;
   left: 20%;
   right: 80%; */
@@ -74,6 +76,7 @@
   justify-content: space-between;
   height: 540px;
 }
+
 .adjust {
   /* margin-top: -12px; */
   text-align: center;
@@ -85,6 +88,7 @@
 }
 .formData input {
   /* width: 55%; */
+  box-sizing: border-box;
   margin-top: 10px;
   padding: 12px 80px;
   border: 1px solid black;
@@ -190,14 +194,30 @@ a {
       
    .containerLogin{
     flex-direction: column;
+    gap: 50px;
    }
+
+  .containerLogin .right{
+    margin: auto;
+    margin-left: 25px;
+  
+  }
  
 }
 @media only screen and (max-width: 500px) {
      
   .containerLogin{
     flex-direction: column;
+    gap: 50px;
+
    }
+
+   .right{
+    /* margin: auto; */
+    margin-left: 25px;
+
+  
+  }
 
    .left{
     width: 100%;

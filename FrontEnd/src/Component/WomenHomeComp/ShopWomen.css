@@ -36,6 +36,30 @@
 
 
 
+.desc{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0px;
+    gap: 5px;
+    text-align: center;
+  }
+
+  .desc h3{
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .desc p{
+    color: #989898;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+
+
+
+
 
 
 @media only screen and (max-width: 800px) {

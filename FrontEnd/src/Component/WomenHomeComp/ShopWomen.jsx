@@ -7,12 +7,12 @@ let shopWarr = [
     {
         img: "https://cdn.modesens.com/banner/20220919-W-Sale.jpg",
         title: "SALE",
-        onClick:"/home"
+        onClick:"/"
     },
     {
         img: "https://cdn.modesens.com/banner/20220919-W-New.jpg",
         title: "NEW ARRIVALS",
-        onClick:"/"
+        onClick:"/women"
     },
     {
         img: "https://cdn.modesens.com/banner/20220919-W-Jackets.jpg",
@@ -22,7 +22,7 @@ let shopWarr = [
     {
         img: "https://cdn.modesens.com/banner/20220919-W-Dresses.jpg",
         title: "DRESSES",
-        onClick:"/"
+        onClick:"/women"
     },
     {
         img: "https://cdn.modesens.com/banner/20220919-W-Tops.jpg",
