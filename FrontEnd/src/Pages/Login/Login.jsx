@@ -7,7 +7,7 @@ import {
   // ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/modal";
-import { Box } from "@chakra-ui/react";
+import { Box, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,7 @@ import { Link } from "@chakra-ui/react";
 import { signInWithGoogle } from "../../Service/firebase";
 
 export default function Login() {
+  const toast = useToast();
   const navigate = useNavigate();
   const [user, setUser] = useState(true);
   const [text, setText] = useState(true);
@@ -55,13 +56,34 @@ export default function Login() {
     dispatch(logindata(payload));
     if (payload.email && payload.password) {
       if (response.message === "login successful ") {
-        alert("Login Successful !");
+        // alert("Login Successful !");
+        toast({
+          position:"top",
+          title: "Login Succcessfull",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        });
         setToken(true);
         onClose();
       } else {
+        toast({
+          position:"top",
+          title: "Login Failed",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+        });
         alert("please check your credentials");
       }
     } else {
+      toast({
+        position:"top",
+        title: "Login Failed",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
       alert("please check your credentials");
     }
   };
@@ -92,6 +114,13 @@ export default function Login() {
   };
 
   const signOut = () => {
+    toast({
+      position:"top",
+      title: "Logout Succcessfull",
+      status: "success",
+      duration: 4000,
+      isClosable: true,
+    });
     setToken(false);
     saveData("token", "");
     navigate("/");
