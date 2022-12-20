@@ -19,7 +19,7 @@ beautyRouter.get("/", async (req, res) => {
         .sort({price:1})
       res.send(getdata);
 
-    } else if (_sort === "price" && _order === "-1" || _page > 0 && _limit > 0) {
+    } else if (_sort === "price" && _order === "-1" ) {
 
       const skips = Number(_page) * Number(_limit) - Number(_limit);
       const getdata = await beautyModel
@@ -28,7 +28,15 @@ beautyRouter.get("/", async (req, res) => {
         .limit(`${Number(_limit)}`)
         .sort({price:-1})
       res.send(getdata);
-    } else {
+    }else if(_page >0 && _limit > 0 ){
+      const skips = Number(_page) * Number(_limit) - Number(_limit);
+      const getdata = await beautyModel
+        .find()
+        .skip(`${skips}`)
+        .limit(`${Number(_limit)}`);
+      res.send(getdata);
+    } 
+    else {
       const getdata = await beautyModel.find();
       res.send(getdata);
     }

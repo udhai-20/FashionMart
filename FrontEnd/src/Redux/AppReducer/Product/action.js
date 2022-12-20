@@ -16,7 +16,7 @@ const get_request = ()=>({
     type : types.GET_REQUEST_DATA
 })
 
-export const getData = (payload, query)=>(dispatch) => {
+export const getData = (payload, query)=>(dispatch)=> {
     dispatch(get_request)
     return axios({
       method: "get",
@@ -24,7 +24,7 @@ export const getData = (payload, query)=>(dispatch) => {
       url: `/kids?_page=${payload}&_limit=20&_sort=price&_order=${query}`,
     })
       .then((res) => {
-        console.log(res);
+        console.log("kids", res);
         dispatch(get_success(res.data));
       })
       .catch((err) => {

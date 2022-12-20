@@ -49,15 +49,14 @@ kidsRouter.get("/:id", async(req, res)=>{
   }
 })
 
-// kidsRouter.post("/kids_data", async (req, res) => {
-//   try {
-//     const payload = req.body;
-//     console.log(payload);
-//     await kidsModel.insertMany(payload);
-//     res.send({ message: "data is added" });
-//   } catch (err) {
-//     res.status(400).send({ message: err.message });
-//   }
-// });
+
+
+
+
+
+
+
+
+
 
 module.exports = { kidsRouter };

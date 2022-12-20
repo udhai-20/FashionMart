@@ -8,6 +8,7 @@ function Kids() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  
   const { kids, isLoading, isError } = useSelector((state) => {
     return {
       kids: state.productreducer.kids,
@@ -15,6 +16,8 @@ function Kids() {
       isError: state.productreducer.isError,
     };
   }, shallowEqual);
+
+console.log(kids)
 
   useEffect(() => {
     dispatch(getData(page, query));
@@ -35,6 +38,8 @@ function Kids() {
         heading={heading}
         details={details}
         category={from}
+        loading={isLoading}
+        error={isError}
       />
     </Box>
   );

@@ -97,7 +97,7 @@ cartRouter.get("/delete/allcarts", async (req, res) => {
     console.log(cartModel)
       await cartModel.deleteMany({userId:userID});
       res.send("all is deleted");
-    
+     
   } catch (err) {
     res.status(400).send({ message: err.message });
   }

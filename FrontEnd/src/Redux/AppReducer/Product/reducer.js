@@ -32,7 +32,7 @@ export const reducer = (state = initialize, action) => {
       };
     }
     case types.GET_SUCCESS_DATA: {
-      // console.log(payload);
+      console.log(payload);
       return {
         ...state,
         isLoading: false,

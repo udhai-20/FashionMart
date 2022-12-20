@@ -68,6 +68,7 @@ function Checkout(props) {
   const [country, setCountry] = useState("");
   const [checknumber, setChecknumber] = useState("");
   const [checkcvv, setCvv] = useState("");
+
   const totalsum = data.reduce((sum, ele) => {
     return sum + ele.price * ele.quantity;
   }, 0);
@@ -78,7 +79,7 @@ function Checkout(props) {
 
   let discount = data.reduce((ele)=>{
     
-    return((5/100)*(totalsum))
+    return((5/100)*totalsum)
   })
 
   console.log(discount)
