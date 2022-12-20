@@ -75,6 +75,13 @@ function Checkout(props) {
     return sum + ele.quantity;
   }, 0);
   let tax = totalqty >= 6 ? 29 : 10;
+
+  let discount = data.reduce((ele)=>{
+    
+    return((5/100)*(totalsum))
+  })
+
+  console.log(discount)
   async function fetchData() {
     const myHeaders = new Headers({
       mode: "no-cors",
@@ -475,6 +482,10 @@ function Checkout(props) {
                       <Heading size="sm">${totalsum.toFixed(2)}</Heading>
                     </HStack>
                     <HStack justifyContent="space-between">
+                      <Text color="green.400">Discount</Text>
+                      <Heading color="green.400" size="sm">-${Math.floor(discount).toFixed(2)}</Heading>
+                    </HStack>
+                    <HStack justifyContent="space-between">
                       <Text>Store Shipping Free</Text>
                       <Heading size="sm">$29.00</Heading>
                     </HStack>
@@ -482,12 +493,21 @@ function Checkout(props) {
                       <Text>Taxes</Text>
                       <Heading size="sm">${tax.toFixed(2)}</Heading>
                     </HStack>
+                    <HStack justifyContent="space-between">
+                      <Text color="green.400">Delivery</Text>
+                      <Heading color="green.400" size="sm">FREE</Heading>
+                    </HStack>
                     <Divider />
                     <HStack justifyContent="space-between">
                       <Text>Total</Text>
                       <Heading size="md">
-                        ${(totalsum + 29 + tax).toFixed(2)}
+                        ${(totalsum + 29 + tax - Math.floor(discount)).toFixed(2)}
                       </Heading>
+                    </HStack>
+                    <Divider />
+                    <HStack justifyContent="space-between">
+                      <Heading size="sm" color="green.400">You will save ${Math.floor(discount)} in this order</Heading>
+                     
                     </HStack>
                   </VStack>
                   <VStack
