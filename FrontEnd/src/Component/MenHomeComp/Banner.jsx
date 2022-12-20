@@ -90,7 +90,7 @@ useEffect(()=>{
     <Slider {...settings} >
         {banner.map((el) => (
             <div className={Styles.popup} key={el}>
-                <img className={Styles.bnr_img} src={el} alt="banner" />
+                <img className={Styles.bnr_img} src={el.crausel_home} alt="banner" />
             </div>
         ))}
     </Slider>
