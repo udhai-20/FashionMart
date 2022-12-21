@@ -13,14 +13,14 @@ import RecentlyViewed from '../MenHomeComp/RecentlyViewed';
 const MenHomePage = () => {
   return (
     <div>
-    <Banner />
+    {/* <Banner />
     <Featured />
     <ShopWomen />
     <Trending />
     <SpecialOffers />
     <RecentlyViewed />
     <Community />
-    <Bottom />  
+    <Bottom />   */}
     </div>
   );
 };

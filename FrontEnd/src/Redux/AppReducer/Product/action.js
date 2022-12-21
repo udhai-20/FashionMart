@@ -2,33 +2,33 @@ import * as types from "./actionType";
 import axios from "axios";
 
 //GET KIDS DATA
-const get_failure = () =>({
-    type: types.GET_FAILURE_DATA
+const get_failure_kids = () =>({
+    type: types.GET_FAILURE_DATA_KIDS
 })
 
 
-const get_success =(data)=>({
-    type:types.GET_SUCCESS_DATA,
+const get_success_kids =(data)=>({
+    type:types.GET_SUCCESS_DATA_KIDS,
     payload: data
 })
 
-const get_request = ()=>({
-    type : types.GET_REQUEST_DATA
+const get_request_kids = ()=>({
+    type : types.GET_REQUEST_DATA_KIDS
 })
 
 export const getData = (payload, query)=>(dispatch)=> {
-    dispatch(get_request)
-    return axios({
+    dispatch(get_request_kids)
+    axios({
       method: "get",
       baseURL: "https://colorful-erin-pike.cyclic.app",
       url: `/kids?_page=${payload}&_limit=20&_sort=price&_order=${query}`,
     })
       .then((res) => {
         console.log("kids", res);
-        dispatch(get_success(res.data));
+        dispatch(get_success_kids(res.data));
       })
       .catch((err) => {
-        dispatch(get_failure);
+        dispatch(get_failure_kids);
         console.log(err);
       });
   };
@@ -51,7 +51,7 @@ const get_request_beauty = ()=>({
 
 export const getDataBeauty = (payload, query)=>(dispatch) => {
   dispatch(get_request_beauty)
-  return axios({
+  axios({
     method: "get",
     baseURL: "https://colorful-erin-pike.cyclic.app",
     url: `/beauty?_page=${payload}&_limit=20&_sort=price&_order=${query}`,

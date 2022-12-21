@@ -6,6 +6,8 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import axios  from "axios";
 import { useEffect, useState } from "react";
 import Styles from "./FirstSlider.module.css";
+import Loading from "../../Pages/Checkout/Loading";
+import {Box, Img, Center} from "@chakra-ui/react"
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
@@ -52,10 +54,12 @@ function PrevArrow(props) {
 
 const Banner = () => {
 
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [banner, setBanner]  = useState([]);
 
   const getbanner =()=>{
+    setLoading(true)
     axios({
       method:"get",
       baseURL:"https://colorful-erin-pike.cyclic.app",
@@ -64,9 +68,13 @@ const Banner = () => {
     .then((res)=>{
       console.log(res)
       setBanner(res.data);
+      setLoading(false)
+      setError(false)
     })
     .catch((err)=>{
       console.log(err);
+      setLoading(false)
+      setError(true)
     })
   }
 
@@ -88,6 +96,13 @@ useEffect(()=>{
   };
   return (
     <div style={{ width: "80%", margin: "auto", marginTop: "20px",marginBottom:"100px" }}>
+      {loading && <Loading/>}
+      {error && (<Box>
+        <Center>
+        <Img width="150px" src="https://www.seekpng.com/png/full/360-3605845_dog-holding-paper-in-mouth.png" alt="" />
+        </Center>
+        </Box>)}
+    
     <Slider {...settings} >
         {banner.map((el) => (
             <div className={Styles.popup} key={el}>

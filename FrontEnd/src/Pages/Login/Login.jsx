@@ -11,7 +11,7 @@ import { Box, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { signupdata, logindata } from "../../Redux/AuthReducer/users/actions";
 import { useDispatch } from "react-redux";
 import { getData, saveData } from "../../Component/Utils/customLocalstorage";
@@ -19,15 +19,21 @@ import { useSelector } from "react-redux";
 import { Link } from "@chakra-ui/react";
 import { signInWithGoogle } from "../../Service/firebase";
 
+const user = {
+  email: "",
+  password: "",
+};
+
 export default function Login() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
   const [user, setUser] = useState(true);
   const [text, setText] = useState(true);
   const [tokenid, setToken] = useState(false);
-  // const [visibility,setVisibility] = useState(false)
-  const [loginForm, setLoginForm] = useState({});
-  const [signupForm, setSignupForm] = useState({});
+  const [Form, setForm] = useState(user);
+
+  const { email, password } = Form;
 
   const dispatch = useDispatch();
 
@@ -42,66 +48,69 @@ export default function Login() {
   console.log(response);
 
   const handleChangeLogin = (e) => {
-    const name = e.target.name;
-    setLoginForm({ ...loginForm, [name]: e.target.value });
+    const { name, value } = e.target;
+
+    setForm({ ...Form, [name]: value });
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
     // check the login form data with the server
-    const payload = {
-      email: loginForm.email,
-      password: loginForm.password,
-    };
-    dispatch(logindata(payload));
-    if (payload.email && payload.password) {
+
+    if (email && password) {
+      const payload = {
+        email,
+        password,
+      };
+      dispatch(logindata(payload));
+
       if (response.message === "login successful ") {
         // alert("Login Successful !");
         toast({
-          position:"top",
-          title: "Login Succcessfull",
+          position: "top",
+          title: "Login Successful",
           status: "success",
           duration: 4000,
           isClosable: true,
         });
         setToken(true);
         onClose();
+        navigate("/");
       } else {
         toast({
-          position:"top",
-          title: "Login Failed",
+          position: "top",
+          title: "please check your credentials",
           status: "error",
           duration: 4000,
           isClosable: true,
         });
-        alert("please check your credentials");
       }
     } else {
       toast({
-        position:"top",
-        title: "Login Failed",
+        position: "top",
+        title: "please check your credentials",
         status: "error",
         duration: 4000,
         isClosable: true,
       });
-      alert("please check your credentials");
     }
   };
 
   const handleChangeSignup = (e) => {
-    const name = e.target.name;
-    setSignupForm({ ...signupForm, [name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...Form, [name]: value });
   };
 
   const handleSignup = (e) => {
     e.preventDefault();
-    const payload = {
-      email: signupForm.email,
-      password: signupForm.password,
-    };
 
-    if (payload.email && payload.password) {
+    if (email && password) {
+      const payload = {
+        email,
+        password,
+      };
       dispatch(signupdata(payload));
+
       alert("Signup Successful !");
       setUser(true);
     } else {
@@ -115,8 +124,8 @@ export default function Login() {
 
   const signOut = () => {
     toast({
-      position:"top",
-      title: "Logout Succcessfull",
+      position: "top",
+      title: "Logout Successful",
       status: "success",
       duration: 4000,
       isClosable: true,
@@ -125,7 +134,7 @@ export default function Login() {
     saveData("token", "");
     navigate("/");
   };
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <Box>
@@ -140,7 +149,7 @@ export default function Login() {
         <ModalOverlay />
         <ModalContent
           className={styles.modalContainor}
-          maxW={{ base: "300pxpx", md: "700px", lg: "1200px" }}
+          maxW={{ base: "300px", md: "700px", lg: "1200px" }}
         >
           {/* <ModalHeader>Modal Title</ModalHeader> */}
           {/* <ModalBody> */}
@@ -166,9 +175,8 @@ export default function Login() {
                       placeholder="Email"
                       name="email"
                       className={styles.email}
-                      // value={formData.email}
+                      value={email}
                       onChange={handleChangeLogin}
-                      required
                     />
                     <input
                       type="password"
@@ -176,9 +184,8 @@ export default function Login() {
                       name="password"
                       placeholder="Password"
                       className={styles.password}
-                      // value={formData.password}
+                      value={password}
                       onChange={handleChangeLogin}
-                      required
                     />
                     <br />
 
@@ -244,9 +251,8 @@ export default function Login() {
                       placeholder="Email"
                       name="email"
                       className={styles.email}
-                      // value={formData.email}
+                      value={email}
                       onChange={handleChangeSignup}
-                      required
                     />
                     <input
                       type="password"
@@ -254,9 +260,8 @@ export default function Login() {
                       placeholder="Password"
                       className={styles.password}
                       name="password"
-                      // value={formData.password}
+                      value={password}
                       onChange={handleChangeSignup}
-                      required
                     />
                     <br />
                     <label className={styles.radioBtn} htmlFor="radioA">
@@ -313,7 +318,7 @@ export default function Login() {
                   </p>
                   <div className={styles.signinfooter}>
                     By creating an account, I agree to the{" "}
-                    <a href="##">Terms Of Use</a>
+                    <a href="#">Terms Of Use</a>
                     and the <a href="##">Privacy Policy</a>
                   </div>
                 </div>
