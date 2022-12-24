@@ -49,7 +49,7 @@ a cart and payment section and finally created a admin panel for this website.
 - **Render**
 
 ## 🔗 Live Links
-[![Live](https://img.shields.io/badge/FashionMart-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://modesense-udhai-20.vercel.app/))
+[![Live](https://img.shields.io/badge/FashionMart-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://modesense-udhai-20.vercel.app/)
 
 ## Features
 
