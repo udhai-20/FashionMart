@@ -46,7 +46,7 @@ a cart and payment section and finally created a admin panel for this website.
 - **Node Js**
 - **Mongo DB**
 - **Express Js**
-- **Render**
+- **Cyclic**
 
 ## 🔗 Live Links
 [![Live](https://img.shields.io/badge/FashionMart-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://modesense-udhai-20.vercel.app/)
