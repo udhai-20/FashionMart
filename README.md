@@ -26,7 +26,7 @@ Start the server
   npm run start
 ```
 
-# Intern Theory
+#FashionMart
 
 Ecommerce website for mens,womens,beauty catagorey's basic flow of our website is built a user authetication for login and signup,created product pages for differernt catagory,developed product description page and built
 a cart and payment section and finally created a admin panel for this website.
