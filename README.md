@@ -63,6 +63,7 @@ https://myfashionmart-app.netlify.app/
 - ProductPages/Filter
 - cart & payment
 - Admin Panel/CRUD operation
+- Pagination
 
 ## Screenshots
 <!-- <h4>1.Home page</h4>
