@@ -11,7 +11,7 @@ import { Box, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { signupdata, logindata } from "../../Redux/AuthReducer/users/actions";
 import { useDispatch } from "react-redux";
 import { getData, saveData } from "../../Component/Utils/customLocalstorage";
@@ -23,8 +23,8 @@ export default function Login() {
   const toast = useToast();
   const navigate = useNavigate();
   const [user, setUser] = useState(true);
-  const [text, setText] = useState(true);
-  const [tokenid, setToken] = useState(false);
+  // const [text, setText] = useState(true);
+  // const [tokenid, setToken] = useState(false);
   // const [visibility,setVisibility] = useState(false)
   const [loginForm, setLoginForm] = useState({});
   const [signupForm, setSignupForm] = useState({});
@@ -64,7 +64,7 @@ export default function Login() {
           duration: 4000,
           isClosable: true,
         });
-        setToken(true);
+        // setToken(true);
         onClose();
       } else {
         toast({
@@ -121,7 +121,7 @@ export default function Login() {
       duration: 4000,
       isClosable: true,
     });
-    setToken(false);
+    // setToken(false);
     saveData("token", "");
     navigate("/");
   };
