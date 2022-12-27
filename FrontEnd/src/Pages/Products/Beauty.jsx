@@ -16,6 +16,8 @@ function Beauty() {
     };
   }, shallowEqual);
 
+ 
+
   useEffect(() => {
     dispatch(getDataBeauty(page, query));
   }, [page, query]);
@@ -36,6 +38,8 @@ function Beauty() {
         heading={headings}
         details={details}
         category={from}
+        loading={isLoading}
+        error={isError}
       />
     </Box>
   );

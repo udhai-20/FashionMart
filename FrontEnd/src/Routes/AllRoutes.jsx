@@ -26,6 +26,9 @@ import SingleProduct from "../Pages/SingleProduct/SingleProduct";
 import Wishlist from "../Pages/Wishlist/Wishlist";
 import AdminCollection from "../Component/AdminCollection/AdminCollection";
 import Loading from "../Pages/Checkout/Loading";
+import PrivateRoute from "./PrivateRoute";
+
+
 const AllRoutes = () => {
   return (
     <>
@@ -41,16 +44,16 @@ const AllRoutes = () => {
         <Route path="/admin/dashboard" element={<AdminDashboard />}></Route>
         <Route path="/admin/collection" element={<AdminCollection />}></Route>
         <Route path="/admin/adddata" element={<AdminAddDatas />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/wishlist" element={<Wishlist />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/order" element={<Order />}></Route>
+        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>}></Route>
+        <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>}></Route>
+        <Route path="/cart" element={<PrivateRoute><Cart/></PrivateRoute>}></Route>
+        <Route path="/order" element={<PrivateRoute><Order /></PrivateRoute>}></Route>
         <Route path="/kids" element={<Kids />}></Route>
         <Route path="/beauty" element={<Beauty />}></Route>
         <Route path="/men" element={<Men />}></Route>
         <Route path="/women" element={<Women />}></Route>
         <Route path="/sale" element={<Sale />}></Route>
-        <Route path="/checkout" element={<Checkout />}></Route>
+        <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>}></Route>
         <Route path="/singleProduct/:id" element={<SingleProduct />}></Route>
         <Route path="/loading" element={<Loading />}></Route>
         <Route path="*" element={<PagenotFound />}></Route>

@@ -4,6 +4,9 @@ import {
   combineReducers,
   compose,
 } from "redux";
+
+import {reducer as recentReducer} from "./AppReducer/recentView/reducer"; 
+import {reducer as orderReducer} from "./AppReducer/Order/reducer"; 
 import { reducer as cartreducer } from "./AppReducer/Cart/reducer";
 import { reducer as productreducer } from "./AppReducer/Product/reducer";
 import { reducer as singleproductreducer } from "./AppReducer/SingleProduct/reducer";
@@ -14,6 +17,8 @@ import { reducer as AuthReducer } from "./AuthReducer/users/reducers";
 import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
+  recentReducer,
+  orderReducer,
   cartreducer,
   productreducer,
   singleproductreducer,

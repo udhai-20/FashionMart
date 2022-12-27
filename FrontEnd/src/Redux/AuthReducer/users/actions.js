@@ -55,6 +55,7 @@ export const logindata = (payload) => (dispatch) => {
       // console.log(response.data.token);
       dispatch(post_success_login(response.data));
       saveData("token", response.data.token);
+      return true;
     })
     .catch((err) => {
       dispatch(post_failure_login(err));

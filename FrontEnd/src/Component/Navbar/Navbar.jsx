@@ -375,20 +375,7 @@ function Navbar(props) {
                         </Link>
                       </MenuItem>
                     )}
-                    {admintoken == "" && (
-                      <MenuItem>
-                        <Link
-                          px={2}
-                          py={1}
-                          rounded={"md"}
-                          _hover={{
-                            textDecoration: "underline",
-                          }}
-                        >
-                          <Login />
-                        </Link>
-                      </MenuItem>
-                    )}
+
                     {admintoken == "" && (
                       <MenuItem>
                         <Link
@@ -460,6 +447,13 @@ function Navbar(props) {
                         >
                           Admin
                         </Link>
+                      </MenuItem>
+                    )}
+                    {admintoken == "" && (
+                      <MenuItem border="1px solid red">
+                        <Button>
+                          <Login />
+                        </Button>
                       </MenuItem>
                     )}
                   </MenuList>

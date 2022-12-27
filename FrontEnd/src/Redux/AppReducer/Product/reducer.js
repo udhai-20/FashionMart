@@ -15,24 +15,24 @@ export const reducer = (state = initialize, action) => {
 
   switch (type) {
     //get data
-    case types.GET_FAILURE_DATA: {
+    case types.GET_FAILURE_DATA_KIDS: {
       return {
         ...state,
         isLoading: false,
         isError: true,
-        kids: [],
+       
       };
     }
-    case types.GET_REQUEST_DATA: {
+    case types.GET_REQUEST_DATA_KIDS: {
       return {
         ...state,
         isLoading: true,
         isError: false,
-        kids: [],
+       
       };
     }
-    case types.GET_SUCCESS_DATA: {
-      // console.log(payload);
+    case types.GET_SUCCESS_DATA_KIDS: {
+      console.log(payload);
       return {
         ...state,
         isLoading: false,

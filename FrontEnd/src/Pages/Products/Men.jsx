@@ -36,6 +36,8 @@ function Men() {
         heading={headings}
         details={details}
         category={from}
+        loading={isLoading}
+        error={isError}
       />
     </Box>
   );

@@ -10,17 +10,17 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 import Styles from "./Trending.module.css";
 
-// let  prodArr=[
-//   "https://cdn.modesens.com/umedia/1707018s?w=400",
-//   "https://cdn.modesens.com/umedia/1707030s?w=400",
-//   "https://cdn.modesens.com/umedia/1707011s?w=400",
-//   "https://cdn.modesens.com/umedia/1686127s?w=400",
-//   "https://cdn.modesens.com/umedia/1707018s?w=400",
-//   "https://cdn.modesens.com/umedia/1707030s?w=400",
-//   "https://cdn.modesens.com/umedia/1707011s?w=400",
-//   "https://cdn.modesens.com/umedia/1686127s?w=400",
+let  prodArr=[
+  "https://cdn.modesens.com/umedia/1707018s?w=400",
+  "https://cdn.modesens.com/umedia/1707030s?w=400",
+  "https://cdn.modesens.com/umedia/1707011s?w=400",
+  "https://cdn.modesens.com/umedia/1686127s?w=400",
+  "https://cdn.modesens.com/umedia/1707018s?w=400",
+  "https://cdn.modesens.com/umedia/1707030s?w=400",
+  "https://cdn.modesens.com/umedia/1707011s?w=400",
+  "https://cdn.modesens.com/umedia/1686127s?w=400",
 
-// ]
+]
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
