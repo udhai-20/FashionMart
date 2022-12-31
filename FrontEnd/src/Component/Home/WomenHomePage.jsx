@@ -1,4 +1,5 @@
 import Bottom from "../Footer/Bottom";
+import { getData } from "../Utils/customLocalstorage";
 // import Login from './Components/Login';
 // import SignUpPopUp from "./PopUp/SignUpPopUp"
 // import SignupPopup from './PopUp/SignUpPopUp';
@@ -11,6 +12,8 @@ import Community from "../WomenHomeComp/Community";
 import Trending from "../WomenHomeComp/Trending";
 import RecentlyViewed from "../WomenHomeComp/RecentlyViewed";
 const WomenHomePage = () => {
+  const token = getData("token");
+
   return (
     <div>
       <Banner />
@@ -18,7 +21,10 @@ const WomenHomePage = () => {
       <ShopWomen />
       <Trending />
       <SpecialOffers />
-      <RecentlyViewed />
+      {
+        !token?"":<RecentlyViewed />
+      }
+      
       <Community />
       <Bottom />
     </div>

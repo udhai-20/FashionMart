@@ -1,8 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -106,12 +105,12 @@ const RecentlyViewed = () => {
       </div>
       <div className={Styles.Community}>
         <Slider {...settings}>
-          {prodArr.length > 0 &&
-            prodArr?.map((el) => (
+          {data.length > 0 &&
+            data?.map((el) => (
               <div key={el.id} className={Styles.Community_div}>
                 <div>
                   <img
-                    src={el}
+                    src={el.image}
                     alt="prod_comm"
                     width="100%"
                     height="100%"
@@ -120,7 +119,7 @@ const RecentlyViewed = () => {
                     <p>Quick View</p>
                   </div>
                 </div>
-                {/* <div className={Styles.desc}>
+                <div className={Styles.desc}>
                   <h3>{el.title}</h3>
                   <p>{el.details}</p>
                   <h3>
@@ -130,7 +129,7 @@ const RecentlyViewed = () => {
                     - ${el.price}
                   </h3>
                   <p>{el.compare}</p>
-                </div> */}
+                </div>
               </div>
             ))}
         </Slider>
