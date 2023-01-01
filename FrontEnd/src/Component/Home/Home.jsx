@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import WomenHomePage from "./WomenHomePage";
+import { Box } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <div>
+    <Box mt={"100px"}>
       <WomenHomePage />
-    </div>
+    </Box>
   );
 }

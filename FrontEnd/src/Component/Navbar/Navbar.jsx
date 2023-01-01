@@ -94,13 +94,15 @@ function Navbar(props) {
   return (
     <>
       <Box
+      // border= "1px solid red"
         // bg={useColorModeValue("white.300", "gray.900")}
-        boxShadow="sm"
-        position={"sticky"}
+        position={"fixed"}
+        width="100%"
         top="0px"
-        zIndex={2}
+        zIndex= "1000"
         bg="white"
         px={4}
+        boxShadow="sm"
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -450,7 +452,7 @@ function Navbar(props) {
                       </MenuItem>
                     )}
                     {admintoken == "" && (
-                      <MenuItem border="1px solid red">
+                      <MenuItem>
                         <Button>
                           <Login />
                         </Button>
@@ -468,19 +470,20 @@ function Navbar(props) {
                   right={"1%"}
                   width="40%"
                 >
-                  <InputGroup>
+                  {/* <InputGroup>
                     <Input
                       width={"100%"}
                       variant="filled"
                       placeholder="Enter amount"
                       bg={"white"}
+                      
                     />
                     <InputRightElement
                       children={
                         <Search2Icon color="green.500" bg={"black.900"} />
                       }
                     />
-                  </InputGroup>
+                  </InputGroup> */}
                 </Box>
               ) : (
                 <Search2Icon
@@ -770,181 +773,4 @@ function Navbar(props) {
 }
 
 export default Navbar;
-// {prod && !admintoken ? (
-//   <ScaleFade initialScale={0.6} in={onSecondModalOpen}>
-//     <Box
-//       pb={4}
-//       width={{ base: "100%", md: "30%" }}
-//       bg="gray.100"
-//       zIndex={"2"}
-//       position={"absolute"}
-//       left="0px"
-//       display={{ lg: "none", base: "flex" }}
-//       height={{ base: "auto", md: "100vh" }}
-//     >
-//       <Stack spacing={"4"}>
-//         <Link
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onClose();
-//             navigate("/women");
-//           }}
-//         >
-//           WOMENS
-//         </Link>
-//         <Link
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onClose();
-//             navigate("/men");
-//           }}
-//         >
-//           MENS
-//         </Link>
-//         <Link
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onClose();
-//             navigate("/beauty");
-//           }}
-//         >
-//           BEAUTY
-//         </Link>
-//         <Link
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onClose();
-//             navigate("/kids");
-//           }}
-//         >
-//           KIDS
-//         </Link>
-//         <Link
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onClose();
-//             navigate("");
-//           }}
-//         >
-//           HOME
-//         </Link>
-//         <Link
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           color
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onClose();
-//             navigate("/sale");
-//           }}
-//         >
-//           SALE
-//         </Link>
-//       </Stack>
-//     </Box>
-//   </ScaleFade>
-// ) : (
-//   <ScaleFade initialScale={0.6} in={onSecondModalOpen}>
-//     <Box
-//       pb={4}
-//       width={{ base: "100%", md: "30%" }}
-//       bg="gray.100"
-//       zIndex={"2"}
-//       position={"absolute"}
-//       left="0px"
-//       display={{ lg: "none", base: "flex" }}
-//       height={{ base: "auto", md: "100vh" }}
-//     >
-//       <Stack spacing={"4"}>
-//         <NavLink
-//           to="/admin/collection"
-//           state={{ from: "Womens" }}
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onSecondModalClose();
-//           }}
-//         >
-//           WOMENS
-//         </NavLink>
-//         <NavLink
-//           to="/admin/collection"
-//           state={{ from: "Mens" }}
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onSecondModalClose();
-//           }}
-//         >
-//           MENS
-//         </NavLink>
-//         <NavLink
-//           to="/admin/collection"
-//           state={{ from: "Beauty" }}
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onSecondModalClose();
-//           }}
-//         >
-//           BEAUTY
-//         </NavLink>
-//         <NavLink
-//           to="/admin/collection"
-//           state={{ from: "Kids" }}
-//           px={2}
-//           py={1}
-//           rounded={"md"}
-//           _hover={{
-//             textDecoration: "underline",
-//           }}
-//           onClick={() => {
-//             onSecondModalClose();
-//           }}
-//         >
-//           KIDS
-//         </NavLink>
-//       </Stack>
-//     </Box>
-//   </ScaleFade>
-// )}
+

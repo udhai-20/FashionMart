@@ -182,7 +182,7 @@ function Checkout(props) {
   };
 
   return (
-    <>
+    <Box mt={"100px"}>
       {loading === true ? (
         <Loading />
       ) : (
@@ -697,7 +697,7 @@ function Checkout(props) {
           )}
         </>
       )}
-    </>
+    </Box>
   );
 }
 

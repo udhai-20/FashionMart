@@ -3,17 +3,12 @@ import {
   Box,
   Button,
   Container,
-  Divider,
   Flex,
   Grid,
   GridItem,
   Image,
   Select,
   Skeleton,
-  SkeletonCircle,
-  SkeletonText,
-  Spacer,
-  Stack,
   Text,
   VStack,
   useToast,
@@ -22,7 +17,6 @@ import { useLocation, useParams } from "react-router-dom";
 import CompareStore from "./CompareStore";
 import ProductDetails from "./ProductDetails";
 import RecentlyViewed from "./RecentlyViewed";
-import axios from "axios";
 import MoveTop from "./MoveTop";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,28 +29,8 @@ import {
   getsingleData_women,
 } from "../../Redux/AppReducer/SingleProduct/action";
 import { getData } from "../../Component/Utils/customLocalstorage";
-// const data_1 = [
-//   {
-//     title: "WAVE",
-//     details: "Blue & White Classic Track Jacket",
-//     offer: "$529 (44% OFF)",
-//     price: "$700",
-//     SIZE: "S",
-//     quantity: 1,
-//     compare: "sdfd",
-//     image: "https://cdn.modesens.com/product/49347342_2?w=400",
-//   },
-//   {
-//     title: "WAVE",
-//     details: "Blue & White Classic Track Jacket",
-//     offer: "$529 (44% OFF)",
-//     price: "$800",
-//     SIZE: "S",
-//     quantity: 1,
-//     compare: "sdfd",
-//     image: "https://cdn.modesens.com/product/49347342_2?w=400",
-//   },
-// ];
+// import RecentlyViewed from "../../Component/WomenHomeComp/RecentlyViewed";
+import Magnifier from './Magnifier';
 
 function SingleProduct(props) {
   const navigate = useNavigate();
@@ -92,6 +66,9 @@ function SingleProduct(props) {
   const { id } = useParams();
   // console.log("id:", id);
   const usertoken = getData("token");
+
+  const token = getData("token");
+
   // get req for single page
   const fet_data_kids = () => {
     dispatch(getsingleData_kids(id, usertoken));
@@ -183,9 +160,9 @@ function SingleProduct(props) {
     );
   }
   return (
-    <Container maxW="85%" marginTop={"20px"} bg="white.500">
+    <Container maxW="85%" marginTop={"20px"} bg="white.500" mt={"100px"}>
       <Text marginBottom={{ base: "10px" }}>
-        MODESENS / DESIGNERS / PALM ANGELS /{from}
+        MODESENS / DESIGNERS / PALM ANGELS / {from}
       </Text>
       {product && (
         <Grid
@@ -196,7 +173,8 @@ function SingleProduct(props) {
         >
           <GridItem colSpan={{ base: 2, md: 1 }} w="100%">
             <Box display={"flex"} justifyContent="center" alignItems={"center"}>
-              <Image width={"40%"} height="200px" src={product.image} />
+              {/* <Image width={"40%"} height="300px" src={product.image} /> */}
+              <Magnifier props = {product.image}/>
             </Box>
           </GridItem>
           <GridItem colSpan={{ base: 2, md: 1 }} w="100%">
@@ -277,7 +255,7 @@ function SingleProduct(props) {
           </GridItem>
         </Grid>
       )}
-
+      ;
       <CompareStore />
       <Text
         marginTop={"20px"}
@@ -296,7 +274,10 @@ function SingleProduct(props) {
       >
         Recently Viewed
       </Text>
-      <RecentlyViewed />
+      <Box>
+        {/* {!token ? "" : <RecentlyViewed />} */}
+        <RecentlyViewed />
+      </Box>
       {/* //movetop */}
       <Box marginTop={"40px"} display="flex" justifyContent={"center"}>
         <MoveTop />

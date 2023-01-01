@@ -14,20 +14,21 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "jquery-ui-dist/jquery-ui";
 import $ from "jquery";
 import "./Cart.css";
-
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import RecentlyViewed from "../../Component/WomenHomeComp/RecentlyViewed";
+import { getData } from "../../Component/Utils/customLocalstorage";
 import { TransitionExample } from "./TransitionExample";
-import { useDispatch, useSelector } from "react-redux";
+
 import {
   get_failure,
   get_request,
   get_success,
 } from "../../Redux/AppReducer/Cart/action";
 import Loading from "../Checkout/Loading";
-import ProductDetails from "../SingleProduct/ProductDetails";
+// import ProductDetails from "../SingleProduct/ProductDetails";
 import { Link, useNavigate } from "react-router-dom";
 import EmptyCart from "./EmptyCart";
-import { getData } from "../../Component/Utils/customLocalstorage";
+
 function Cart(props) {
   const data = useSelector((state) => state.cartreducer.data);
   const loading = useSelector((state) => state.cartreducer.isLoading);
@@ -38,6 +39,7 @@ function Cart(props) {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
   // this is jquery logic
 
   // get products
@@ -134,7 +136,7 @@ function Cart(props) {
     }, 1300);
   };
   return (
-    <>
+    <Box mt={"100px"}>
       {" "}
       {loading === true ? (
         <VStack maxW="container.xl" p="10">
@@ -175,7 +177,7 @@ function Cart(props) {
                       <HStack
                         key={i}
                         spacing={4}
-                        border="4px"
+                        border="2px"
                         borderColor="gray.300"
                       >
                         <AspectRatio ml={5} p={5} ratio={1} w={24}>
@@ -208,6 +210,7 @@ function Cart(props) {
                         <Heading size="md" p={2}>
                           ${ele.price * ele.quantity}.00
                         </Heading>
+
                         <VStack mt="-10px" alignItems="end">
                           <TransitionExample id={ele._id} />
                         </VStack>
@@ -251,20 +254,15 @@ function Cart(props) {
                   </Link>
                 </VStack>
               </Box>
-              <VStack>
-                <Heading mt={3} size="md">
-                  Recently Viewed
-                </Heading>
-              </VStack>
-              {/* carosul starts here */}
-              <Box marginTop={"25px"}>
-                <ProductDetails />
-              </Box>
             </Container>
           )}
         </>
       )}
-    </>
+      <Box marginTop={"25px"}>
+        {/* carosul starts here */}
+        {!token ? "" : <RecentlyViewed />}
+      </Box>
+    </Box>
   );
 }
 

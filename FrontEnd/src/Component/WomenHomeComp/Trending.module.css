@@ -23,8 +23,8 @@
   
   .Community{
     width: 70%;
-    margin: auto;  
-    margin-top: 15px;
+    margin: 30px auto;
+    /* border:1px solid red; */
   }
   
   .Community_div{

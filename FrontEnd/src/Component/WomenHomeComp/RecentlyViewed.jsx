@@ -10,17 +10,17 @@ import { getRecentdata } from "../../Redux/AppReducer/recentView/action";
 
 import Styles from "./Trending.module.css";
 
-let  prodArr=[
-  "https://cdn.modesens.com/umedia/1707018s?w=400",
-  "https://cdn.modesens.com/umedia/1707030s?w=400",
-  "https://cdn.modesens.com/umedia/1707011s?w=400",
-  "https://cdn.modesens.com/umedia/1686127s?w=400",
-  "https://cdn.modesens.com/umedia/1707018s?w=400",
-  "https://cdn.modesens.com/umedia/1707030s?w=400",
-  "https://cdn.modesens.com/umedia/1707011s?w=400",
-  "https://cdn.modesens.com/umedia/1686127s?w=400",
+// let  prodArr=[
+//   "https://cdn.modesens.com/umedia/1707018s?w=400",
+//   "https://cdn.modesens.com/umedia/1707030s?w=400",
+//   "https://cdn.modesens.com/umedia/1707011s?w=400",
+//   "https://cdn.modesens.com/umedia/1686127s?w=400",
+//   "https://cdn.modesens.com/umedia/1707018s?w=400",
+//   "https://cdn.modesens.com/umedia/1707030s?w=400",
+//   "https://cdn.modesens.com/umedia/1707011s?w=400",
+//   "https://cdn.modesens.com/umedia/1686127s?w=400",
 
-]
+// ]
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
@@ -103,7 +103,7 @@ const RecentlyViewed = () => {
         <hr />
         <p>Recently Viewed</p>
       </div>
-      <div className={Styles.Community}>
+      <div className={Styles.Community} >
         <Slider {...settings}>
           {data.length > 0 &&
             data?.map((el) => (
@@ -133,9 +133,6 @@ const RecentlyViewed = () => {
               </div>
             ))}
         </Slider>
-      </div>
-      <div className={Styles.btn}>
-        <button>VIEW ALL</button>
       </div>
     </div>
   );
