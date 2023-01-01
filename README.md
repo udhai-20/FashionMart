@@ -55,8 +55,8 @@ a cart and payment section and finally created a admin panel for this website.
 https://myfashionmart-app.vercel.app/
 
 ## Netlify Link
-https://myfashionmart-app.netlify.app/
-https://myshop12.netlify.app/
+#### https://myfashionmart-app.netlify.app/
+#### https://myshop12.netlify.app/
 
 ## Features
 
